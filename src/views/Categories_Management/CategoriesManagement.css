@@ -1,0 +1,242 @@
+/* General Styles */
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-footer {
+  background-color: #f8f9fa;
+  color: #888;
+  font-size: 0.875rem;
+  padding: 1rem;
+}
+
+/* Categories Management Styles */
+.categories-table th, .categories-table td {
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.categories-table {
+  font-size: 0.95rem;
+}
+
+.add-category-btn {
+  font-size: 1rem;
+  padding: 0.5rem 1.2rem;
+}
+
+.status-toggle-btn, .edit-btn, .delete-btn {
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem;
+}
+
+.status-toggle-btn:hover {
+  background-color: #ffcc00;
+}
+
+.edit-btn:hover {
+  background-color: #ff9800;
+}
+
+.delete-btn:hover {
+  background-color: #f44336;
+}
+
+/* Sub-Category Styles */
+.subcategory-table th, .subcategory-table td {
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.subcategory-table {
+  font-size: 0.95rem;
+}
+
+.add-subcategory-btn {
+  font-size: 1rem;
+  padding: 0.5rem 1.2rem;
+}
+
+.status-toggle-btn, .edit-btn, .delete-btn {
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem;
+}
+
+.status-toggle-btn:hover {
+  background-color: #ffcc00;
+}
+
+.edit-btn:hover {
+  background-color: #ff9800;
+}
+
+.delete-btn:hover {
+  background-color: #f44336;
+}
+
+.subcategory-select, .subcategory-input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+/* Save and Cancel Button Styles */
+.save-btn, .cancel-btn {
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+}
+
+.save-btn:hover, .cancel-btn:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+}
+
+/* Card and Modal for both Categories and Sub-Categories */
+.subcategory-card, .category-card {
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.subcategory-card-header, .category-card-header {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.subcategory-card-body, .category-card-body {
+  padding: 1.5rem;
+}
+
+.subcategory-card-footer, .category-card-footer {
+  text-align: center;
+  background-color: #f8f9fa;
+  color: #888;
+  font-size: 0.875rem;
+  padding: 1rem;
+}
+
+.modal-header {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.modal-footer {
+  padding: 1rem;
+}
+
+.modal-footer .btn {
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+}
+
+/* Specific for Category and Sub-category Modals */
+.category-select, .subcategory-select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+.category-input, .subcategory-input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+/* Custom Hover Effects for Buttons */
+.status-toggle-btn, .edit-btn, .delete-btn {
+  transition: all 0.3s ease;
+}
+
+.status-toggle-btn:hover {
+  background-color: #ffcc00;
+}
+
+.edit-btn:hover {
+  background-color: #ff9800;
+}
+
+.delete-btn:hover {
+  background-color: #f44336;
+}
+
+/* Responsive table styling */
+@media (max-width: 768px) {
+  .categories-table, .subcategory-table {
+    font-size: 0.85rem;
+  }
+  .categories-table th, .subcategory-table th,
+  .categories-table td, .subcategory-table td {
+    padding: 0.75rem;
+  }
+}
+/* Sub-Category Specific Styles */
+.subcategory-table th, .subcategory-table td {
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.subcategory-table {
+  font-size: 0.95rem;
+}
+
+.status-toggle-btn, .edit-btn, .delete-btn {
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem;
+}
+
+.status-toggle-btn:hover {
+  background-color: #ffcc00;
+}
+
+.edit-btn:hover {
+  background-color: #ff9800;
+}
+
+.delete-btn:hover {
+  background-color: #f44336;
+}
+
+.subcategory-select, .subcategory-input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+/* Modal Button Styles */
+.save-btn, .cancel-btn {
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+}
+
+.save-btn:hover, .cancel-btn:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+}
