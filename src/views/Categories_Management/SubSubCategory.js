@@ -11,88 +11,148 @@ import './CategoriesManagement.css';
 
 const SubSubCategory = () => {
   const [subSubCategories, setSubSubCategories] = useState([]);
-  const [categories, setCategories] = useState([]); // For storing categories from API
-  const [subCategories, setSubCategories] = useState([]); // For storing subcategories based on selected category
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
   const [category, setCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
   const [subSubCategoryName, setSubSubCategoryName] = useState('');
-  const [image, setImage] = useState(null); // State to store the image
+  const [image, setImage] = useState(null);
   const [visible, setVisible] = useState(false);
   const [editSubSubCategory, setEditSubSubCategory] = useState(null);
 
   // Fetch categories when the modal is shown
-  const fetchCategories = () => {
-    axios.get('http://44.196.64.110:7878/api/categories')
-      .then(response => {
-        setCategories(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching categories:', error);
-      });
+  const fetchCategories = async () => {
+    try {
+      const { data } = await axios.get('http://44.196.64.110:7878/api/categories');
+      setCategories(data.map((cat) => ({ id: cat._id, name: cat.name })));
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
   };
 
-  // Fetch subcategories when the category changes
-  const fetchSubCategories = (categoryName) => {
-    axios.get(`http://44.196.64.110:7878/api/subcategory?category=${categoryName}`)
-      .then(response => {
-        setSubCategories(response.data);
+  // Fetch Sub-Categories based on the selected category
+  const fetchSubCategories = (categoryId) => {
+    axios
+      .get(`http://44.196.64.110:7878/api/subcategory?category_id=${categoryId}`)
+      .then((response) => {
+        setSubCategories(response.data.map((subCat) => ({ id: subCat._id, name: subCat.name })));
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching subcategories:', error);
       });
   };
 
+  // Fetch all Sub-Sub-Categories when the component is mounted
+  useEffect(() => {
+    axios.get('http://44.196.64.110:7878/api/subSubCategories')
+      .then(response => {
+        setSubSubCategories(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching sub-sub-categories:', error);
+      });
+  }, []);
+
+  // Handle Add Sub-Sub-Category
   const handleAddSubSubCategory = () => {
-    setSubSubCategories([
-      ...subSubCategories,
-      { category, subCategory, name: subSubCategoryName, image, status: 'Active' }
-    ]);
-    setSubSubCategoryName('');
-    setCategory('');
-    setSubCategory('');
-    setImage(null); // Reset image after adding
-    setVisible(false);
+    const selectedCategory = categories.find((cat) => cat.name === category);
+    const selectedSubCategory = subCategories.find((subCat) => subCat.name === subCategory);
+
+    if (!selectedCategory || !selectedSubCategory) {
+      alert('Please select valid category and sub-category');
+      return;
+    }
+
+    const payload = {
+      image,
+      category_id: selectedCategory.id,
+      sub_category_id: selectedSubCategory.id,
+      name: subSubCategoryName,
+      status: 1,
+      ins_date: new Date().toISOString(),
+      ins_ip: "127.0.0.1",
+      ins_by: null,
+    };
+
+    axios
+      .post('http://44.196.64.110:7878/api/subSubCategories', payload)
+      .then((response) => {
+        setSubSubCategories([...subSubCategories, response.data]);
+        setVisible(false);
+        resetForm();
+      })
+      .catch((error) => {
+        console.error('Error adding sub-sub-category:', error);
+      });
   };
 
+  // Handle Edit Sub-Sub-Category
   const handleEditSubSubCategory = (subSubCategory) => {
     setEditSubSubCategory(subSubCategory);
     setCategory(subSubCategory.category);
     setSubCategory(subSubCategory.subCategory);
     setSubSubCategoryName(subSubCategory.name);
-    setImage(subSubCategory.image); // Set image when editing
+    setImage(subSubCategory.image);
     setVisible(true);
   };
 
+  // Handle Update 
   const handleUpdateSubSubCategory = () => {
-    setSubSubCategories(
-      subSubCategories.map(subSubCategory =>
-        subSubCategory === editSubSubCategory
-          ? { ...subSubCategory, name: subSubCategoryName, image }
-          : subSubCategory
-      )
-    );
-    setEditSubSubCategory(null);
-    setSubSubCategoryName('');
-    setCategory('');
-    setSubCategory('');
-    setImage(null);
-    setVisible(false);
+    // Ensure you are passing the correct 'id' field (not the whole object)
+    const payload = {
+      image,
+      category_id: categories.find((cat) => cat.name === category)?.id,
+      sub_category_id: subCategories.find((subCat) => subCat.name === subCategory)?.id,
+      name: subSubCategoryName,
+      status: editSubSubCategory.status,
+      ins_date: editSubSubCategory.ins_date,
+      ins_ip: "127.0.0.1",
+      ins_by: null,
+    };
+    // Extract the correct ID
+    const subSubCategoryId = editSubSubCategory._id;  // Use _id field from the object
+    // Check if the ID exists
+    if (subSubCategoryId) {
+      axios.put(`http://44.196.64.110:7878/api/subSubCategories/${subSubCategoryId}`, payload)
+        .then(() => {
+          setSubSubCategories(subSubCategories.map(subSubCategory =>
+            subSubCategory._id === subSubCategoryId
+              ? { ...subSubCategory, ...payload }
+              : subSubCategory
+          ));
+          setVisible(false);
+          resetForm();
+        })
+        .catch(error => {
+          console.error('Error updating sub-sub-category:', error);
+        });
+    } else {
+      console.error('Invalid ID for update:', editSubSubCategory);
+    }
   };
 
+  //Handle Delete
   const handleDeleteSubSubCategory = (subSubCategoryToDelete) => {
-    setSubSubCategories(
-      subSubCategories.filter(subSubCategory => subSubCategory !== subSubCategoryToDelete)
-    );
+    // Extract the correct ID for deletion
+    const subSubCategoryId = subSubCategoryToDelete._id;  // Use _id field from the object
+
+    // Ensure subSubCategoryId is available before making the request
+    if (subSubCategoryId) {
+      axios.delete(`http://44.196.64.110:7878/api/subSubCategories/${subSubCategoryId}`)
+        .then(() => {
+          setSubSubCategories(subSubCategories.filter(subSubCategory => subSubCategory._id !== subSubCategoryId));
+        })
+        .catch(error => {
+          console.error('Error deleting sub-sub-category:', error);
+        });
+    } else {
+      console.error('Invalid ID for deletion:', subSubCategoryToDelete);
+    }
   };
 
-  const handleToggleStatus = (subSubCategory) => {
-    setSubSubCategories(
-      subSubCategories.map(s =>
-        s === subSubCategory ? { ...s, status: s.status === 'Active' ? 'Blocked' : 'Active' } : s
-      )
-    );
-  };
 
+
+  // Handle Image Change (Image Upload)
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -121,7 +181,7 @@ const SubSubCategory = () => {
                 <CTableHeaderCell>Category</CTableHeaderCell>
                 <CTableHeaderCell>Sub-Category</CTableHeaderCell>
                 <CTableHeaderCell>Sub-Sub-Category</CTableHeaderCell>
-                <CTableHeaderCell>Image</CTableHeaderCell> {/* Added column for image */}
+                <CTableHeaderCell>Image</CTableHeaderCell>
                 <CTableHeaderCell>Status</CTableHeaderCell>
                 <CTableHeaderCell>Actions</CTableHeaderCell>
               </CTableRow>
@@ -146,7 +206,7 @@ const SubSubCategory = () => {
                       ) : (
                         'No Image'
                       )}
-                    </CTableDataCell> {/* Display image */}
+                    </CTableDataCell>
                     <CTableDataCell>{subSubCategory.status}</CTableDataCell>
                     <CTableDataCell>
                       <CButton
@@ -183,7 +243,7 @@ const SubSubCategory = () => {
         </CCardFooter>
       </CCard>
 
-      {/* Add or Edit Sub-Sub-Category Modal */}
+      {/* Modal for Add/Edit Sub-Sub-Category */}
       <CModal size="md" visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>{editSubSubCategory ? 'Edit Sub-Sub-Category' : 'Add New Sub-Sub-Category'}</CModalTitle>
@@ -196,7 +256,7 @@ const SubSubCategory = () => {
               onChange={(e) => {
                 const selectedCategory = e.target.value;
                 setCategory(selectedCategory);
-                fetchSubCategories(selectedCategory); // Fetch subcategories when a category is selected
+                fetchSubCategories(selectedCategory);
               }}
               className="subcategory-select"
             >
@@ -211,7 +271,7 @@ const SubSubCategory = () => {
               value={subCategory}
               onChange={(e) => setSubCategory(e.target.value)}
               className="subcategory-select"
-              disabled={!category} // Disable if no category is selected
+              disabled={!category}
             >
               <option value="">Select Sub-Category</option>
               {subCategories.map((subCat, index) => (
