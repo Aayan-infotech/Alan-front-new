@@ -20,13 +20,14 @@ import {
   CInputGroupText,
   CFormInput,
 } from '@coreui/react';
+import '../Categories_Management/CategoriesManagement.css';
 
 const ManageProduct = () => {
   // Sample data (you can replace this with real data from an API)
   const productData = [
-    { id: 1, name: 'iPhone 15', category: 'Electronics', subCategory: 'Mobile Phones', subSubCategory: 'Smartphones', status: 'Active' },
-    // { id: 2, name: 'MacBook Pro', category: 'Electronics', subCategory: 'Laptops', subSubCategory: 'Business', status: 'Block' },
-    // { id: 3, name: 'Nike T-shirt', category: 'Clothing', subCategory: 'Men', subSubCategory: 'T-shirts', status: 'Active' },
+    { id: 1, name: 'iPhone 15', category: 'Electronics', subCategory: 'Mobile Phones', subSubCategory: 'Smartphones', status: 'Active', images: ['img1.jpg', 'img2.jpg'], dimensions: '6.1 x 2.8 x 0.3 inches' },
+    { id: 2, name: 'MacBook Pro', category: 'Electronics', subCategory: 'Laptops', subSubCategory: 'Business', status: 'Active', images: ['img3.jpg'], dimensions: '14.1 x 9.7 x 0.6 inches' },
+    { id: 3, name: 'Nike T-shirt', category: 'Clothing', subCategory: 'Men', subSubCategory: 'T-shirts', status: 'Active', images: ['img4.jpg', 'img5.jpg'], dimensions: 'L' },
   ];
 
   const categories = ['Electronics', 'Clothing', 'Food'];
@@ -172,6 +173,9 @@ const ManageProduct = () => {
                   <CTableHeaderCell>Product Name</CTableHeaderCell>
                   <CTableHeaderCell>Category</CTableHeaderCell>
                   <CTableHeaderCell>Subcategory</CTableHeaderCell>
+                  <CTableHeaderCell>Sub-subcategory</CTableHeaderCell>
+                  <CTableHeaderCell>Dimensions</CTableHeaderCell>
+                  <CTableHeaderCell>Images</CTableHeaderCell>
                   <CTableHeaderCell>Status</CTableHeaderCell>
                   <CTableHeaderCell>Actions</CTableHeaderCell>
                 </CTableRow>
@@ -182,15 +186,40 @@ const ManageProduct = () => {
                     <CTableDataCell>{product.name}</CTableDataCell>
                     <CTableDataCell>{product.category}</CTableDataCell>
                     <CTableDataCell>{product.subCategory}</CTableDataCell>
+                    <CTableDataCell>{product.subSubCategory}</CTableDataCell>
+                    <CTableDataCell>{product.dimensions}</CTableDataCell>
+                    <CTableDataCell>
+                      {product.images.map((img, index) => (
+                        <img
+                          key={index}
+                          src={img}
+                          alt={`product-${index}`}
+                          style={{ width: '50px', marginRight: '5px', borderRadius: '5px' }}
+                        />
+                      ))}
+                    </CTableDataCell>
                     <CTableDataCell>{product.status}</CTableDataCell>
                     <CTableDataCell>
-                      <CButton color="success" className="mr-2">
+                      <CButton
+                        color={product.status === 'Active' ? 'danger' : 'success'}
+                        className="mr-2"
+                        onClick={() => alert(`${product.status === 'Active' ? 'Block' : 'Activate'} product: ${product.name}`)}
+                      >
                         {product.status === 'Active' ? 'Block' : 'Activate'}
                       </CButton>
-                      <CButton color="warning" className="mr-2">
+                      <CButton
+                        color="warning"
+                        className="mr-2"
+                        onClick={() => alert(`Edit product: ${product.name}`)}
+                      >
                         Edit
                       </CButton>
-                      <CButton color="danger">Delete</CButton>
+                      <CButton
+                        color="danger"
+                        onClick={() => alert(`Delete product: ${product.name}`)}
+                      >
+                        Delete
+                      </CButton>
                     </CTableDataCell>
                   </CTableRow>
                 ))}
@@ -202,5 +231,6 @@ const ManageProduct = () => {
     </CRow>
   );
 };
+
 
 export default ManageProduct;
