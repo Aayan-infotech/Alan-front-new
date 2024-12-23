@@ -1,6 +1,5 @@
 FROM node:20-bullseye AS build
 
-# Set the working directory in the container
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json to the container
