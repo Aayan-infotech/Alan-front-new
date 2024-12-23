@@ -20,19 +20,19 @@ const AddProductForm = () => {
   // Fetch data for categories, subcategories, and subsubcategories
   useEffect(() => {
     // Fetch categories
-    fetch('http://localhost:7878/api/categories')
+    fetch('http://44.196.64.110:7878/api/categories')
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error('Error fetching categories:', error));
     
     // Fetch subcategories 
-    fetch('http://localhost:7878/api/subcategory')
+    fetch('http://44.196.64.110:7878/api/subcategory')
       .then((response) => response.json())
       .then((data) => setSubCategories(data))
       .catch((error) => console.error('Error fetching subcategories:', error));
 
     // Fetch subsubcategories 
-    fetch('http://localhost:7878/api/subSubCategories')
+    fetch('http://44.196.64.110:7878/api/subSubCategories')
       .then((response) => response.json())
       .then((data) => setSubSubCategories(data))
       .catch((error) => console.error('Error fetching subsubcategories:', error));
@@ -44,7 +44,7 @@ const AddProductForm = () => {
     setProductData({ ...productData, category: selectedCategory, subCategory: '', subSubCategory: '' });
 
     // Fetch subcategories based on selected category
-    fetch(`http://localhost:7878/api/subcategory?category=${selectedCategory}`)
+    fetch(`http://44.196.64.110:7878/api/subcategory?category=${selectedCategory}`)
       .then((response) => response.json())
       .then((data) => setSubCategories(data))
       .catch((error) => console.error('Error fetching subcategories for category:', error));
@@ -56,7 +56,7 @@ const AddProductForm = () => {
     setProductData({ ...productData, subCategory: selectedSubCategory, subSubCategory: '' });
 
     // Fetch subsubcategories based on selected subcategory
-    fetch(`http://localhost:7878/api/subSubCategories?subcategory=${selectedSubCategory}`)
+    fetch(`http://44.196.64.110:7878/api/subSubCategories?subcategory=${selectedSubCategory}`)
       .then((response) => response.json())
       .then((data) => setSubSubCategories(data))
       .catch((error) => console.error('Error fetching subsubcategories for subcategory:', error));
