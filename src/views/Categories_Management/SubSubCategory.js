@@ -44,15 +44,18 @@ const SubSubCategory = () => {
 
   // Fetch all Sub-Sub-Categories when the component is mounted
   useEffect(() => {
-    axios.get('http://44.196.64.110:7878/api/subSubCategories')
-      .then(response => {
-        setSubSubCategories(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching sub-sub-categories:', error);
-      });
+    fetchAllSubcategoriesData();
   }, []);
 
+  const fetchAllSubcategoriesData=async()=>{
+    axios.get('http://44.196.64.110:7878/api/subSubCategories')
+    .then(response => {
+      setSubSubCategories(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching sub-sub-categories:', error);
+    });
+  }
   // Handle Add Sub-Sub-Category
   const handleAddSubSubCategory = () => {
     const selectedCategory = categories.find((cat) => cat.name === category);
@@ -77,7 +80,8 @@ const SubSubCategory = () => {
     axios
       .post('http://44.196.64.110:7878/api/subSubCategories', payload)
       .then((response) => {
-        setSubSubCategories([...subSubCategories, response.data]);
+        // setSubSubCategories([...subSubCategories, response.data]);
+        fetchAllSubcategoriesData();
         setVisible(false);
         resetForm();
       })
@@ -197,8 +201,8 @@ const SubSubCategory = () => {
                 subSubCategories.map((subSubCategory, index) => (
                   <CTableRow key={index}>
                     <CTableDataCell>{index + 1}</CTableDataCell>
-                    <CTableDataCell>{subSubCategory.category}</CTableDataCell>
-                    <CTableDataCell>{subSubCategory.subCategory}</CTableDataCell>
+                    <CTableDataCell>{subSubCategory.category_name}</CTableDataCell>
+                    <CTableDataCell>{subSubCategory.sub_category_name}</CTableDataCell>
                     <CTableDataCell>{subSubCategory.name}</CTableDataCell>
                     <CTableDataCell>
                       {subSubCategory.image ? (
