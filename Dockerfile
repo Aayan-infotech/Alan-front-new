@@ -1,4 +1,3 @@
-# Use an official Node.js runtime based on Debian/Ubuntu as the base image
 FROM node:20-bullseye AS build
 
 # Set the working directory in the container
