@@ -88,7 +88,7 @@ const AddProductForm = () => {
 
     console.log("Payload:", payload);
 
-    fetch('http://localhost:7878/api/products', {
+    fetch('http://44.196.64.110:7878/api/products', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
