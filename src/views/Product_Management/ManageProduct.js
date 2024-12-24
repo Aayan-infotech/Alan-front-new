@@ -1,33 +1,36 @@
-// src/components/ManageProduct.js
 import React, { useState } from 'react';
 import {
+  CRow,
+  CCol,
+  CCard,
+  CCardHeader,
+  CCardBody,
   CForm,
   CFormLabel,
   CFormSelect,
   CButton,
-  CCard,
-  CCardHeader,
-  CCardBody,
-  CRow,
-  CCol,
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
   CTable,
   CTableHead,
   CTableBody,
   CTableRow,
   CTableHeaderCell,
   CTableDataCell,
-  CInputGroup,
-  CInputGroupText,
-  CFormInput,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter
 } from '@coreui/react';
-import '../Categories_Management/CategoriesManagement.css';
 
 const ManageProduct = () => {
   // Sample data (you can replace this with real data from an API)
   const productData = [
-    { id: 1, name: 'iPhone 15', category: 'Electronics', subCategory: 'Mobile Phones', subSubCategory: 'Smartphones', status: 'Active', images: ['img1.jpg', 'img2.jpg'], dimensions: '6.1 x 2.8 x 0.3 inches' },
-    { id: 2, name: 'MacBook Pro', category: 'Electronics', subCategory: 'Laptops', subSubCategory: 'Business', status: 'Active', images: ['img3.jpg'], dimensions: '14.1 x 9.7 x 0.6 inches' },
-    { id: 3, name: 'Nike T-shirt', category: 'Clothing', subCategory: 'Men', subSubCategory: 'T-shirts', status: 'Active', images: ['img4.jpg', 'img5.jpg'], dimensions: 'L' },
+    { id: 1, name: 'iPhone 15', category: 'Electronics', subCategory: 'Mobile Phones', subSubCategory: 'Smartphones', status: 'Active' },
+    { id: 2, name: 'MacBook Pro', category: 'Electronics', subCategory: 'Laptops', subSubCategory: 'Business', status: 'Active' },
+    { id: 3, name: 'Nike T-shirt', category: 'Clothing', subCategory: 'Men', subSubCategory: 'T-shirts', status: 'Active' },
   ];
 
   const categories = ['Electronics', 'Clothing', 'Food'];
@@ -50,11 +53,39 @@ const ManageProduct = () => {
   });
 
   const [data, setData] = useState(productData);
+  const [showImagesModal, setShowImagesModal] = useState(false);
+  const [showDimensionsModal, setShowDimensionsModal] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(null);
+  const [newImage, setNewImage] = useState(null);
+  const [newDimensions, setNewDimensions] = useState('');
 
   // Handle filter change
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
+  };
+
+  // Handle Add Image modal open
+  const handleAddImages = (productId) => {
+    setCurrentProduct(productId);
+    setShowImagesModal(true);
+  };
+
+  // Handle Add Dimensions modal open
+  const handleAddDimensions = (productId) => {
+    setCurrentProduct(productId);
+    setShowDimensionsModal(true);
+  };
+
+  // Handle adding image
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setNewImage(file);
+  };
+
+  // Handle adding dimensions
+  const handleDimensionsChange = (e) => {
+    setNewDimensions(e.target.value);
   };
 
   // Filter products based on selected filters
@@ -174,8 +205,6 @@ const ManageProduct = () => {
                   <CTableHeaderCell>Category</CTableHeaderCell>
                   <CTableHeaderCell>Subcategory</CTableHeaderCell>
                   <CTableHeaderCell>Sub-subcategory</CTableHeaderCell>
-                  <CTableHeaderCell>Dimensions</CTableHeaderCell>
-                  <CTableHeaderCell>Images</CTableHeaderCell>
                   <CTableHeaderCell>Status</CTableHeaderCell>
                   <CTableHeaderCell>Actions</CTableHeaderCell>
                 </CTableRow>
@@ -187,17 +216,6 @@ const ManageProduct = () => {
                     <CTableDataCell>{product.category}</CTableDataCell>
                     <CTableDataCell>{product.subCategory}</CTableDataCell>
                     <CTableDataCell>{product.subSubCategory}</CTableDataCell>
-                    <CTableDataCell>{product.dimensions}</CTableDataCell>
-                    <CTableDataCell>
-                      {product.images.map((img, index) => (
-                        <img
-                          key={index}
-                          src={img}
-                          alt={`product-${index}`}
-                          style={{ width: '50px', marginRight: '5px', borderRadius: '5px' }}
-                        />
-                      ))}
-                    </CTableDataCell>
                     <CTableDataCell>{product.status}</CTableDataCell>
                     <CTableDataCell>
                       <CButton
@@ -220,6 +238,19 @@ const ManageProduct = () => {
                       >
                         Delete
                       </CButton>
+                      <CButton
+                        color="info"
+                        className="mr-2"
+                        onClick={() => handleAddImages(product.id)}
+                      >
+                        Add Images
+                      </CButton>
+                      <CButton
+                        color="secondary"
+                        onClick={() => handleAddDimensions(product.id)}
+                      >
+                        Add Dimensions
+                      </CButton>
                     </CTableDataCell>
                   </CTableRow>
                 ))}
@@ -228,9 +259,47 @@ const ManageProduct = () => {
           </CCardBody>
         </CCard>
       </CCol>
+
+      {/* Modal for Add Image */}
+      <CModal visible={showImagesModal} onClose={() => setShowImagesModal(false)}>
+        <CModalHeader>
+          <CModalTitle>Add Image</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <CForm>
+            <CFormLabel htmlFor="productImage">Upload Image</CFormLabel>
+            <CFormInput type="file" id="productImage" onChange={handleImageChange} />
+          </CForm>
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setShowImagesModal(false)}>Close</CButton>
+          <CButton color="primary" onClick={() => { alert('Image added'); setShowImagesModal(false); }}>Add Image</CButton>
+        </CModalFooter>
+      </CModal>
+
+      {/* Modal for Add Dimensions */}
+      <CModal visible={showDimensionsModal} onClose={() => setShowDimensionsModal(false)}>
+        <CModalHeader>
+          <CModalTitle>Add Dimensions</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <CForm>
+            <CFormLabel htmlFor="productDimensions">Enter Dimensions</CFormLabel>
+            <CFormInput
+              id="productDimensions"
+              type="text"
+              value={newDimensions}
+              onChange={handleDimensionsChange}
+            />
+          </CForm>
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setShowDimensionsModal(false)}>Close</CButton>
+          <CButton color="primary" onClick={() => { alert('Dimensions added'); setShowDimensionsModal(false); }}>Add Dimensions</CButton>
+        </CModalFooter>
+      </CModal>
     </CRow>
   );
 };
-
 
 export default ManageProduct;
