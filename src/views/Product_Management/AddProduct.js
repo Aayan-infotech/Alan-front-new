@@ -4,7 +4,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../Categories_Management/CategoriesManagement.css';
 
-
 const AddProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
@@ -15,23 +14,21 @@ const AddProductForm = () => {
     subSubCategory: '',
     productName: '',
     productDescription: '',
+    price: '',  // Keep only price field
   });
 
   // Fetch data for categories, subcategories, and subsubcategories
   useEffect(() => {
-    // Fetch categories
     fetch('http://44.196.64.110:7878/api/categories')
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error('Error fetching categories:', error));
-    
-    // Fetch subcategories 
+
     fetch('http://44.196.64.110:7878/api/subcategory')
       .then((response) => response.json())
       .then((data) => setSubCategories(data))
       .catch((error) => console.error('Error fetching subcategories:', error));
 
-    // Fetch subsubcategories 
     fetch('http://44.196.64.110:7878/api/subSubCategories')
       .then((response) => response.json())
       .then((data) => setSubSubCategories(data))
@@ -43,7 +40,6 @@ const AddProductForm = () => {
     const selectedCategory = e.target.value;
     setProductData({ ...productData, category: selectedCategory, subCategory: '', subSubCategory: '' });
 
-    // Fetch subcategories based on selected category
     fetch(`http://44.196.64.110:7878/api/subcategory?category=${selectedCategory}`)
       .then((response) => response.json())
       .then((data) => setSubCategories(data))
@@ -55,7 +51,6 @@ const AddProductForm = () => {
     const selectedSubCategory = e.target.value;
     setProductData({ ...productData, subCategory: selectedSubCategory, subSubCategory: '' });
 
-    // Fetch subsubcategories based on selected subcategory
     fetch(`http://44.196.64.110:7878/api/subSubCategories?subcategory=${selectedSubCategory}`)
       .then((response) => response.json())
       .then((data) => setSubSubCategories(data))
@@ -76,8 +71,50 @@ const AddProductForm = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Product Data:', productData);
-    // Here you can send the data to the server
+    const { category, subCategory, subSubCategory, productName, productDescription, price } = productData;
+
+    const payload = {
+      image: "image_url",  // Provide a real image URL
+      category_id: category,
+      sub_category_id: subCategory,
+      sub_sub_category_id: subSubCategory,
+      name: productName,
+      Description: productDescription,
+      price,  // Include only price in the payload
+      ins_date: new Date().toISOString(),
+      ins_ip: "127.0.0.1",  // Get the IP address of the client
+      ins_by: null  // Set ins_by to null
+    };
+
+    console.log("Payload:", payload);
+
+    fetch('http://localhost:7878/api/products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message === 'Product created successfully') {
+          alert("Product added successfully!");
+          setProductData({
+            category: '',
+            subCategory: '',
+            subSubCategory: '',
+            productName: '',
+            productDescription: '',
+            price: '',  // Reset price field
+          });
+        } else {
+          alert("Error adding product");
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert("Error occurred while adding product");
+      });
   };
 
   return (
@@ -96,7 +133,7 @@ const AddProductForm = () => {
               >
                 <option value="">Select Category</option>
                 {categories.map((category, index) => (
-                  <option key={index} value={category.name}>
+                  <option key={index} value={category._id}>
                     {category.name}
                   </option>
                 ))}
@@ -113,7 +150,7 @@ const AddProductForm = () => {
               >
                 <option value="">Select Subcategory</option>
                 {subCategories.map((subCategory, index) => (
-                  <option key={index} value={subCategory.name}>
+                  <option key={index} value={subCategory._id}>
                     {subCategory.name}
                   </option>
                 ))}
@@ -132,7 +169,7 @@ const AddProductForm = () => {
               >
                 <option value="">Select Sub-Subcategory</option>
                 {subSubCategories.map((subSubCategory, index) => (
-                  <option key={index} value={subSubCategory.name}>
+                  <option key={index} value={subSubCategory._id}>
                     {subSubCategory.name}
                   </option>
                 ))}
@@ -140,7 +177,6 @@ const AddProductForm = () => {
             </CCol>
           </CRow>
 
-          {/* Product Name */}
           <CRow>
             <CCol md={12}>
               <CFormLabel htmlFor="productName">Product Name</CFormLabel>
@@ -151,6 +187,21 @@ const AddProductForm = () => {
                 value={productData.productName}
                 onChange={handleChange}
                 placeholder="Enter product name"
+              />
+            </CCol>
+          </CRow>
+
+          {/* Price Field */}
+          <CRow>
+            <CCol md={6}>
+              <CFormLabel htmlFor="price">Price</CFormLabel>
+              <CFormInput
+                type="number"
+                id="price"
+                name="price"
+                value={productData.price}
+                onChange={handleChange}
+                placeholder="Enter product price"
               />
             </CCol>
           </CRow>
@@ -167,7 +218,6 @@ const AddProductForm = () => {
             </CCol>
           </CRow>
 
-          {/* Submit Button */}
           <CButton type="submit" color="primary" className="mt-3">
             Add Product
           </CButton>
