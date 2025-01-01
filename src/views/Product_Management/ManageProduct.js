@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   CRow,
   CCol,
@@ -26,24 +27,9 @@ import {
 } from '@coreui/react';
 
 const ManageProduct = () => {
-  // Sample data (you can replace this with real data from an API)
-  const productData = [
-    { id: 1, name: 'iPhone 15', category: 'Electronics', subCategory: 'Mobile Phones', subSubCategory: 'Smartphones', status: 'Active' },
-    { id: 2, name: 'MacBook Pro', category: 'Electronics', subCategory: 'Laptops', subSubCategory: 'Business', status: 'Active' },
-    { id: 3, name: 'Nike T-shirt', category: 'Clothing', subCategory: 'Men', subSubCategory: 'T-shirts', status: 'Active' },
-  ];
-
-  const categories = ['Electronics', 'Clothing', 'Food'];
-  const subCategories = {
-    Electronics: ['Mobile Phones', 'Laptops', 'TVs'],
-    Clothing: ['Men', 'Women', 'Kids'],
-    Food: ['Fruits', 'Vegetables', 'Snacks'],
-  };
-  const subSubCategories = {
-    'Mobile Phones': ['Smartphones', 'Feature Phones'],
-    Laptops: ['Gaming', 'Business', 'Ultrabooks'],
-  };
-
+  const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
+  const [subSubCategories, setSubSubCategories] = useState({});
   const [filters, setFilters] = useState({
     category: '',
     subCategory: '',
@@ -51,13 +37,60 @@ const ManageProduct = () => {
     status: '',
     search: '',
   });
-
-  const [data, setData] = useState(productData);
+  const [data, setData] = useState([]);
   const [showImagesModal, setShowImagesModal] = useState(false);
   const [showDimensionsModal, setShowDimensionsModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [newImage, setNewImage] = useState(null);
   const [newDimensions, setNewDimensions] = useState('');
+
+  // Fetch Categories
+  useEffect(() => {
+    axios.get('http://44.196.64.110:7878/api/categories')
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching categories:', error);
+      });
+  }, []);
+
+  // Fetch Subcategories based on selected category
+  useEffect(() => {
+    if (filters.category) {
+      axios.get(`http://44.196.64.110:7878/api/subcategory?category=${filters.category}`)
+        .then((response) => {
+          setSubCategories(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching subcategories:', error);
+        });
+    }
+  }, [filters.category]);
+
+  // Fetch Sub-Subcategories based on selected subcategory
+  useEffect(() => {
+    if (filters.subCategory) {
+      axios.get(`http://44.196.64.110:7878/api/subsubcategory?subcategory=${filters.subCategory}`)
+        .then((response) => {
+          setSubSubCategories(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching sub-subcategories:', error);
+        });
+    }
+  }, [filters.subCategory]);
+
+  // Fetch product data
+  useEffect(() => {
+    axios.get('http://44.196.64.110:7878/api/products')
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
+  }, []);
 
   // Handle filter change
   const handleFilterChange = (e) => {
@@ -65,35 +98,12 @@ const ManageProduct = () => {
     setFilters({ ...filters, [name]: value });
   };
 
-  // Handle Add Image modal open
-  const handleAddImages = (productId) => {
-    setCurrentProduct(productId);
-    setShowImagesModal(true);
-  };
-
-  // Handle Add Dimensions modal open
-  const handleAddDimensions = (productId) => {
-    setCurrentProduct(productId);
-    setShowDimensionsModal(true);
-  };
-
-  // Handle adding image
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setNewImage(file);
-  };
-
-  // Handle adding dimensions
-  const handleDimensionsChange = (e) => {
-    setNewDimensions(e.target.value);
-  };
-
   // Filter products based on selected filters
   const filteredData = data.filter((product) => {
     return (
-      (filters.category ? product.category === filters.category : true) &&
-      (filters.subCategory ? product.subCategory === filters.subCategory : true) &&
-      (filters.subSubCategory ? product.subSubCategory === filters.subSubCategory : true) &&
+      (filters.category ? product.category_name === filters.category : true) &&
+      (filters.subCategory ? product.sub_category_name === filters.subCategory : true) &&
+      (filters.subSubCategory ? product.sub_sub_category_name === filters.subSubCategory : true) &&
       (filters.status ? product.status === filters.status : true) &&
       (filters.search ? product.name.toLowerCase().includes(filters.search.toLowerCase()) : true)
     );
@@ -120,8 +130,8 @@ const ManageProduct = () => {
                   >
                     <option value="">Select Category</option>
                     {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
+                      <option key={category.id} value={category.name}>
+                        {category.name}
                       </option>
                     ))}
                   </CFormSelect>
@@ -137,9 +147,9 @@ const ManageProduct = () => {
                   >
                     <option value="">Select Subcategory</option>
                     {filters.category &&
-                      subCategories[filters.category]?.map((subCategory) => (
-                        <option key={subCategory} value={subCategory}>
-                          {subCategory}
+                      subCategories.map((subCategory) => (
+                        <option key={subCategory.id} value={subCategory.name}>
+                          {subCategory.name}
                         </option>
                       ))}
                   </CFormSelect>
@@ -156,8 +166,8 @@ const ManageProduct = () => {
                     <option value="">Select Sub-subcategory</option>
                     {filters.subCategory &&
                       subSubCategories[filters.subCategory]?.map((subSubCategory) => (
-                        <option key={subSubCategory} value={subSubCategory}>
-                          {subSubCategory}
+                        <option key={subSubCategory.id} value={subSubCategory.name}>
+                          {subSubCategory.name}
                         </option>
                       ))}
                   </CFormSelect>
@@ -173,7 +183,7 @@ const ManageProduct = () => {
                   >
                     <option value="">Select Status</option>
                     <option value="Active">Active</option>
-                    <option value="Block">Block</option>
+                    <option value="Blocked">Blocked</option>
                   </CFormSelect>
                 </CCol>
 
@@ -211,11 +221,11 @@ const ManageProduct = () => {
               </CTableHead>
               <CTableBody>
                 {filteredData.map((product) => (
-                  <CTableRow key={product.id}>
+                  <CTableRow key={product._id}>
                     <CTableDataCell>{product.name}</CTableDataCell>
-                    <CTableDataCell>{product.category}</CTableDataCell>
-                    <CTableDataCell>{product.subCategory}</CTableDataCell>
-                    <CTableDataCell>{product.subSubCategory}</CTableDataCell>
+                    <CTableDataCell>{product.category_name}</CTableDataCell>
+                    <CTableDataCell>{product.sub_category_name}</CTableDataCell>
+                    <CTableDataCell>{product.sub_sub_category_name}</CTableDataCell>
                     <CTableDataCell>{product.status}</CTableDataCell>
                     <CTableDataCell>
                       <CButton
@@ -241,13 +251,13 @@ const ManageProduct = () => {
                       <CButton
                         color="info"
                         className="mr-2"
-                        onClick={() => handleAddImages(product.id)}
+                        onClick={() => handleAddImages(product._id)}
                       >
                         Add Images
                       </CButton>
                       <CButton
                         color="secondary"
-                        onClick={() => handleAddDimensions(product.id)}
+                        onClick={() => handleAddDimensions(product._id)}
                       >
                         Add Dimensions
                       </CButton>
@@ -268,7 +278,7 @@ const ManageProduct = () => {
         <CModalBody>
           <CForm>
             <CFormLabel htmlFor="productImage">Upload Image</CFormLabel>
-            <CFormInput type="file" id="productImage" onChange={handleImageChange} />
+            <CFormInput type="file" id="productImage" onChange={e => setNewImage(e.target.files[0])} />
           </CForm>
         </CModalBody>
         <CModalFooter>
@@ -289,7 +299,7 @@ const ManageProduct = () => {
               id="productDimensions"
               type="text"
               value={newDimensions}
-              onChange={handleDimensionsChange}
+              onChange={(e) => setNewDimensions(e.target.value)}
             />
           </CForm>
         </CModalBody>
