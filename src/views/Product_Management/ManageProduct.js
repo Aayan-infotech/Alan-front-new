@@ -26,6 +26,9 @@ import {
   CModalBody,
   CModalFooter
 } from '@coreui/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
+import { faEdit, faTrash, faImage } from '@fortawesome/free-solid-svg-icons'; // Import icons
+
 
 const ManageProduct = () => {
   const navigate = useNavigate(); // Initialize navigation
@@ -45,10 +48,10 @@ const ManageProduct = () => {
   });
   const [data, setData] = useState([]);
   const [showImagesModal, setShowImagesModal] = useState(false);
-  const [showDimensionsModal, setShowDimensionsModal] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState(null);
+  // const [showDimensionsModal, setShowDimensionsModal] = useState(false);
+  // const [currentProduct, setCurrentProduct] = useState(null);
   const [newImage, setNewImage] = useState(null);
-  const [newDimensions, setNewDimensions] = useState('');
+  // const [newDimensions, setNewDimensions] = useState('');
 
   // Fetch Categories
   useEffect(() => {
@@ -234,41 +237,41 @@ const ManageProduct = () => {
                     <CTableDataCell>{product.sub_sub_category_name}</CTableDataCell>
                     <CTableDataCell>{product.status}</CTableDataCell>
                     <CTableDataCell>
-                      <CButton
-                        color={product.status === 'Active' ? 'danger' : 'success'}
-                        className="mr-2"
-                        onClick={() => alert(`${product.status === 'Active' ? 'Block' : 'Activate'} product: ${product.name}`)}
-                      >
-                        {product.status === 'Active' ? 'Block' : 'Activate'}
-                      </CButton>
-                      <CButton
-                        color="warning"
-                        className="mr-2"
-                        onClick={() => alert(`Edit product: ${product.name}`)}
-                      >
-                        Edit
-                      </CButton>
-                      <CButton
-                        color="danger"
-                        onClick={() => alert(`Delete product: ${product.name}`)}
-                      >
-                        Delete
-                      </CButton>
-                      <CButton
-                        color="info"
-                        className="mr-2"
-                        onClick={() => handleAddImages(product._id)}
-                      >
-                        Add Images
-                      </CButton>
                       <CTableDataCell>
-            <CButton
-              color="secondary"
-              onClick={() => handleAddDimensions(product._id)}
-            >
-              Add Dimensions
-            </CButton>
-          </CTableDataCell>
+                        {/* Edit Button with FontAwesome Icon */}
+                        <CButton
+                          color="warning"
+                          className="mr-2"
+                          onClick={() => alert(`Edit product: ${product.name}`)}
+                        >
+                          <FontAwesomeIcon icon={faEdit} /> {/* FontAwesome Edit Icon */}
+                        </CButton>
+
+                        {/* Delete Button with FontAwesome Icon */}
+                        <CButton
+                          color="danger"
+                          onClick={() => alert(`Delete product: ${product.name}`)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} /> {/* FontAwesome Trash Icon */}
+                        </CButton>
+
+                        {/* Add Images Button with FontAwesome Icon */}
+                        <CButton
+                          color="info"
+                          className="mr-2"
+                          onClick={() => handleAddImages(product._id)}
+                        >
+                          <FontAwesomeIcon icon={faImage} /> {/* FontAwesome Image Icon */}
+                        </CButton>
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <CButton
+                          color="secondary"
+                          onClick={() => handleAddDimensions(product._id)}
+                        >
+                          Add Dimensions
+                        </CButton>
+                      </CTableDataCell>
                     </CTableDataCell>
                   </CTableRow>
                 ))}
@@ -296,7 +299,7 @@ const ManageProduct = () => {
       </CModal>
 
       {/* Modal for Add Dimensions */}
-      <CModal visible={showDimensionsModal} onClose={() => setShowDimensionsModal(false)}>
+      {/* <CModal visible={showDimensionsModal} onClose={() => setShowDimensionsModal(false)}>
         <CModalHeader>
           <CModalTitle>Add Dimensions</CModalTitle>
         </CModalHeader>
@@ -315,7 +318,7 @@ const ManageProduct = () => {
           <CButton color="secondary" onClick={() => setShowDimensionsModal(false)}>Close</CButton>
           <CButton color="primary" onClick={() => { alert('Dimensions added'); setShowDimensionsModal(false); }}>Add Dimensions</CButton>
         </CModalFooter>
-      </CModal>
+      </CModal> */}
     </CRow>
   );
 };

@@ -147,24 +147,61 @@ const DimensionsProduct = () => {
     SideWindowOpens: 'dimsSWinOpens',
   };
 
+  // useEffect(() => {
+  //   const fetchAllData = async () => {
+  //     setIsLoading(true);
+  //     const newDisplayData = {};
+  //     for (const [section, api] of Object.entries(apiEndpoints)) {
+  //       try {
+  //         const res = await fetch(`http://44.196.64.110:7878/api/${api}`);
+  //         const data = await res.json();
+  //         newDisplayData[section] = data || [];
+  //       } catch (error) {
+  //         console.error(`Error fetching ${section} data:`, error);
+  //       }
+  //     }
+  //     setDisplayData(newDisplayData);
+  //     setIsLoading(false);
+  //   };
+  //   fetchAllData();
+  // }, []);
+
   useEffect(() => {
     const fetchAllData = async () => {
       setIsLoading(true);
       const newDisplayData = {};
+  
+      // Loop through all API endpoints
       for (const [section, api] of Object.entries(apiEndpoints)) {
         try {
-          const res = await fetch(`http://44.196.64.110:7878/api/${api}`);
+          // Fetch data for each section
+          const res = await fetch(`http://localhost:7878/api/dims/type/${section}/ProductID/${Product_id}`);
+          
+          // Check if response is ok (status 200-299)
+          if (!res.ok) {
+            throw new Error(`Failed to fetch ${section} data. Status: ${res.status}`);
+          }
+  
           const data = await res.json();
+  
+          // Store data in newDisplayData object
           newDisplayData[section] = data || [];
         } catch (error) {
+          // Log any error that occurs during fetching
           console.error(`Error fetching ${section} data:`, error);
+          // Optionally, store an error message or empty array in case of failure
+          newDisplayData[section] = [];  // Or you can store an error message
         }
       }
+  
+      // Set the state with the new data
       setDisplayData(newDisplayData);
       setIsLoading(false);
     };
+  
     fetchAllData();
-  }, []);
+  }, [Product_id]);  
+  
 
   const handleInputChange = (e, field) => {
     setFormData({ ...formData, [field]: e.target.value });
