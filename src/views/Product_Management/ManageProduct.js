@@ -31,7 +31,7 @@ const ManageProduct = () => {
   const navigate = useNavigate(); // Initialize navigation
   // Function to handle Add Dimensions button
   const handleAddDimensions = (productId) => {
-    navigate('../DimensionsProduct', { state: { Product_id: productId } });
+    navigate('/DimensionsProduct', { state: { Product_id: productId } });
   };
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
