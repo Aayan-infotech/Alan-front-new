@@ -172,7 +172,7 @@ const DimensionsProduct = () => {
 
   const handleAddData = async (section) => {
     const payload = {
-      Product_id, //plz add Product_id 
+      Product_id, 
       [section]: formData[section],
       value: formData[`${section}Percentage`],
       // timestamp: new Date(),

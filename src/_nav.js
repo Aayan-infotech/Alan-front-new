@@ -69,15 +69,15 @@ const _nav = [
   },
 
   // Dimensions
-  {
-    component: CNavItem,
-    name: 'Dimensions Product',
-    to: '/DimensionsProduct',
-    // icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" style={{ color: 'blue' }} />,
-    badge: {
-      color: 'info',
-    },
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Dimensions Product',
+  //   to: '/DimensionsProduct',
+  //   // icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" style={{ color: 'blue' }} />,
+  //   badge: {
+  //     color: 'info',
+  //   },
+  // },
 
 
   // Product
