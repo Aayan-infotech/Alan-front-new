@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'; // Add this import at the top
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -27,6 +28,11 @@ import {
 } from '@coreui/react';
 
 const ManageProduct = () => {
+  const navigate = useNavigate(); // Initialize navigation
+  // Function to handle Add Dimensions button
+  const handleAddDimensions = (productId) => {
+    navigate('../DimensionsProduct', { state: { Product_id: productId } });
+  };
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [subSubCategories, setSubSubCategories] = useState({});
@@ -255,12 +261,14 @@ const ManageProduct = () => {
                       >
                         Add Images
                       </CButton>
-                      <CButton
-                        color="secondary"
-                        onClick={() => handleAddDimensions(product._id)}
-                      >
-                        Add Dimensions
-                      </CButton>
+                      <CTableDataCell>
+            <CButton
+              color="secondary"
+              onClick={() => handleAddDimensions(product._id)}
+            >
+              Add Dimensions
+            </CButton>
+          </CTableDataCell>
                     </CTableDataCell>
                   </CTableRow>
                 ))}
