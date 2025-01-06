@@ -175,7 +175,7 @@ const DimensionsProduct = () => {
       for (const [section, api] of Object.entries(apiEndpoints)) {
         try {
           // Fetch data for each section
-          const res = await fetch(`http://localhost:7878/api/dims/type/${section}/ProductID/${Product_id}`);
+          const res = await fetch(`http://44.196.64.110:7878/api/dims/type/${section}/ProductID/${Product_id}`);
           
           // Check if response is ok (status 200-299)
           if (!res.ok) {
