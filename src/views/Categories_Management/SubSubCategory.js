@@ -16,7 +16,7 @@ const SubSubCategory = () => {
   const [category, setCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
   const [subSubCategoryName, setSubSubCategoryName] = useState('');
-  const [image, setImage] = useState(null);
+  const [images, setImage] = useState(null);
   const [visible, setVisible] = useState(false);
   const [editSubSubCategory, setEditSubSubCategory] = useState(null);
 
@@ -47,17 +47,51 @@ const SubSubCategory = () => {
     fetchAllSubcategoriesData();
   }, []);
 
-  const fetchAllSubcategoriesData=async()=>{
+  const fetchAllSubcategoriesData = async () => {
     axios.get('http://44.196.64.110:7878/api/subSubCategories')
-    .then(response => {
-      setSubSubCategories(response.data);
-    })
-    .catch(error => {
-      console.error('Error fetching sub-sub-categories:', error);
-    });
+      .then(response => {
+        setSubSubCategories(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching sub-sub-categories:', error);
+      });
   }
   // Handle Add Sub-Sub-Category
+  // const handleAddSubSubCategory = () => {
+  //   const selectedCategory = categories.find((cat) => cat.name === category);
+  //   const selectedSubCategory = subCategories.find((subCat) => subCat.name === subCategory);
+
+  //   if (!selectedCategory || !selectedSubCategory) {
+  //     alert('Please select valid category and sub-category');
+  //     return;
+  //   }
+
+  //   const payload = {
+  //     images,
+  //     category_id: selectedCategory.id,
+  //     sub_category_id: selectedSubCategory.id,
+  //     name: subSubCategoryName,
+  //     status: 1,
+  //     ins_date: new Date().toISOString(),
+  //     ins_ip: "127.0.0.1",
+  //     ins_by: null,
+  //   };
+
+  //   axios
+  //     .post('http://44.196.64.110:7878/api/subSubCategories', payload)
+  //     .then((response) => {
+  //       // setSubSubCategories([...subSubCategories, response.data]);
+  //       fetchAllSubcategoriesData();
+  //       setVisible(false);
+  //       resetForm();
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error adding sub-sub-category:', error);
+  //     });
+  // };
+
   const handleAddSubSubCategory = () => {
+    // Ensure a category and sub-category are selected
     const selectedCategory = categories.find((cat) => cat.name === category);
     const selectedSubCategory = subCategories.find((subCat) => subCat.name === subCategory);
 
@@ -66,29 +100,37 @@ const SubSubCategory = () => {
       return;
     }
 
-    const payload = {
-      image,
-      category_id: selectedCategory.id,
-      sub_category_id: selectedSubCategory.id,
-      name: subSubCategoryName,
-      status: 1,
-      ins_date: new Date().toISOString(),
-      ins_ip: "127.0.0.1",
-      ins_by: null,
-    };
+    // Create FormData to handle the images file and other data
+    const formData = new FormData();
 
+    // Append images, category, sub-category, and other data
+    formData.append('images', images); // Image file
+    formData.append('category_id', selectedCategory.id); // Category ID
+    formData.append('sub_category_id', selectedSubCategory.id); // Sub-category ID
+    formData.append('name', subSubCategoryName); // Name of the sub-sub-category
+    formData.append('status', 1); // Status (active)
+    formData.append('ins_date', new Date().toISOString()); // Date of creation
+    formData.append('ins_ip', '127.0.0.1'); // IP address
+
+    // Send the POST request with FormData
     axios
-      .post('http://44.196.64.110:7878/api/subSubCategories', payload)
+      .post('http://44.196.64.110:7878/api/subSubCategories', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Important to specify this when uploading files
+        },
+      })
       .then((response) => {
-        // setSubSubCategories([...subSubCategories, response.data]);
+        // Refresh the sub-sub-categories list after successful addition
         fetchAllSubcategoriesData();
-        setVisible(false);
-        resetForm();
+        setVisible(false); // Close the modal
+        resetForm(); // Reset form fields
       })
       .catch((error) => {
         console.error('Error adding sub-sub-category:', error);
       });
   };
+
+
 
   // Handle Edit Sub-Sub-Category
   const handleEditSubSubCategory = (subSubCategory) => {
@@ -96,7 +138,7 @@ const SubSubCategory = () => {
     setCategory(subSubCategory.category);
     setSubCategory(subSubCategory.subCategory);
     setSubSubCategoryName(subSubCategory.name);
-    setImage(subSubCategory.image);
+    setImage(subSubCategory.images);
     setVisible(true);
   };
 
@@ -104,7 +146,7 @@ const SubSubCategory = () => {
   const handleUpdateSubSubCategory = () => {
     // Ensure you are passing the correct 'id' field (not the whole object)
     const payload = {
-      image,
+      images,
       category_id: categories.find((cat) => cat.name === category)?.id,
       sub_category_id: subCategories.find((subCat) => subCat.name === subCategory)?.id,
       name: subSubCategoryName,
@@ -157,13 +199,20 @@ const SubSubCategory = () => {
 
 
   // Handle Image Change (Image Upload)
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const imageURL = URL.createObjectURL(file);
+  //     setImage(imageURL); // Save the images URL to state
+  //   }
+  // };
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]; // Get the selected file
     if (file) {
-      const imageURL = URL.createObjectURL(file);
-      setImage(imageURL); // Save the image URL to state
+      setImage(file); // Store the file in the state
     }
   };
+
 
   return (
     <>
@@ -205,8 +254,8 @@ const SubSubCategory = () => {
                     <CTableDataCell>{subSubCategory.sub_category_name}</CTableDataCell>
                     <CTableDataCell>{subSubCategory.name}</CTableDataCell>
                     <CTableDataCell>
-                      {subSubCategory.image ? (
-                        <img src={subSubCategory.image} alt={subSubCategory.name} width="50" height="50" />
+                      {subSubCategory.images ? (
+                        <img src={subSubCategory.images} alt={subSubCategory.name} width="50" height="50" />
                       ) : (
                         'No Image'
                       )}
@@ -296,11 +345,11 @@ const SubSubCategory = () => {
             <CFormLabel>Upload Image</CFormLabel>
             <CFormInput
               type="file"
-              accept="image/*"
+              accept="images/*"
               onChange={handleImageChange}
               className="subcategory-input"
             />
-            {image && <img src={image} alt="Preview" width="100" height="100" />}
+            {images && <img src={URL.createObjectURL(images)} alt="Preview" width="100" height="100" />}
           </CForm>
         </CModalBody>
         <CModalFooter>
