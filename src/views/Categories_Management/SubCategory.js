@@ -56,9 +56,9 @@ const SubCategory = () => {
       formData.append('status', '1');
       formData.append('ins_date', new Date().toISOString());
       formData.append('ins_ip', '127.0.0.1');
-  
+
       try {
-        await axios.post('http://localhost:7878/api/subcategory', formData, {
+        await axios.post('http://44.196.64.110:7878/api/subcategory', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -74,39 +74,39 @@ const SubCategory = () => {
       }
     }
   };
-  
+
 
   // Handle updating existing sub-category
- const handleUpdateSubCategory = async () => {
-  if (editSubCategory) {
-    const formData = new FormData();
-    formData.append('name', subCategoryName);
-    formData.append('category_id', selectedCategory);
-    if (selectedImage instanceof File) {
-      formData.append('images', selectedImage);
-    }
-    formData.append('status', '1');
-    formData.append('ins_date', new Date().toISOString());
-    formData.append('ins_ip', '127.0.0.1');
+  const handleUpdateSubCategory = async () => {
+    if (editSubCategory) {
+      const formData = new FormData();
+      formData.append('name', subCategoryName);
+      formData.append('category_id', selectedCategory);
+      if (selectedImage instanceof File) {
+        formData.append('images', selectedImage);
+      }
+      formData.append('status', '1');
+      formData.append('ins_date', new Date().toISOString());
+      formData.append('ins_ip', '127.0.0.1');
 
-    try {
-      await axios.put(`http://44.196.64.110:7878/api/subcategory/${editSubCategory._id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setSubCategoryName('');
-      setSelectedCategory('');
-      setSelectedImage(null);
-      setVisible(false);
-      setEditSubCategory(null);
-      const response = await axios.get('http://44.196.64.110:7878/api/subcategory');
-      setSubCategories(response.data);
-    } catch (error) {
-      console.error('Error updating sub-category:', error);
+      try {
+        await axios.put(`http://44.196.64.110:7878/api/subcategory/${editSubCategory._id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        setSubCategoryName('');
+        setSelectedCategory('');
+        setSelectedImage(null);
+        setVisible(false);
+        setEditSubCategory(null);
+        const response = await axios.get('http://44.196.64.110:7878/api/subcategory');
+        setSubCategories(response.data);
+      } catch (error) {
+        console.error('Error updating sub-category:', error);
+      }
     }
-  }
-};
+  };
 
 
   // Handle deleting a sub-category
@@ -192,29 +192,29 @@ const SubCategory = () => {
                   <CTableRow key={subCategory._id}>
                     <CTableDataCell>{index + 1}</CTableDataCell>
                     <CTableDataCell>
-  {subCategory.images && subCategory.images.length > 0 ? (
-    <img
-      src={subCategory.images[0]} // Access the first image in the array
-      alt="Sub-category"
-      style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-    />
-  ) : (
-    <span>No Image</span>
-  )}
-</CTableDataCell>
+                      {subCategory.images && subCategory.images.length > 0 ? (
+                        <img
+                          src={subCategory.images[0]} // Access the first image in the array
+                          alt="Sub-category"
+                          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <span>No Image</span>
+                      )}
+                    </CTableDataCell>
                     <CTableDataCell>{subCategory.name}</CTableDataCell>
                     <CTableDataCell>{getCategoryName(subCategory.category_id)}</CTableDataCell>
                     <CTableDataCell>{subCategory.status === 1 ? 'Active' : 'Blocked'}</CTableDataCell>
                     <CTableDataCell>
-                      <CButton 
-                        color={subCategory.status === 1 ? 'danger' : 'success'} 
+                      <CButton
+                        color={subCategory.status === 1 ? 'danger' : 'success'}
                         onClick={() => handleToggleStatus(subCategory)}
                         className="mx-1 status-toggle-btn"
                       >
                         {subCategory.status === 1 ? 'Block' : 'Activate'}
                       </CButton>
-                      <CButton 
-                        color="warning" 
+                      <CButton
+                        color="warning"
                         onClick={() => {
                           setEditSubCategory(subCategory);
                           setSubCategoryName(subCategory.name);
@@ -226,8 +226,8 @@ const SubCategory = () => {
                       >
                         <FontAwesomeIcon icon={faEdit} />
                       </CButton>
-                      <CButton 
-                        color="danger" 
+                      <CButton
+                        color="danger"
                         onClick={() => handleDeleteSubCategory(subCategory)}
                         className="mx-1 delete-btn"
                       >
@@ -253,8 +253,8 @@ const SubCategory = () => {
         <CModalBody>
           <CForm>
             <CFormLabel>Select Category</CFormLabel>
-            <CFormSelect 
-              value={selectedCategory} 
+            <CFormSelect
+              value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="subcategory-select"
             >
@@ -274,37 +274,37 @@ const SubCategory = () => {
             />
 
             <CFormLabel>Upload Image</CFormLabel>
-            <CFormInput 
-              type="file" 
-              onChange={handleImageChange} 
-              accept="image/*" 
-              className="subcategory-image-input" 
+            <CFormInput
+              type="file"
+              onChange={handleImageChange}
+              accept="image/*"
+              className="subcategory-image-input"
             />
             {selectedImage && (
-  <div className="image-preview">
-    {typeof selectedImage === 'string' ? (
-      <img 
-        src={selectedImage} 
-        alt="Preview" 
-        style={{ width: '100px', height: '100px', objectFit: 'cover' }} 
-      />
-    ) : (
-      <img 
-        src={URL.createObjectURL(selectedImage)} 
-        alt="Preview" 
-        style={{ width: '100px', height: '100px', objectFit: 'cover' }} 
-      />
-    )}
-  </div>
-)}
+              <div className="image-preview">
+                {typeof selectedImage === 'string' ? (
+                  <img
+                    src={selectedImage}
+                    alt="Preview"
+                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                  />
+                ) : (
+                  <img
+                    src={URL.createObjectURL(selectedImage)}
+                    alt="Preview"
+                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                  />
+                )}
+              </div>
+            )}
           </CForm>
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={() => setVisible(false)} className="cancel-btn">
             Cancel
           </CButton>
-          <CButton 
-            color="primary" 
+          <CButton
+            color="primary"
             onClick={editSubCategory ? handleUpdateSubCategory : handleAddSubCategory}
             className="save-btn"
           >
