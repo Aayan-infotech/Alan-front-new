@@ -130,9 +130,16 @@ const handleImageUpload = (e) => {
     setNewImages([...newImages, ...files]);
   }
 };
+
+
+// const handleAddImages = (productId) => {
+//   setSelectedProductId(productId); // Store the selected product ID
+//   setShowImagesModal(true); // Show the modal for adding images
+// };
 const handleAddImages = (productId) => {
   setSelectedProductId(productId); // Store the selected product ID
   setShowImagesModal(true); // Show the modal for adding images
+  fetchImages(productId); // Fetch images for the selected product
 };
 
 
@@ -157,29 +164,34 @@ const handleAddImages = (productId) => {
     }
   };
 
-  // Function to fetch images for a product
-  const fetchImages = (productId) => {
-    axios.get(`http://localhost:7878/api/ProductImg/product-images/${productId}`)
-      .then((response) => {
-        // Handle the response to display images
-        console.log('Fetched images:', response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching images:', error);
-      });
-  };
+ // Function to fetch images by Product ID
+ const fetchImages = (productId) => {
+  axios.get(`http://44.196.64.110:7878/api/ProductImg/product-images/${productId}`)
+    .then((response) => {
+      if (response.data.productImages) {
+        // Flatten the images array from the response and update the state
+        const images = response.data.productImages.flatMap(item => item.images);
+        setNewImages(images); // Update the state with the image URLs
+      } else {
+        console.error('No product images found');
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching images:', error);
+    });
+};
 
   // Function to delete an image
-  const deleteImage = (imageId) => {
-    axios.delete(`http://localhost:7878/api/ProductImg/product-images/${imageId}`)
-      .then(() => {
-        alert('Image deleted successfully');
-        // Optionally refetch images to update the list
-      })
-      .catch((error) => {
-        console.error('Error deleting image:', error);
-      });
-  };
+  // const deleteImage = (_id) => {
+  //   axios.delete(`http://localhost:7878/api/ProductImg/product-images/${_id}`)
+  //         .then(() => {
+  //           alert('Image deleted successfully');
+  //       // Optionally refetch images to update the list
+  //         })
+  //         .catch((error) => {
+  //           console.error('Error deleting image:', error);
+  //         });
+  // };
 
   return (
     <CRow>
@@ -346,43 +358,49 @@ const handleAddImages = (productId) => {
 
       {/* Modal for Add Image */}
       <CModal visible={showImagesModal} onClose={() => setShowImagesModal(false)}>
-<CModalHeader>
-  <CModalTitle>Add Images</CModalTitle>
-</CModalHeader>
-<CModalBody>
-  <CForm>
-    <CFormLabel htmlFor="productImages">Upload Images</CFormLabel>
-    <CFormInput
-      type="file"
-      id="productImages"
-      multiple
-      onChange={handleImageUpload}
-    />
-    <CListGroup className="mt-3">
-      {newImages.map((image, index) => (
-        <CListGroupItem key={index} className="d-flex justify-content-between align-items-center">
-          {image.name}
-          <CButton
-            color="danger"
-            size="sm"
-            onClick={() => handleImageRemove(index)}
-          >
-            <FontAwesomeIcon icon={faTrash} />
-          </CButton>
-        </CListGroupItem>
-      ))}
-    </CListGroup>
-  </CForm>
-</CModalBody>
-<CModalFooter>
-  <CButton color="secondary" onClick={() => setShowImagesModal(false)}>
-    Close
-  </CButton>
-  <CButton color="primary" onClick={handleAddImageConfirm}>
-    Add Images
-  </CButton>
-</CModalFooter>
+  <CModalHeader>
+    <CModalTitle>Manage Images</CModalTitle>
+  </CModalHeader>
+  <CModalBody>
+    <CForm>
+      <CFormLabel htmlFor="productImages">Upload Images</CFormLabel>
+      <CFormInput
+        type="file"
+        id="productImages"
+        multiple
+        onChange={handleImageUpload}
+      />
+      {/* Display fetched images */}
+      <CListGroup className="mt-3">
+        {newImages && newImages.length > 0 ? (
+          newImages.map((image, index) => (
+            <CListGroupItem key={index} className="d-flex justify-content-between align-items-center">
+              <img src={image} alt={`Product Image ${index}`} width="50" height="50" />
+              <CButton
+                color="danger"
+                size="sm"
+                onClick={() => deleteImage(selectedProductId, image)} // Delete image by URL
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </CButton>
+            </CListGroupItem>
+          ))
+        ) : (
+          <p>No images found for this product.</p>
+        )}
+      </CListGroup>
+    </CForm>
+  </CModalBody>
+  <CModalFooter>
+    <CButton color="secondary" onClick={() => setShowImagesModal(false)}>
+      Close
+    </CButton>
+    <CButton color="primary" onClick={handleAddImageConfirm}>
+      Add Images
+    </CButton>
+  </CModalFooter>
 </CModal>
+
       {/* Modal for Add Dimensions */}
       {/* <CModal visible={showDimensionsModal} onClose={() => setShowDimensionsModal(false)}>
         <CModalHeader>
