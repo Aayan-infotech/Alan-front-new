@@ -145,7 +145,7 @@ const handleAddImages = (productId) => {
         formData.append('images', image);
       });
 
-      axios.post('http://localhost:7878/api/ProductImg/product-images', formData)
+      axios.post('http://44.196.64.110:7878/api/ProductImg/product-images', formData)
         .then(() => {
           alert('Images uploaded successfully');
           setShowImagesModal(false);
