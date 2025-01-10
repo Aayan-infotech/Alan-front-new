@@ -166,7 +166,7 @@ const ManageProduct = () => {
 
 
   const handleDeleteProduct = (productId) => {
-    axios.delete(`http://localhost:7878/api/products/DEL/${productId}`)
+    axios.delete(`http://44.196.64.110:7878/api/products/DEL/${productId}`)
       .then(() => {
         alert('Product deleted successfully');
         setData(data.filter(product => product._id !== productId)); // Update the state to remove the deleted product
