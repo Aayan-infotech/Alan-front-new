@@ -5,6 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 import '../Categories_Management/CategoriesManagement.css';
 
 const AddProductForm = () => {
+  const [images, setImage] = useState(null);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [subSubCategories, setSubSubCategories] = useState([]);
@@ -69,53 +70,153 @@ const AddProductForm = () => {
   };
 
   // Handle form submission
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const { category, subCategory, subSubCategory, productName, productDescription, price } = productData;
+
+  //   const payload = {
+  //     images: images,  // Provide a real image URL
+  //     category_id: category,
+  //     sub_category_id: subCategory,
+  //     sub_sub_category_id: subSubCategory,
+  //     name: productName,
+  //     Description: productDescription,
+  //     price,  // Include only price in the payload
+  //     ins_date: new Date().toISOString(),
+  //     ins_ip: "127.0.0.1",  // Get the IP address of the client
+  //     ins_by: null  // Set ins_by to null
+  //   };
+
+  //   console.log("Payload:", payload);
+
+  //   fetch('http://44.196.64.110:7878/api/products', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(payload),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       if (data.message === 'Product created successfully') {
+  //         alert("Product added successfully!");
+  //         setProductData({
+  //           category: '',
+  //           subCategory: '',
+  //           subSubCategory: '',
+  //           productName: '',
+  //           productDescription: '',
+  //           price: '',  // Reset price field
+  //         });
+  //       } else {
+  //         alert("Error adding product");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error:', error);
+  //       alert("Error occurred while adding product");
+  //     });
+  // };
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const { category, subCategory, subSubCategory, productName, productDescription, price } = productData;
+    const formData = new FormData();
 
-    const payload = {
-      image: "image_url",  // Provide a real image URL
-      category_id: category,
-      sub_category_id: subCategory,
-      sub_sub_category_id: subSubCategory,
-      name: productName,
-      Description: productDescription,
-      price,  // Include only price in the payload
-      ins_date: new Date().toISOString(),
-      ins_ip: "127.0.0.1",  // Get the IP address of the client
-      ins_by: null  // Set ins_by to null
-    };
-
-    console.log("Payload:", payload);
+    formData.append('images', images); // Ensure `images` is the correct file input
+    formData.append('category_id', category);
+    formData.append('sub_category_id', subCategory);
+    formData.append('sub_sub_category_id', subSubCategory);
+    formData.append('name', productName);
+    formData.append('Description', productDescription);
+    formData.append('price', price);
+    formData.append('ins_date', new Date().toISOString());
+    formData.append('ins_ip', '127.0.0.1');
+    formData.append('ins_by', '');
 
     fetch('http://44.196.64.110:7878/api/products', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
+      body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.message === 'Product created successfully') {
-          alert("Product added successfully!");
+          alert('Product added successfully!');
           setProductData({
             category: '',
             subCategory: '',
             subSubCategory: '',
             productName: '',
             productDescription: '',
-            price: '',  // Reset price field
+            price: '',
           });
+          setImage(null);
         } else {
-          alert("Error adding product");
+          alert('Error adding product');
         }
       })
       .catch((error) => {
         console.error('Error:', error);
-        alert("Error occurred while adding product");
+        alert('Error occurred while adding product');
       });
   };
+
+
+
+
+  /*
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const { category, subCategory, subSubCategory, productName, productDescription, price } = productData;
+    
+      const formData = new FormData();
+      formData.append('image', image); 
+      formData.append('category_id', category);
+      formData.append('sub_category_id', subCategory);
+      formData.append('sub_sub_category_id', subSubCategory);
+      formData.append('name', productName);
+      formData.append('Description', productDescription);
+      formData.append('price', price);
+      formData.append('ins_date', new Date().toISOString());
+      formData.append('ins_ip', '127.0.0.1');
+      formData.append('ins_by', null);
+    
+      fetch('http://44.196.64.110:7878/api/products', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message === 'Product created successfully') {
+            alert('Product added successfully!');
+            setProductData({
+              category: '',
+              subCategory: '',
+              subSubCategory: '',
+              productName: '',
+              productDescription: '',
+              price: '',
+            });
+            setImage(null); 
+          } else {
+            alert('Error adding product');
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('Error occurred while adding product');
+        });
+    };
+    */
+
+
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]); // Get the selected file
+  };
+
 
   return (
     <CCard>
@@ -187,6 +288,17 @@ const AddProductForm = () => {
                 value={productData.productName}
                 onChange={handleChange}
                 placeholder="Enter product name"
+              />
+            </CCol>
+          </CRow>
+          <CRow>
+            <CCol md={12}>
+              <CFormLabel htmlFor="images">Product Image</CFormLabel>
+              <CFormInput
+                type="file"
+                id="images"
+                name="images"
+                onChange={handleImageChange}
               />
             </CCol>
           </CRow>
