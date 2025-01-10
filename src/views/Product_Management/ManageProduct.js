@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { CListGroup, CListGroupItem } from '@coreui/react';// Add this import at the top
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -38,6 +38,15 @@ const ManageProduct = () => {
     navigate('/DimensionsProduct', { state: { Product_id: productId } });
   };
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editProductData, setEditProductData] = useState({
+    _id: '',
+    name: '',
+    category_name: '',
+    sub_category_name: '',
+    sub_sub_category_name: '',
+    status: '',
+  });
 
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
@@ -123,24 +132,60 @@ const ManageProduct = () => {
     );
   });
 
-// imge handle part
-const handleImageUpload = (e) => {
-  const files = e.target.files;
-  if (files) {
-    setNewImages([...newImages, ...files]);
-  }
-};
+  // imge handle part
+  const handleImageUpload = (e) => {
+    const files = e.target.files;
+    if (files) {
+      setNewImages([...newImages, ...files]);
+    }
+  };
 
 
-// const handleAddImages = (productId) => {
-//   setSelectedProductId(productId); // Store the selected product ID
-//   setShowImagesModal(true); // Show the modal for adding images
-// };
-const handleAddImages = (productId) => {
-  setSelectedProductId(productId); // Store the selected product ID
-  setShowImagesModal(true); // Show the modal for adding images
-  fetchImages(productId); // Fetch images for the selected product
-};
+  // EDIT 
+  const handleEditProduct = (product) => {
+    setEditProductData(product);
+    setShowEditModal(true);
+  };
+  const handleEditFormChange = (e) => {
+    const { name, value } = e.target;
+    setEditProductData({ ...editProductData, [name]: value });
+  };
+  const handleEditProductSubmit = () => {
+    axios.put(`http://localhost:7878/api/products/${editProductData._id}`, editProductData)
+
+      .then(() => {
+        alert('Product updated successfully');
+        setShowEditModal(false);
+        // Refresh the product list
+        axios.get('http://44.196.64.110:7878/api/products').then((response) => setData(response.data));
+      })
+      .catch((error) => {
+        console.error('Error updating product:', error);
+      });
+  };
+
+
+  const handleDeleteProduct = (productId) => {
+    axios.delete(`http://localhost:7878/api/products/DEL/${productId}`)
+      .then(() => {
+        alert('Product deleted successfully');
+        setData(data.filter(product => product._id !== productId)); // Update the state to remove the deleted product
+      })
+      .catch((error) => {
+        console.error('Error deleting product:', error);
+      });
+  };
+
+
+  // const handleAddImages = (productId) => {
+  //   setSelectedProductId(productId); // Store the selected product ID
+  //   setShowImagesModal(true); // Show the modal for adding images
+  // };
+  const handleAddImages = (productId) => {
+    setSelectedProductId(productId); // Store the selected product ID
+    setShowImagesModal(true); // Show the modal for adding images
+    fetchImages(productId); // Fetch images for the selected product
+  };
 
 
   // Function to upload images
@@ -164,22 +209,22 @@ const handleAddImages = (productId) => {
     }
   };
 
- // Function to fetch images by Product ID
- const fetchImages = (productId) => {
-  axios.get(`http://44.196.64.110:7878/api/ProductImg/product-images/${productId}`)
-    .then((response) => {
-      if (response.data.productImages) {
-        // Flatten the images array from the response and update the state
-        const images = response.data.productImages.flatMap(item => item.images);
-        setNewImages(images); // Update the state with the image URLs
-      } else {
-        console.error('No product images found');
-      }
-    })
-    .catch((error) => {
-      console.error('Error fetching images:', error);
-    });
-};
+  // Function to fetch images by Product ID
+  const fetchImages = (productId) => {
+    axios.get(`http://44.196.64.110:7878/api/ProductImg/product-images/${productId}`)
+      .then((response) => {
+        if (response.data.productImages) {
+          // Flatten the images array from the response and update the state
+          const images = response.data.productImages.flatMap(item => item.images);
+          setNewImages(images); // Update the state with the image URLs
+        } else {
+          console.error('No product images found');
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching images:', error);
+      });
+  };
 
   // Function to delete an image
   // const deleteImage = (_id) => {
@@ -317,27 +362,26 @@ const handleAddImages = (productId) => {
                         <CButton
                           color="warning"
                           className="mr-2"
-                          onClick={() => alert(`Edit product: ${product.name}`)}
+                          onClick={() => handleEditProduct(product)}
                         >
-                          <FontAwesomeIcon icon={faEdit} /> {/* FontAwesome Edit Icon */}
+                          <FontAwesomeIcon icon={faEdit} />
                         </CButton>
 
                         {/* Delete Button with FontAwesome Icon */}
                         <CButton
                           color="danger"
-                          onClick={() => alert(`Delete product: ${product.name}`)}
+                          onClick={() => handleDeleteProduct(product._id)}
                         >
-                          <FontAwesomeIcon icon={faTrash} /> {/* FontAwesome Trash Icon */}
+                          <FontAwesomeIcon icon={faTrash} />
                         </CButton>
-
                         {/* Add Images Button with FontAwesome Icon */}
                         <CButton
-                        color="info"
-                        className="mr-2"
-                        onClick={() => handleAddImages(product._id)}
-                      >
-                        <FontAwesomeIcon icon={faImage} />
-                      </CButton>
+                          color="info"
+                          className="mr-2"
+                          onClick={() => handleAddImages(product._id)}
+                        >
+                          <FontAwesomeIcon icon={faImage} />
+                        </CButton>
                       </CTableDataCell>
                       <CTableDataCell>
                         <CButton
@@ -358,70 +402,106 @@ const handleAddImages = (productId) => {
 
       {/* Modal for Add Image */}
       <CModal visible={showImagesModal} onClose={() => setShowImagesModal(false)}>
-  <CModalHeader>
-    <CModalTitle>Manage Images</CModalTitle>
-  </CModalHeader>
-  <CModalBody>
-    <CForm>
-      <CFormLabel htmlFor="productImages">Upload Images</CFormLabel>
-      <CFormInput
-        type="file"
-        id="productImages"
-        multiple
-        onChange={handleImageUpload}
-      />
-      {/* Display fetched images */}
-      <CListGroup className="mt-3">
-        {newImages && newImages.length > 0 ? (
-          newImages.map((image, index) => (
-            <CListGroupItem key={index} className="d-flex justify-content-between align-items-center">
-              <img src={image} alt={`Product Image ${index}`} width="50" height="50" />
-              <CButton
-                color="danger"
-                size="sm"
-                onClick={() => deleteImage(selectedProductId, image)} // Delete image by URL
-              >
-                <FontAwesomeIcon icon={faTrash} />
-              </CButton>
-            </CListGroupItem>
-          ))
-        ) : (
-          <p>No images found for this product.</p>
-        )}
-      </CListGroup>
-    </CForm>
-  </CModalBody>
-  <CModalFooter>
-    <CButton color="secondary" onClick={() => setShowImagesModal(false)}>
-      Close
-    </CButton>
-    <CButton color="primary" onClick={handleAddImageConfirm}>
-      Add Images
-    </CButton>
-  </CModalFooter>
-</CModal>
-
-      {/* Modal for Add Dimensions */}
-      {/* <CModal visible={showDimensionsModal} onClose={() => setShowDimensionsModal(false)}>
         <CModalHeader>
-          <CModalTitle>Add Dimensions</CModalTitle>
+          <CModalTitle>Manage Images</CModalTitle>
         </CModalHeader>
         <CModalBody>
           <CForm>
-            <CFormLabel htmlFor="productDimensions">Enter Dimensions</CFormLabel>
+            <CFormLabel htmlFor="productImages">Upload Images</CFormLabel>
             <CFormInput
-              id="productDimensions"
-              type="text"
-              value={newDimensions}
-              onChange={(e) => setNewDimensions(e.target.value)}
+              type="file"
+              id="productImages"
+              multiple
+              onChange={handleImageUpload}
             />
+            {/* Display fetched images */}
+            <CListGroup className="mt-3">
+              {newImages && newImages.length > 0 ? (
+                newImages.map((image, index) => (
+                  <CListGroupItem key={index} className="d-flex justify-content-between align-items-center">
+                    <img src={image} alt={`Product Image ${index}`} width="50" height="50" />
+                    <CButton
+                      color="danger"
+                      size="sm"
+                      onClick={() => deleteImage(selectedProductId, image)} // Delete image by URL
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </CButton>
+                  </CListGroupItem>
+                ))
+              ) : (
+                <p>No images found for this product.</p>
+              )}
+            </CListGroup>
           </CForm>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setShowDimensionsModal(false)}>Close</CButton>
-          <CButton color="primary" onClick={() => { alert('Dimensions added'); setShowDimensionsModal(false); }}>Add Dimensions</CButton>
+          <CButton color="secondary" onClick={() => setShowImagesModal(false)}>
+            Close
+          </CButton>
+          <CButton color="primary" onClick={handleAddImageConfirm}>
+            Add Images
+          </CButton>
         </CModalFooter>
-      </CModal> */}
+      </CModal>
+
+      {/* Edit  */}
+      <CModal visible={showEditModal} onClose={() => setShowEditModal(false)}>
+        <CModalHeader>
+          <CModalTitle>Edit Product</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <CForm>
+            <CFormLabel htmlFor="name">Product Name</CFormLabel>
+            <CFormInput
+              id="name"
+              name="name"
+              value={editProductData.name}
+              onChange={handleEditFormChange}
+            />
+            <CFormLabel htmlFor="category_name">Category</CFormLabel>
+            <CFormInput
+              id="category_name"
+              name="category_name"
+              value={editProductData.category_name}
+              onChange={handleEditFormChange}
+            />
+            <CFormLabel htmlFor="sub_category_name">Subcategory</CFormLabel>
+            <CFormInput
+              id="sub_category_name"
+              name="sub_category_name"
+              value={editProductData.sub_category_name}
+              onChange={handleEditFormChange}
+            />
+            <CFormLabel htmlFor="sub_sub_category_name">Sub-subcategory</CFormLabel>
+            <CFormInput
+              id="sub_sub_category_name"
+              name="sub_sub_category_name"
+              value={editProductData.sub_sub_category_name}
+              onChange={handleEditFormChange}
+            />
+            <CFormLabel htmlFor="status">Status</CFormLabel>
+            <CFormSelect
+              id="status"
+              name="status"
+              value={editProductData.status}
+              onChange={handleEditFormChange}
+            >
+              <option value="Active">Active</option>
+              <option value="Blocked">Blocked</option>
+            </CFormSelect>
+          </CForm>
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setShowEditModal(false)}>
+            Close
+          </CButton>
+          <CButton color="primary" onClick={handleEditProductSubmit}>
+            Save Changes
+          </CButton>
+        </CModalFooter>
+      </CModal>
+
     </CRow>
   );
 };
