@@ -15,7 +15,8 @@ const AddProductForm = () => {
     subSubCategory: '',
     productName: '',
     productDescription: '',
-    price: '',  // Keep only price field
+    price: '',
+    productFormulaAdded:'',
   });
 
   // Fetch data for categories, subcategories, and subsubcategories
@@ -69,60 +70,10 @@ const AddProductForm = () => {
     setProductData({ ...productData, productDescription: value });
   };
 
-  // Handle form submission
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const { category, subCategory, subSubCategory, productName, productDescription, price } = productData;
-
-  //   const payload = {
-  //     images: images,  // Provide a real image URL
-  //     category_id: category,
-  //     sub_category_id: subCategory,
-  //     sub_sub_category_id: subSubCategory,
-  //     name: productName,
-  //     Description: productDescription,
-  //     price,  // Include only price in the payload
-  //     ins_date: new Date().toISOString(),
-  //     ins_ip: "127.0.0.1",  // Get the IP address of the client
-  //     ins_by: null  // Set ins_by to null
-  //   };
-
-  //   console.log("Payload:", payload);
-
-  //   fetch('http://44.196.64.110:7878/api/products', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(payload),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data.message === 'Product created successfully') {
-  //         alert("Product added successfully!");
-  //         setProductData({
-  //           category: '',
-  //           subCategory: '',
-  //           subSubCategory: '',
-  //           productName: '',
-  //           productDescription: '',
-  //           price: '',  // Reset price field
-  //         });
-  //       } else {
-  //         alert("Error adding product");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error:', error);
-  //       alert("Error occurred while adding product");
-  //     });
-  // };
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { category, subCategory, subSubCategory, productName, productDescription, price } = productData;
+    const { productFormulaAdded,category, subCategory, subSubCategory, productName, productDescription, price } = productData;
     const formData = new FormData();
 
     formData.append('images', images); // Ensure `images` is the correct file input
@@ -135,7 +86,8 @@ const AddProductForm = () => {
     formData.append('ins_date', new Date().toISOString());
     formData.append('ins_ip', '127.0.0.1');
     formData.append('ins_by', '');
-
+    formData.append('productFormulaAdded',productFormulaAdded);
+   
     fetch('http://44.196.64.110:7878/api/products', {
       method: 'POST',
       body: formData,
@@ -163,61 +115,9 @@ const AddProductForm = () => {
       });
   };
 
-
-
-
-  /*
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      const { category, subCategory, subSubCategory, productName, productDescription, price } = productData;
-    
-      const formData = new FormData();
-      formData.append('image', image); 
-      formData.append('category_id', category);
-      formData.append('sub_category_id', subCategory);
-      formData.append('sub_sub_category_id', subSubCategory);
-      formData.append('name', productName);
-      formData.append('Description', productDescription);
-      formData.append('price', price);
-      formData.append('ins_date', new Date().toISOString());
-      formData.append('ins_ip', '127.0.0.1');
-      formData.append('ins_by', null);
-    
-      fetch('http://44.196.64.110:7878/api/products', {
-        method: 'POST',
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message === 'Product created successfully') {
-            alert('Product added successfully!');
-            setProductData({
-              category: '',
-              subCategory: '',
-              subSubCategory: '',
-              productName: '',
-              productDescription: '',
-              price: '',
-            });
-            setImage(null); 
-          } else {
-            alert('Error adding product');
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          alert('Error occurred while adding product');
-        });
-    };
-    */
-
-
-
   const handleImageChange = (e) => {
     setImage(e.target.files[0]); // Get the selected file
   };
-
-
   return (
     <CCard>
       <CCardHeader>Add Product</CCardHeader>
@@ -315,6 +215,22 @@ const AddProductForm = () => {
                 onChange={handleChange}
                 placeholder="Enter product price"
               />
+            </CCol>
+          </CRow>
+          
+          {/* productFormulaAdded  */}
+          <CRow>
+            <CCol md={6}>
+              <CFormLabel htmlFor="productFormulaAdded">Formula Apply</CFormLabel>
+              <CFormSelect
+                id="productFormulaAdded"
+                name="productFormulaAdded"
+                value={productData.productFormulaAdded}
+                onChange={handleChange}
+              >
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+              </CFormSelect>
             </CCol>
           </CRow>
 
