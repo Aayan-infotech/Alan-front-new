@@ -48,8 +48,8 @@ const DimensionFormSection = ({
           ))}
         </CFormSelect>
 
-        {/* Show Amount for whiteHeight only */}
-        {sectionName === 'whiteHeight' && (
+        {/* Show Amount for widthHeight   only */}
+        {sectionName === 'widthHeight' && (
           <>
             <CFormLabel className="custom-label">Amount</CFormLabel>
             <CFormInput
@@ -62,7 +62,7 @@ const DimensionFormSection = ({
         )}
 
         {/* Show Entry % for other sections */}
-        {sectionName !== 'whiteHeight' && (
+        {sectionName !== 'widthHeight' && (
           <>
             <CFormLabel className="custom-label">Entry %</CFormLabel>
             <CFormInput
@@ -80,7 +80,7 @@ const DimensionFormSection = ({
             className="btn-add mt-3"
             onClick={() => handleAddData(sectionName)}
             disabled={
-              !formData[sectionName] || (sectionName !== 'whiteHeight' && !formData[`${sectionName}Percentage`]) || (sectionName === 'whiteHeight' && !formData.amount)
+              !formData[sectionName] || (sectionName !== 'widthHeight' && !formData[`${sectionName}Percentage`]) || (sectionName === 'widthHeight' && !formData.amount)
             }
           >
             <FontAwesomeIcon icon={faPlus} className="mr-2" /> Add
@@ -100,10 +100,10 @@ const DimensionFormSection = ({
             displayData.map((data, index) => (
               <CRow key={index} className="align-items-center custom-row">
                 <CCol>
-                  {/* For whiteHeight, show Amount if value is null */}
-                  {sectionName === 'whiteHeight' ? (
+                  {/* For widthHeight, show Amount if value is null */}
+                  {sectionName === 'widthHeight' ? (
                     <>
-                      <strong>{data.whiteHeight}</strong> -{' '}
+                      <strong>{data.widthHeight}</strong> -{' '}
                       {data.value === null || data.value === '' ? (
                         // Show amount if value is null or empty
                         <span><strong>Amount:</strong> {data.amount}</span>
@@ -148,7 +148,7 @@ const DimensionsProduct = () => {
   const [formData, setFormData] = useState({});
   // const [displayData, setDisplayData] = useState({});
   const [displayData, setDisplayData] = useState({
-    whiteHeight: [],
+    widthHeight: [],
     Grid: [],
     Fin: [],
     Color: [],
@@ -164,7 +164,7 @@ const DimensionsProduct = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const sectionOptions = {
-    whiteHeight: ['22*5', '4*6', '7*7', '7*5', '7*8', '3*7'],
+    widthHeight: ['22*5', '4*6', '7*7', '7*5', '7*8', '3*7'],
     Grid: ['No Grid', 'Flat Grid', 'Prairie'],
     Fin: ['Dual Wall', 'Nail Fin', 'No Fin'],
     Color: ['White', 'Almond'],
@@ -177,7 +177,7 @@ const DimensionsProduct = () => {
   };
 
   const apiEndpoints = {
-    whiteHeight: 'dimsWH',
+    widthHeight: 'dimsWH',
     Grid: 'dimsGrid',
     Fin: 'dimsFin',
     Color: 'dimsColor',
@@ -237,9 +237,9 @@ const DimensionsProduct = () => {
       value: formData[`${section}Percentage`],
       // timestamp: new Date(),
     };
-    // Add amount only if the section is "whiteHeight"
-    if (section === 'whiteHeight') {
-      payload.amount = formData.amount; // Only for whiteHeight section
+    // Add amount only if the section is "widthHeight  "
+    if (section === 'widthHeight') {
+      payload.amount = formData.amount; // Only for widthHeight   section
     }
 
     console.log(payload); // Log the payload to see what will be sent
@@ -289,8 +289,8 @@ const DimensionsProduct = () => {
         const res = await fetch(`http://44.196.64.110:7878/api/${api}`);
         const data = await res.json();
 
-        // Special handling for whiteHeight if value is not included
-        if (section === 'whiteHeight') {
+        // Special handling for widthHeight   if value is not included
+        if (section === 'widthHeight') {
           newDisplayData[section] = data.map(item => ({
             ...item,
             value: item.value || 'N/A', // Handle missing value gracefully
