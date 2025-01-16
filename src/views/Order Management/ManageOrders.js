@@ -20,6 +20,7 @@ import {
 } from '@coreui/react';
 import { cilTrash, cilPencil } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
+import { CFormSelect } from '@coreui/react';
 import './ManageOrders.css';
 
 const ManageOrders = () => {
@@ -50,7 +51,7 @@ const ManageOrders = () => {
       paymentStatus: 'Paid',
       paymentDetails: 'Transaction ID: 123456789',
     },
-    
+
   ]);
 
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -166,13 +167,18 @@ const ManageOrders = () => {
             </div>
             <div className="form-group  col-4">
               <label>Order Status</label>
-              <CFormInput
-                type="text"
+              <CFormSelect
                 value={selectedOrder.orderStatus}
                 onChange={(e) =>
                   setSelectedOrder({ ...selectedOrder, orderStatus: e.target.value })
                 }
-              />
+              >
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
+              </CFormSelect>
             </div>
             <div className="form-group mt-3">
               <label>Order Summary</label>
