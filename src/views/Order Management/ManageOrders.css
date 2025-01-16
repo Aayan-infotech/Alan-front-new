@@ -1,149 +1,82 @@
-/* Custom CSS for better visual appearance */
-.header-title {
-    font-size: 32px;
-    color: #ffffff;
-    text-align: center;
-    margin-bottom: 20px;
-    padding: 20px;
-    background-color: #007bff; /* Blue background */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .order-card-header {
-    background-color: #28a745; 
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    border-radius: 8px;
-  }
-  
-  .ctable {
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .ctable thead {
-    background-color: #007bff; /* Blue background */
-    color: white;
-  }
-  
-  .ctable thead th {
-    font-weight: bold;
-  }
-  
-  .ctable tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Slightly darker row on hover */
-  }
-  
-  .ctable tbody tr:hover {
-    background-color: #f1f1f1;
-    cursor: pointer;
-  }
-  
-  /* Custom Dropdown Styling */
-  .custom-dropdown {
-    background-color: #f0f8ff;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 10px;
-    width: 100%;
-    transition: all 0.3s ease;
-  }
-  
-  .custom-dropdown:focus {
-    border-color: #007bff;
-    background-color: #e3f2fd; /* Light Blue background on focus */
-  }
-  
-  .custom-dropdown option {
-    background-color: #ffffff; /* White background for each option */
-    color: #333;
-    padding: 10px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  /* Hover effect for options */
-  .custom-dropdown option:hover {
-    background-color: #007bff; /* Change to blue on hover */
-    color: white; /* White text color */
-  }
-  
-  /* Add background color to selected option */
-  .custom-dropdown option:checked {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .custom-dropdown option:focus {
-    background-color: #e3f2fd; /* Light Blue when option is focused */
-  }
-  
-  /* Action Button Styling */
-  .action-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .btn-icon {
-    padding: 8px;
-    font-size: 18px;
-    border-radius: 6px;
-    min-width: 40px;
-    min-height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .btn-icon:hover {
-    transform: scale(1.1);
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  
-  .btn-icon:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
-  }
-  
-  /* Specific button styles */
-  .btn-icon-warning {
-    background-color: #f0ad4e;
-    color: white;
-  }
-  
-  .btn-icon-danger {
-    background-color: #d9534f;
-    color: white;
-  }
-  
-  .btn-icon-info {
-    background-color: #5bc0de;
-    color: white;
-  }
-  
-  .btn-icon-success {
-    background-color: #5cb85c;
-    color: white;
-  }
-  
-  /* Table Responsive Behavior */
-  @media (max-width: 768px) {
-    .ctable th, .ctable td {
-      font-size: 12px; /* Reduce text size on smaller screens */
-      padding: 8px; /* Reduced padding */
-    }
-  
-    .custom-dropdown {
-      font-size: 14px; /* Slightly smaller font for better display */
-    }
-  }
-  
+.order-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+}
+
+.order-card-header {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.order-table {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.order-row:hover {
+  background-color: #f1f3f5;
+}
+
+.action-btn {
+  font-size: 13px;
+}
+
+.edit-btn {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.order-table td, 
+.order-table th {
+  white-space: normal; 
+  word-wrap: break-word;
+  max-width: 200px;
+  overflow: hidden;
+}
+
+.order-table th:nth-child(4), 
+.order-table td:nth-child(4) {
+  max-width: 150px; 
+}
+
+.order-table th:nth-child(6), 
+.order-table td:nth-child(6) {
+  max-width: 300px;
+}
+
+.order-table {
+  table-layout: auto; 
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-table td, 
+.order-table th {
+  padding: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.action-icons {
+  display: flex;
+  align-items: center;
+}
+
+.action-icon {
+  cursor: pointer; 
+}
