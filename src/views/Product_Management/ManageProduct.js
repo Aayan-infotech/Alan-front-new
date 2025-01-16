@@ -151,7 +151,7 @@ const ManageProduct = () => {
     setEditProductData({ ...editProductData, [name]: value });
   };
   const handleEditProductSubmit = () => {
-    axios.put(`http://localhost:7878/api/products/${editProductData._id}`, editProductData)
+    axios.put(`http://44.196.64.110:7878/api/products/${editProductData._id}`, editProductData)
 
       .then(() => {
         alert('Product updated successfully');
