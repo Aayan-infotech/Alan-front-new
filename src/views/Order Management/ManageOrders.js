@@ -145,8 +145,8 @@ const ManageOrders = () => {
           <CModalHeader>
             <CModalTitle>Edit Order</CModalTitle>
           </CModalHeader>
-          <CModalBody>
-            <div className="form-group">
+          <CModalBody className='row gy-4'>
+            <div className="form-group col-4">
               <label>Order ID</label>
               <CFormInput
                 type="text"
@@ -154,7 +154,7 @@ const ManageOrders = () => {
                 readOnly
               />
             </div>
-            <div className="form-group mt-3">
+            <div className="form-group  col-4">
               <label>Order Date</label>
               <CFormInput
                 type="date"
@@ -164,7 +164,7 @@ const ManageOrders = () => {
                 }
               />
             </div>
-            <div className="form-group mt-3">
+            <div className="form-group  col-4">
               <label>Order Status</label>
               <CFormInput
                 type="text"
@@ -184,7 +184,7 @@ const ManageOrders = () => {
                 }
               />
             </div>
-            <div className="form-group mt-3">
+            {/* <div className="form-group mt-3">
               <label>Payment Status</label>
               <CFormInput
                 type="text"
@@ -193,9 +193,19 @@ const ManageOrders = () => {
                   setSelectedOrder({ ...selectedOrder, paymentStatus: e.target.value })
                 }
               />
+            </div> */}
+            <div className="form-group mt-3">
+              <label>Billing Address</label>
+              <CFormTextarea
+                rows={3}
+                value={selectedOrder.orderSummary}
+                onChange={(e) =>
+                  setSelectedOrder({ ...selectedOrder, orderSummary: e.target.value })
+                }
+              />
             </div>
             <div className="form-group mt-3">
-              <label>Payment Details</label>
+              <label>Shipping Details</label>
               <CFormTextarea
                 rows={3}
                 value={selectedOrder.paymentDetails}
