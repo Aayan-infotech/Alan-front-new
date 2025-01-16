@@ -18,7 +18,7 @@ import {
   CFormInput,
   CFormTextarea,
 } from '@coreui/react';
-import { cilTrash, cilPencil } from '@coreui/icons';
+import { cilTrash, cilPencil, cilShortText } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { CFormSelect } from '@coreui/react';
 import './ManageOrders.css';
@@ -28,7 +28,24 @@ const ManageOrders = () => {
     {
       id: 453,
       customerName: 'Shashank saxena',
-      orderStatus: 'pending...',
+      orderStatus: 'pending',
+      orderDate: '2025-01-10',
+      orderSummary: '1x Laptop, 2x Mouse',
+      paymentStatus: 'Reject',
+      paymentDetails: 'Transaction ID: 123456789',
+    },
+    {
+      id: 787,
+      customerName: 'imtiyaz hussain',
+      orderStatus: 'Accept',
+      orderDate: '2025-01-10',
+      orderSummary: '1x Laptop, 2x Mouse',
+      paymentStatus: 'Pending',
+      paymentDetails: 'Transaction ID: 123456789',
+    }, {
+      id: 345,
+      customerName: 'testing',
+      orderStatus: 'Deline',
       orderDate: '2025-01-10',
       orderSummary: '1x Laptop, 2x Mouse',
       paymentStatus: 'Paid',
@@ -37,18 +54,19 @@ const ManageOrders = () => {
     {
       id: 787,
       customerName: 'imtiyaz hussain',
-      orderStatus: 'Accept...',
+      orderStatus: 'Accept',
       orderDate: '2025-01-10',
       orderSummary: '1x Laptop, 2x Mouse',
-      paymentStatus: 'Paid',
+      paymentStatus: 'Pending',
       paymentDetails: 'Transaction ID: 123456789',
-    }, {
-      id: 345,
-      customerName: 'testing',
-      orderStatus: 'Deline...',
+    },
+    {
+      id: 787,
+      customerName: 'imtiyaz hussain',
+      orderStatus: 'Accept',
       orderDate: '2025-01-10',
       orderSummary: '1x Laptop, 2x Mouse',
-      paymentStatus: 'Paid',
+      paymentStatus: 'Pending',
       paymentDetails: 'Transaction ID: 123456789',
     },
 
@@ -56,6 +74,18 @@ const ManageOrders = () => {
 
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showEditOrderModal, setShowEditOrderModal] = useState(false);
+  const [showOrderDetailsModal, setShowOrderDetailsModal] = useState(false);
+  const [showPaymentDetailsModal, setShowPaymentDetailsModal] = useState(false);
+
+  const handleOrderDetails = (order) => {
+    setSelectedOrder(order);
+    setShowOrderDetailsModal(true);
+  };
+
+  const handlePaymentDetails = (order) => {
+    setSelectedOrder(order);
+    setShowPaymentDetailsModal(true);
+  };
 
   const handleEditOrder = (order) => {
     setSelectedOrder(order);
@@ -98,9 +128,32 @@ const ManageOrders = () => {
                   <CTableDataCell>{order.customerName}</CTableDataCell>
                   <CTableDataCell>{order.orderStatus}</CTableDataCell>
                   <CTableDataCell>{order.orderDate}</CTableDataCell>
-                  <CTableDataCell>{order.orderSummary}</CTableDataCell>
+                  {/* <CTableDataCell>{order.orderSummary}</CTableDataCell> */}
+                  <CTableDataCell>
+                    <div
+                    style={{color: 'darkgreen'}}
+                      className="action-icon"
+                      onClick={() => handleOrderDetails(order)}
+                    >
+                      <CIcon icon={cilShortText} />
+                      {' '} View details
+                    </div>
+                  </CTableDataCell>
                   <CTableDataCell>{order.paymentStatus}</CTableDataCell>
-                  <CTableDataCell>{order.paymentDetails}</CTableDataCell>
+                  {/* <CTableDataCell>{order.OrderDetails}</CTableDataCell> */}
+                  {/* <CTableDataCell>{order.paymentDetails}</CTableDataCell> */}
+                  
+                  <CTableDataCell>
+                    <div
+                    style={{color: 'darkgreen'}}
+                      className="action-icon"
+                      onClick={() => handlePaymentDetails(order)}
+                      
+                    >
+                      <CIcon icon={cilShortText} />
+                      {' '}View details
+                    </div>
+                  </CTableDataCell>
                   <CTableDataCell>
                     {/* <CButton
                       color="warning"
@@ -123,12 +176,12 @@ const ManageOrders = () => {
                       >
                         <CIcon icon={cilPencil} />
                       </div>
-                      <div
+                      {/* <div
                         className="action-icon delete-icon ms-2"
                         onClick={() => handleDeleteOrder(order.id)}
                       >
                         <CIcon icon={cilTrash} />
-                      </div>
+                      </div> */}
                     </div>
                   </CTableDataCell>
                 </CTableRow>
@@ -234,6 +287,84 @@ const ManageOrders = () => {
           </CModalFooter>
         </CModal>
       )}
+
+      {/* Order Details Modal */}
+      {selectedOrder && (
+        <CModal
+          visible={showOrderDetailsModal}
+          onClose={() => setShowOrderDetailsModal(false)}
+        >
+          <CModalHeader>
+            <CModalTitle>Order Details</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <p><strong>Order ID:</strong> {selectedOrder.id}</p>
+            <p><strong>Order Date:</strong> {selectedOrder.orderDate}</p>
+            <p><strong>Product:</strong> {selectedOrder.orderSummary.split(',')[0]}</p>
+            <p><strong>Product Details:</strong> {selectedOrder.orderSummary}</p>
+            <p><strong>Product Value:</strong> {/* Insert product value here */}</p>
+          </CModalBody>
+          <CModalFooter>
+            <CButton
+              color="secondary"
+              onClick={() => setShowOrderDetailsModal(false)}
+            >
+              Close
+            </CButton>
+          </CModalFooter>
+        </CModal>
+      )}
+
+
+      {/* Payment Details Modal */}
+      {selectedOrder && (
+        <CModal
+          visible={showPaymentDetailsModal}
+          onClose={() => setShowPaymentDetailsModal(false)}
+           size="lg"
+             alignment="center"
+        >
+          <CModalHeader className='border-0'>
+            <CModalTitle>Payment Details</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <div className='table-responsive'>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Transaction ID:</th>
+                  <th scope="col">Transaction Date:</th>
+                  <th scope="col">Transaction Status:</th>
+                  <th scope="col">Transaction Amount:</th>
+                  <th scope="col">Transaction Mode:</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1234</td>
+                  <td>13 Jan 2024</td>
+                  <td>Success</td>
+                  <td> USD 1300/-</td>
+                  <td>Card</td>
+                  
+                
+                </tr>
+              
+              </tbody>
+            </table>
+            </div>
+          </CModalBody>
+          <CModalFooter className='border-0'>
+            <CButton
+              color="secondary"
+              onClick={() => setShowPaymentDetailsModal(false)}
+            >
+              Close
+            </CButton>
+          </CModalFooter>
+        </CModal>
+      )}
+
     </>
   );
 };
