@@ -90,8 +90,7 @@ const ManageProduct = () => {
         });
     }
   }, [filters.category]);
-
-  // Fetch Sub-Subcategories based on selected subcategory
+  
   useEffect(() => {
     if (filters.subCategory) {
       axios.get(`http://44.196.64.110:7878/api/subsubcategory?subcategory=${filters.subCategory}`)
@@ -143,26 +142,34 @@ const ManageProduct = () => {
 
   // EDIT 
   const handleEditProduct = (product) => {
-    setEditProductData(product);
+    // setEditProductData(product);
+    setEditProductData({
+      _id: product._id || '',
+      name: product.name || '',
+      category_name: product.category_name || '',
+      sub_category_name: product.sub_category_name || '',
+      sub_sub_category_name: product.sub_sub_category_name || '',
+      productFormulaAdded : product.productFormulaAdded || '',
+      status: product.status || '',
+    });
     setShowEditModal(true);
   };
-  const handleEditFormChange = (e) => {
-    const { name, value } = e.target;
-    setEditProductData({ ...editProductData, [name]: value });
-  };
-  const handleEditProductSubmit = () => {
+    const handleEditFormChange = (e) => {
+      const { name, value } = e.target;
+      setEditProductData({ ...editProductData, [name]: value });
+    };
+    const handleEditProductSubmit = () => {
     axios.put(`http://44.196.64.110:7878/api/products/${editProductData._id}`, editProductData)
 
-      .then(() => {
-        alert('Product updated successfully');
-        setShowEditModal(false);
-        // Refresh the product list
-        axios.get('http://44.196.64.110:7878/api/products').then((response) => setData(response.data));
-      })
-      .catch((error) => {
-        console.error('Error updating product:', error);
-      });
-  };
+        .then(() => {
+          alert('Product updated successfully');
+          setShowEditModal(false);
+          axios.get('http://44.196.64.110:7878/api/products').then((response) => setData(response.data));
+        })
+        .catch((error) => {
+          console.error('Error updating product:', error);
+        });
+    };
 
 
   const handleDeleteProduct = (productId) => {
@@ -463,23 +470,34 @@ const ManageProduct = () => {
             <CFormInput
               id="category_name"
               name="category_name"
-              value={editProductData.category_name}
+              value={editProductData.category_name || ''}
               onChange={handleEditFormChange}
             />
             <CFormLabel htmlFor="sub_category_name">Subcategory</CFormLabel>
             <CFormInput
               id="sub_category_name"
               name="sub_category_name"
-              value={editProductData.sub_category_name}
+              value={editProductData.sub_category_name || ''}
               onChange={handleEditFormChange}
             />
             <CFormLabel htmlFor="sub_sub_category_name">Sub-subcategory</CFormLabel>
             <CFormInput
               id="sub_sub_category_name"
               name="sub_sub_category_name"
-              value={editProductData.sub_sub_category_name}
+              value={editProductData.sub_sub_category_name || ''}
               onChange={handleEditFormChange}
             />
+            <CFormLabel htmlFor="productFormulaAdded">Product Formula Added</CFormLabel>
+            <CFormSelect
+              id="productFormulaAdded"
+              name="productFormulaAdded"
+              value={editProductData.productFormulaAdded}
+              onChange={handleEditFormChange}
+            >
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+
+            </CFormSelect>
             <CFormLabel htmlFor="status">Status</CFormLabel>
             <CFormSelect
               id="status"
