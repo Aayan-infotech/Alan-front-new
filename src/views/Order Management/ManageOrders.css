@@ -4,8 +4,12 @@
 }
 
 .order-card-header {
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: bold;
 }
 
@@ -42,31 +46,31 @@
   margin-top: 1rem;
 }
 
-.order-table td, 
+.order-table td,
 .order-table th {
-  white-space: normal; 
+  white-space: normal;
   word-wrap: break-word;
   max-width: 200px;
   overflow: hidden;
 }
 
-.order-table th:nth-child(4), 
+.order-table th:nth-child(4),
 .order-table td:nth-child(4) {
-  max-width: 150px; 
+  max-width: 150px;
 }
 
-.order-table th:nth-child(6), 
+.order-table th:nth-child(6),
 .order-table td:nth-child(6) {
   max-width: 300px;
 }
 
 .order-table {
-  table-layout: auto; 
+  table-layout: auto;
   width: 100%;
   border-collapse: collapse;
 }
 
-.order-table td, 
+.order-table td,
 .order-table th {
   padding: 8px;
   border: 1px solid #dee2e6;
@@ -78,5 +82,5 @@
 }
 
 .action-icon {
-  cursor: pointer; 
+  cursor: pointer;
 }
