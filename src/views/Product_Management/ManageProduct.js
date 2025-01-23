@@ -27,8 +27,8 @@ import {
   CModalBody,
   CModalFooter
 } from '@coreui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
-import { faEdit, faTrash, faImage } from '@fortawesome/free-solid-svg-icons'; // Import icons
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash, faImage , faObjectGroup } from '@fortawesome/free-solid-svg-icons'; // Import icons
 
 
 const ManageProduct = () => {
@@ -88,7 +88,7 @@ const ManageProduct = () => {
         });
     }
   }, [filters.category]);
-  
+
   useEffect(() => {
     if (filters.subCategory) {
       axios.get(`http://44.196.64.110:7878/api/subsubcategory?subcategory=${filters.subCategory}`)
@@ -152,22 +152,22 @@ const ManageProduct = () => {
     });
     setShowEditModal(true);
   };
-    const handleEditFormChange = (e) => {
-      const { name, value } = e.target;
-      setEditProductData({ ...editProductData, [name]: value });
-    };
-    const handleEditProductSubmit = () => {
+  const handleEditFormChange = (e) => {
+    const { name, value } = e.target;
+    setEditProductData({ ...editProductData, [name]: value });
+  };
+  const handleEditProductSubmit = () => {
     axios.put(`http://44.196.64.110:7878/api/products/${editProductData._id}`, editProductData)
 
-        .then(() => {
-          alert('Product updated successfully');
-          setShowEditModal(false);
-          axios.get('http://44.196.64.110:7878/api/products').then((response) => setData(response.data));
-        })
-        .catch((error) => {
-          console.error('Error updating product:', error);
-        });
-    };
+      .then(() => {
+        alert('Product updated successfully');
+        setShowEditModal(false);
+        axios.get('http://44.196.64.110:7878/api/products').then((response) => setData(response.data));
+      })
+      .catch((error) => {
+        console.error('Error updating product:', error);
+      });
+  };
 
 
   const handleDeleteProduct = (productId) => {
@@ -349,37 +349,63 @@ const ManageProduct = () => {
                     <CTableDataCell>
                       <CTableDataCell>
                         {/* Edit Button with FontAwesome Icon */}
-                        <CButton
+                        {/* <CButton
                           color="warning"
                           className="mr-2"
                           onClick={() => handleEditProduct(product)}
                         >
                           <FontAwesomeIcon icon={faEdit} />
-                        </CButton>
+                        </CButton> */}
+                        <span
+                          className="icon-clickable"
+                          onClick={() => handleEditProduct(product)}
+                          style={{ cursor: 'pointer', color: 'orange', marginRight: '8px' }}
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                        </span>
+
 
                         {/* Delete Button with FontAwesome Icon */}
-                        <CButton
+                        {/* <CButton
                           color="danger"
                           onClick={() => handleDeleteProduct(product._id)}
                         >
                           <FontAwesomeIcon icon={faTrash} />
-                        </CButton>
+                        </CButton> */}
                         {/* Add Images Button with FontAwesome Icon */}
-                        <CButton
+                        {/* <CButton
                           color="info"
                           className="mr-2"
                           onClick={() => handleAddImages(product._id)}
                         >
                           <FontAwesomeIcon icon={faImage} />
-                        </CButton>
+                        </CButton> */}
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          color="red"
+                          onClick={() => handleDeleteProduct(product._id)}
+                          style={{ cursor: 'pointer' ,marginRight: '8px' }}
+                        />
+                        <FontAwesomeIcon
+                          icon={faImage}
+                          color="blue"
+                          onClick={() => handleAddImages(product._id)}
+                          style={{ cursor: 'pointer',marginRight: '8px' }}
+                        />
                       </CTableDataCell>
                       <CTableDataCell>
-                        <CButton
+                        {/* <CButton
                           color="secondary"
                           onClick={() => handleAddDimensions(product._id)}
                         >
                           Add Dimensions
-                        </CButton>
+                        </CButton> */}
+                        <FontAwesomeIcon
+                          icon={faObjectGroup }
+                          color="blue"
+                          onClick={() => handleAddDimensions(product._id)}
+                          style={{ cursor: 'pointer' }}
+                        />
                       </CTableDataCell>
                     </CTableDataCell>
                   </CTableRow>
