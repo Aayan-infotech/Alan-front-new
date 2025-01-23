@@ -5,7 +5,7 @@ import {
   CButton, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter,
   CForm, CFormLabel, CFormSelect, CFormInput, CCard, CCardHeader, CCardBody, CCardFooter
 } from '@coreui/react';
-import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faPlus, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './CategoriesManagement.css';
 
@@ -56,42 +56,8 @@ const SubSubCategory = () => {
         console.error('Error fetching sub-sub-categories:', error);
       });
   }
-  // Handle Add Sub-Sub-Category
-  // const handleAddSubSubCategory = () => {
-  //   const selectedCategory = categories.find((cat) => cat.name === category);
-  //   const selectedSubCategory = subCategories.find((subCat) => subCat.name === subCategory);
-
-  //   if (!selectedCategory || !selectedSubCategory) {
-  //     alert('Please select valid category and sub-category');
-  //     return;
-  //   }
-
-  //   const payload = {
-  //     images,
-  //     category_id: selectedCategory.id,
-  //     sub_category_id: selectedSubCategory.id,
-  //     name: subSubCategoryName,
-  //     status: 1,
-  //     ins_date: new Date().toISOString(),
-  //     ins_ip: "127.0.0.1",
-  //     ins_by: null,
-  //   };
-
-  //   axios
-  //     .post('http://44.196.64.110:7878/api/subSubCategories', payload)
-  //     .then((response) => {
-  //       // setSubSubCategories([...subSubCategories, response.data]);
-  //       fetchAllSubcategoriesData();
-  //       setVisible(false);
-  //       resetForm();
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error adding sub-sub-category:', error);
-  //     });
-  // };
 
   const handleAddSubSubCategory = () => {
-    // Ensure a category and sub-category are selected
     const selectedCategory = categories.find((cat) => cat.name === category);
     const selectedSubCategory = subCategories.find((subCat) => subCat.name === subCategory);
 
@@ -100,51 +66,45 @@ const SubSubCategory = () => {
       return;
     }
 
-    // Create FormData to handle the images file and other data
     const formData = new FormData();
 
-    // Append images, category, sub-category, and other data
-    formData.append('images', images); // Image file
-    formData.append('category_id', selectedCategory.id); // Category ID
-    formData.append('sub_category_id', selectedSubCategory.id); // Sub-category ID
-    formData.append('name', subSubCategoryName); // Name of the sub-sub-category
-    formData.append('status', 1); // Status (active)
-    formData.append('ins_date', new Date().toISOString()); // Date of creation
-    formData.append('ins_ip', '127.0.0.1'); // IP address
+    formData.append('images', images); 
+    formData.append('category_id', selectedCategory.id);
+    formData.append('sub_category_id', selectedSubCategory.id);
+    formData.append('name', subSubCategoryName); 
+    formData.append('status', 1); 
+    formData.append('ins_date', new Date().toISOString()); 
+    formData.append('ins_ip', '127.0.0.1'); 
 
-    // Send the POST request with FormData
     axios
       .post('http://44.196.64.110:7878/api/subSubCategories', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Important to specify this when uploading files
+          'Content-Type': 'multipart/form-data',
         },
       })
       .then((response) => {
-        // Refresh the sub-sub-categories list after successful addition
         fetchAllSubcategoriesData();
-        setVisible(false); // Close the modal
-        resetForm(); // Reset form fields
+        setVisible(false);
+        resetForm();
       })
       .catch((error) => {
         console.error('Error adding sub-sub-category:', error);
       });
   };
 
-
-
-  // Handle Edit Sub-Sub-Category
   const handleEditSubSubCategory = (subSubCategory) => {
     setEditSubSubCategory(subSubCategory);
-    setCategory(subSubCategory.category);
-    setSubCategory(subSubCategory.subCategory);
-    setSubSubCategoryName(subSubCategory.name);
+    setCategory(subSubCategory.category); // Set selected category
+    setSubCategory(subSubCategory.subCategory); // Set selected subcategory
+    setSubSubCategoryName(subSubCategory.name); 
     setImage(subSubCategory.images);
     setVisible(true);
+
+    // Fetch categories and subcategories when edit modal opens
+    fetchCategories();
   };
 
-  // Handle Update 
   const handleUpdateSubSubCategory = () => {
-    // Ensure you are passing the correct 'id' field (not the whole object)
     const payload = {
       images,
       category_id: categories.find((cat) => cat.name === category)?.id,
@@ -155,9 +115,8 @@ const SubSubCategory = () => {
       ins_ip: "127.0.0.1",
       ins_by: null,
     };
-    // Extract the correct ID
-    const subSubCategoryId = editSubSubCategory._id;  // Use _id field from the object
-    // Check if the ID exists
+
+    const subSubCategoryId = editSubSubCategory._id;
     if (subSubCategoryId) {
       axios.put(`http://44.196.64.110:7878/api/subSubCategories/${subSubCategoryId}`, payload)
         .then(() => {
@@ -177,12 +136,8 @@ const SubSubCategory = () => {
     }
   };
 
-  //Handle Delete
   const handleDeleteSubSubCategory = (subSubCategoryToDelete) => {
-    // Extract the correct ID for deletion
-    const subSubCategoryId = subSubCategoryToDelete._id;  // Use _id field from the object
-
-    // Ensure subSubCategoryId is available before making the request
+    const subSubCategoryId = subSubCategoryToDelete._id;
     if (subSubCategoryId) {
       axios.delete(`http://44.196.64.110:7878/api/subSubCategories/${subSubCategoryId}`)
         .then(() => {
@@ -196,23 +151,41 @@ const SubSubCategory = () => {
     }
   };
 
+  const handleToggleStatus = (subSubCategoryId) => {
+    const subSubCategory = subSubCategories.find((item) => item._id === subSubCategoryId);
+    const newStatus = subSubCategory.status === 1 ? 0 : 1;
 
+    const payload = { status: newStatus };
 
-  // Handle Image Change (Image Upload)
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const imageURL = URL.createObjectURL(file);
-  //     setImage(imageURL); // Save the images URL to state
-  //   }
-  // };
+    axios.put(`http://44.196.64.110:7878/api/subSubCategories/${subSubCategoryId}`, payload)
+      .then(() => {
+        setSubSubCategories(subSubCategories.map(subSubCategory =>
+          subSubCategory._id === subSubCategoryId
+            ? { ...subSubCategory, status: newStatus }
+            : subSubCategory
+        ));
+      })
+      .catch((error) => {
+        console.error('Error toggling status:', error);
+      });
+  };
+
   const handleImageChange = (e) => {
-    const file = e.target.files[0]; // Get the selected file
+    const file = e.target.files[0];
     if (file) {
-      setImage(file); // Store the file in the state
+      setImage(file);
     }
   };
 
+  // Reset form state for the modal
+  const resetForm = () => {
+    setCategory('');
+    setSubCategory('');
+    setSubSubCategoryName('');
+    setImage(null);
+    setEditSubSubCategory(null);
+    setSubCategories([]);
+  };
 
   return (
     <>
@@ -220,7 +193,7 @@ const SubSubCategory = () => {
         <CCardHeader>
           <div className="d-flex justify-content-between align-items-center">
             <h5>Sub-Sub-Category Management</h5>
-            <CButton color="primary" onClick={() => { setVisible(true); fetchCategories(); }}>
+            <CButton color="primary" onClick={() => { setVisible(true); fetchCategories(); resetForm(); }}>
               <FontAwesomeIcon icon={faPlus} /> Add Sub-Sub-Category
             </CButton>
           </div>
@@ -260,29 +233,25 @@ const SubSubCategory = () => {
                         'No Image'
                       )}
                     </CTableDataCell>
-                    <CTableDataCell>{subSubCategory.status}</CTableDataCell>
+                    <CTableDataCell>{subSubCategory.status === 1 ? 'Active' : 'Inactive'}</CTableDataCell>
                     <CTableDataCell>
-                      <CButton
-                        color={subSubCategory.status === 'Active' ? 'danger' : 'success'}
-                        onClick={() => handleToggleStatus(subSubCategory)}
-                        className="mx-1 status-toggle-btn"
-                      >
-                        {subSubCategory.status === 'Active' ? 'Block' : 'Activate'}
-                      </CButton>
-                      <CButton
+                      <FontAwesomeIcon
+                        icon={subSubCategory.status === 1 ? faUnlock : faLock}
+                        onClick={() => handleToggleStatus(subSubCategory._id)} // Updated to pass the correct ID
+                        style={{ cursor: 'pointer', margin: '0 8px', color: subSubCategory.status === 1 ? 'green' : 'red' }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faEdit}
                         color="warning"
                         onClick={() => handleEditSubSubCategory(subSubCategory)}
-                        className="mx-1 edit-btn"
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </CButton>
-                      <CButton
+                        style={{ margin: '0 8px', cursor: 'pointer' }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTrash}
                         color="danger"
                         onClick={() => handleDeleteSubSubCategory(subSubCategory)}
-                        className="mx-1 delete-btn"
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </CButton>
+                        style={{ cursor: 'pointer' }}
+                      />
                     </CTableDataCell>
                   </CTableRow>
                 ))
@@ -290,16 +259,12 @@ const SubSubCategory = () => {
             </CTableBody>
           </CTable>
         </CCardBody>
-
-        <CCardFooter className="text-center">
-          <small>Sub-Sub-Category Management System</small>
-        </CCardFooter>
       </CCard>
 
       {/* Modal for Add/Edit Sub-Sub-Category */}
       <CModal size="md" visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
-          <CModalTitle>{editSubSubCategory ? 'Edit Sub-Sub-Category' : 'Add New Sub-Sub-Category'}</CModalTitle>
+          <CModalTitle>{editSubSubCategory ? 'Edit Sub-Sub-Category' : 'Add Sub-Sub-Category'}</CModalTitle>
         </CModalHeader>
         <CModalBody>
           <CForm>
@@ -307,15 +272,15 @@ const SubSubCategory = () => {
             <CFormSelect
               value={category}
               onChange={(e) => {
-                const selectedCategory = e.target.value;
-                setCategory(selectedCategory);
-                fetchSubCategories(selectedCategory);
+                setCategory(e.target.value);
+                fetchSubCategories(e.target.value);  // Fetch subcategories based on selected category
               }}
-              className="subcategory-select"
             >
               <option value="">Select Category</option>
-              {categories.map((cat, index) => (
-                <option key={index} value={cat.name}>{cat.name}</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.name}>
+                  {cat.name}
+                </option>
               ))}
             </CFormSelect>
 
@@ -323,12 +288,12 @@ const SubSubCategory = () => {
             <CFormSelect
               value={subCategory}
               onChange={(e) => setSubCategory(e.target.value)}
-              className="subcategory-select"
-              disabled={!category}
             >
               <option value="">Select Sub-Category</option>
-              {subCategories.map((subCat, index) => (
-                <option key={index} value={subCat.name}>{subCat.name}</option>
+              {subCategories.map((subCat) => (
+                <option key={subCat.id} value={subCat.name}>
+                  {subCat.name}
+                </option>
               ))}
             </CFormSelect>
 
@@ -337,31 +302,16 @@ const SubSubCategory = () => {
               type="text"
               value={subSubCategoryName}
               onChange={(e) => setSubSubCategoryName(e.target.value)}
-              placeholder="Enter Sub-Sub-Category name"
-              className="subcategory-input"
             />
 
-            {/* Image Upload */}
-            <CFormLabel>Upload Image</CFormLabel>
-            <CFormInput
-              type="file"
-              accept="images/*"
-              onChange={handleImageChange}
-              className="subcategory-input"
-            />
-            {images && <img src={URL.createObjectURL(images)} alt="Preview" width="100" height="100" />}
+            <CFormLabel>Image</CFormLabel>
+            <CFormInput type="file" onChange={handleImageChange} />
           </CForm>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)} className="cancel-btn">
-            Cancel
-          </CButton>
-          <CButton
-            color="primary"
-            onClick={editSubSubCategory ? handleUpdateSubSubCategory : handleAddSubSubCategory}
-            className="save-btn"
-          >
-            {editSubSubCategory ? 'Save Changes' : 'Add Sub-Sub-Category'}
+          <CButton color="secondary" onClick={() => { setVisible(false); resetForm(); }}>Cancel</CButton>
+          <CButton color="primary" onClick={editSubSubCategory ? handleUpdateSubSubCategory : handleAddSubSubCategory}>
+            {editSubSubCategory ? 'Update' : 'Add'}
           </CButton>
         </CModalFooter>
       </CModal>
