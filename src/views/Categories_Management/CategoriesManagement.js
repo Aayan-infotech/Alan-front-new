@@ -5,11 +5,9 @@ import {
   CButton, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter,
   CForm, CFormLabel, CFormInput, CCard, CCardHeader, CCardBody, CCardFooter
 } from '@coreui/react';
-import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash, faPlus, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import './CategoriesManagement.css';
-
-
 
 const CategoriesManagement = () => {
   const [categories, setCategories] = useState([]);
@@ -151,20 +149,23 @@ const CategoriesManagement = () => {
                     <CTableDataCell>{category.name}</CTableDataCell>
                     <CTableDataCell>{category.status === 1 ? 'Active' : 'Blocked'}</CTableDataCell>
                     <CTableDataCell>
-                      <CButton color="success" onClick={() => handleToggleStatus(category)}>
-                        {category.status === 1 ? 'Block' : 'Activate'}
-                      </CButton>
-                      <CButton color="warning" onClick={() => handleEditCategory(category)}>
-                        <FontAwesomeIcon icon={faEdit} />
-                      </CButton>
-
-                      <CButton 
-                        color="danger" 
+                      <FontAwesomeIcon
+                        icon={category.status === 1 ? faUnlock : faLock}
+                        onClick={() => handleToggleStatus(category)}
+                        style={{ cursor: 'pointer', margin: '0 8px', color: category.status === 1 ? 'green' : 'red' }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        color="warning"
+                        onClick={() => handleEditCategory(category)}
+                        style={{ margin: '0 8px', cursor: 'pointer' }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        color="danger"
                         onClick={() => handleDeleteCategory(category)}
-                        className="mx-1 delete-btn"
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </CButton>
+                        style={{ cursor: 'pointer' }}
+                      />
                     </CTableDataCell>
                   </CTableRow>
                 ))

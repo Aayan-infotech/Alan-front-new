@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';  // Add axios for API requests
+import axios from 'axios';
 import {
   CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CTableDataCell,
   CButton, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter,
   CForm, CFormLabel, CFormInput, CFormSelect, CCard, CCardHeader, CCardBody, CCardFooter
 } from '@coreui/react';
-import { faEdit, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faPlus, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './CategoriesManagement.css';
 
@@ -23,7 +23,7 @@ const SubCategory = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('http://44.196.64.110:7878/api/categories');
-        setCategories(response.data); // Update state with fetched categories
+        setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -37,7 +37,7 @@ const SubCategory = () => {
     const fetchSubCategories = async () => {
       try {
         const response = await axios.get('http://44.196.64.110:7878/api/subcategory');
-        setSubCategories(response.data); // Update state with fetched sub-categories
+        setSubCategories(response.data);
       } catch (error) {
         console.error('Error fetching sub-categories:', error);
       }
@@ -59,14 +59,15 @@ const SubCategory = () => {
 
       try {
         await axios.post('http://44.196.64.110:7878/api/subcategory', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          headers: { 'Content-Type': 'multipart/form-data' },
         });
+
         setSubCategoryName('');
         setSelectedCategory('');
         setSelectedImage(null);
         setVisible(false);
+
+        // Fetch updated sub-categories
         const response = await axios.get('http://44.196.64.110:7878/api/subcategory');
         setSubCategories(response.data);
       } catch (error) {
@@ -74,7 +75,6 @@ const SubCategory = () => {
       }
     }
   };
-
 
   // Handle updating existing sub-category
   const handleUpdateSubCategory = async () => {
@@ -91,15 +91,16 @@ const SubCategory = () => {
 
       try {
         await axios.put(`http://44.196.64.110:7878/api/subcategory/${editSubCategory._id}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          headers: { 'Content-Type': 'multipart/form-data' },
         });
+
         setSubCategoryName('');
         setSelectedCategory('');
         setSelectedImage(null);
         setVisible(false);
         setEditSubCategory(null);
+
+        // Fetch updated sub-categories
         const response = await axios.get('http://44.196.64.110:7878/api/subcategory');
         setSubCategories(response.data);
       } catch (error) {
@@ -108,11 +109,11 @@ const SubCategory = () => {
     }
   };
 
-
   // Handle deleting a sub-category
   const handleDeleteSubCategory = async (subCategoryToDelete) => {
     try {
       await axios.delete(`http://44.196.64.110:7878/api/subcategory/${subCategoryToDelete._id}`);
+
       // Fetch updated sub-categories after successful deletion
       const response = await axios.get('http://44.196.64.110:7878/api/subcategory');
       setSubCategories(response.data);
@@ -130,6 +131,7 @@ const SubCategory = () => {
       };
 
       await axios.put(`http://44.196.64.110:7878/api/subcategory/${subCategory._id}`, updatedSubCategory);
+
       // Fetch updated sub-categories after status change
       const response = await axios.get('http://44.196.64.110:7878/api/subcategory');
       setSubCategories(response.data);
@@ -138,13 +140,7 @@ const SubCategory = () => {
     }
   };
 
-  // Handle image preview
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setSelectedImage(URL.createObjectURL(file)); 
-  //   }
-  // };
+  // Handle image file change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -206,33 +202,26 @@ const SubCategory = () => {
                     <CTableDataCell>{getCategoryName(subCategory.category_id)}</CTableDataCell>
                     <CTableDataCell>{subCategory.status === 1 ? 'Active' : 'Blocked'}</CTableDataCell>
                     <CTableDataCell>
-                      <CButton
-                        color={subCategory.status === 1 ? 'danger' : 'success'}
+                      <FontAwesomeIcon
+                        icon={subCategory.status === 1 ? faUnlock : faLock}
                         onClick={() => handleToggleStatus(subCategory)}
-                        className="mx-1 status-toggle-btn"
-                      >
-                        {subCategory.status === 1 ? 'Block' : 'Activate'}
-                      </CButton>
-                      <CButton
-                        color="warning"
+                        style={{ cursor: 'pointer', margin: '0 8px', color: subCategory.status === 1 ? 'green' : 'red' }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faEdit}
                         onClick={() => {
+                          setVisible(true);
                           setEditSubCategory(subCategory);
                           setSubCategoryName(subCategory.name);
                           setSelectedCategory(subCategory.category_id);
-                          setSelectedImage(subCategory.image);
-                          setVisible(true);
                         }}
-                        className="mx-1 edit-btn"
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </CButton>
-                      <CButton
-                        color="danger"
+                        style={{ cursor: 'pointer', margin: '0 8px' }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faTrash}
                         onClick={() => handleDeleteSubCategory(subCategory)}
-                        className="mx-1 delete-btn"
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </CButton>
+                        style={{ cursor: 'pointer', margin: '0 8px', color: 'red' }}
+                      />
                     </CTableDataCell>
                   </CTableRow>
                 ))
@@ -240,75 +229,55 @@ const SubCategory = () => {
             </CTableBody>
           </CTable>
         </CCardBody>
-
-        <CCardFooter className="text-center">
-          <small>Sub-Category Management System</small>
-        </CCardFooter>
       </CCard>
 
-      <CModal size="md" visible={visible} onClose={() => setVisible(false)}>
+      <CModal visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
-          <CModalTitle>{editSubCategory ? 'Edit Sub-Category' : 'Add New Sub-Category'}</CModalTitle>
+          <CModalTitle>{editSubCategory ? 'Edit' : 'Add'} Sub-Category</CModalTitle>
         </CModalHeader>
         <CModalBody>
           <CForm>
-            <CFormLabel>Select Category</CFormLabel>
-            <CFormSelect
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="subcategory-select"
-            >
-              <option value="">Select Category</option>
-              {categories.map((category) => (
-                <option key={category._id} value={category._id}>{category.name}</option>
-              ))}
-            </CFormSelect>
-
-            <CFormLabel>Sub-Category Name</CFormLabel>
+            <CFormLabel htmlFor="subCategoryName">Sub-Category Name</CFormLabel>
             <CFormInput
+              id="subCategoryName"
               type="text"
               value={subCategoryName}
               onChange={(e) => setSubCategoryName(e.target.value)}
-              placeholder="Enter sub-category name"
-              className="subcategory-input"
+              required
             />
+            <CFormLabel htmlFor="category">Category</CFormLabel>
+            <CFormSelect
+              id="category"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              required
+            >
+              <option value="">Select Category</option>
+              {categories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
+            </CFormSelect>
 
-            <CFormLabel>Upload Image</CFormLabel>
+            <CFormLabel htmlFor="image">Image</CFormLabel>
             <CFormInput
+              id="image"
               type="file"
               onChange={handleImageChange}
               accept="image/*"
-              className="subcategory-image-input"
             />
-            {selectedImage && (
-              <div className="image-preview">
-                {typeof selectedImage === 'string' ? (
-                  <img
-                    src={selectedImage}
-                    alt="Preview"
-                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                  />
-                ) : (
-                  <img
-                    src={URL.createObjectURL(selectedImage)}
-                    alt="Preview"
-                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                  />
-                )}
-              </div>
-            )}
           </CForm>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)} className="cancel-btn">
-            Cancel
+          <CButton color="secondary" onClick={() => setVisible(false)}>
+            Close
           </CButton>
           <CButton
             color="primary"
             onClick={editSubCategory ? handleUpdateSubCategory : handleAddSubCategory}
-            className="save-btn"
           >
-            {editSubCategory ? 'Save Changes' : 'Add Sub-Category'}
+            {editSubCategory ? 'Update' : 'Add'} Sub-Category
           </CButton>
         </CModalFooter>
       </CModal>
