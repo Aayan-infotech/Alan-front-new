@@ -27,7 +27,7 @@ import {
   CModalBody,
   CModalFooter
 } from '@coreui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { faEdit, faTrash, faImage } from '@fortawesome/free-solid-svg-icons'; // Import icons
 
 
@@ -62,10 +62,8 @@ const ManageProduct = () => {
   const [newImages, setNewImages] = useState([]);
 
   const [showImagesModal, setShowImagesModal] = useState(false);
-  // const [showDimensionsModal, setShowDimensionsModal] = useState(false);
-  // const [currentProduct, setCurrentProduct] = useState(null);
+
   const [newImage, setNewImage] = useState(null);
-  // const [newDimensions, setNewDimensions] = useState('');
 
   // Fetch Categories
   useEffect(() => {
@@ -184,10 +182,7 @@ const ManageProduct = () => {
   };
 
 
-  // const handleAddImages = (productId) => {
-  //   setSelectedProductId(productId); // Store the selected product ID
-  //   setShowImagesModal(true); // Show the modal for adding images
-  // };
+
   const handleAddImages = (productId) => {
     setSelectedProductId(productId); // Store the selected product ID
     setShowImagesModal(true); // Show the modal for adding images
@@ -232,18 +227,6 @@ const ManageProduct = () => {
         console.error('Error fetching images:', error);
       });
   };
-
-  // Function to delete an image
-  // const deleteImage = (_id) => {
-  //   axios.delete(`http://localhost:7878/api/ProductImg/product-images/${_id}`)
-  //         .then(() => {
-  //           alert('Image deleted successfully');
-  //       // Optionally refetch images to update the list
-  //         })
-  //         .catch((error) => {
-  //           console.error('Error deleting image:', error);
-  //         });
-  // };
 
   return (
     <CRow>
