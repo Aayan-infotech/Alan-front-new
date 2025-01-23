@@ -360,6 +360,7 @@ const ManageProduct = () => {
                           className="icon-clickable"
                           onClick={() => handleEditProduct(product)}
                           style={{ cursor: 'pointer', color: 'orange', marginRight: '8px' }}
+                          title="Edit"
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </span>
@@ -385,12 +386,14 @@ const ManageProduct = () => {
                           color="red"
                           onClick={() => handleDeleteProduct(product._id)}
                           style={{ cursor: 'pointer' ,marginRight: '8px' }}
+                          title="Delete"
                         />
                         <FontAwesomeIcon
                           icon={faImage}
                           color="blue"
                           onClick={() => handleAddImages(product._id)}
                           style={{ cursor: 'pointer',marginRight: '8px' }}
+                          title="Add Images"
                         />
                       </CTableDataCell>
                       <CTableDataCell>
@@ -405,6 +408,7 @@ const ManageProduct = () => {
                           color="blue"
                           onClick={() => handleAddDimensions(product._id)}
                           style={{ cursor: 'pointer' }}
+                          title="Add Dimensions"
                         />
                       </CTableDataCell>
                     </CTableDataCell>
