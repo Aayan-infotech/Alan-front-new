@@ -165,15 +165,15 @@ const DimensionsProduct = () => {
 
   const sectionOptions = {
     widthHeight: ['22*5', '4*6', '7*7', '7*5', '7*8', '3*7'],
-    Grid: ['No Grid', 'Flat Grid', 'Prairie'],
-    Fin: ['Dual Wall', 'Nail Fin', 'No Fin'],
+    Grid: ['No Grid', 'Flat grid Between the glass', '⅝” Flat Grid Between the Glass', '⅝” Flat Grid Between the Glass Prarie'],
+    Fin: ['Dual Wall Integral Flush Fin', 'Nail Fin', 'No Fin'],
     Color: ['White', 'Almond'],
     TemperingOption: ['Yes', 'No'],
     installation: ['Yes', 'No'],
-    Lock: ['Standard', 'Advanced Lock'],
-    GlassType: ['Tempered', 'Double Glazed'],
-    PanelSpacing: ['Wide', 'Narrow'],
-    SideWindowOpens: ['Left', 'Right'],
+    Lock: ['Auto Lock', 'Cam Lock'],
+    GlassType: ['Obscure', 'No Obscure'],
+    PanelSpacing: ['panel Spacing 1/4-1/2-1/4', 'panel Spacing 1/3-1/3-1/3'],
+    SideWindowOpens: ['XO', 'OX'],
   };
 
   const apiEndpoints = {
