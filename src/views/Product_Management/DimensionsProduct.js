@@ -176,6 +176,7 @@ const DimensionsProduct = () => {
     SideWindowOpens: ['XO', 'OX'],
   };
 
+  
   const apiEndpoints = {
     widthHeight: 'dimsWH',
     Grid: 'dimsGrid',
