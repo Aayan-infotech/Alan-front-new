@@ -3,6 +3,8 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import React from 'react';
+import SalesChart from './SalesChart';
 
 const localizer = momentLocalizer(moment);
 
@@ -137,7 +139,14 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className="calendar-wrapper">
+      <div className="container-fluid">
+        <div className="row my-4">
+          <div className="col-12">
+            <SalesChart />
+          </div>
+        </div>
+      </div>
+      <div className="row my-4">
         <Calendar
           localizer={localizer}
           events={appointments}
