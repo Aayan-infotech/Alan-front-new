@@ -167,7 +167,7 @@ const DimensionsProduct = () => {
     widthHeight: ['22*5', '4*6', '7*7', '7*5', '7*8', '3*7'],
     Grid: ['No Grid', 'Flat grid Between the glass', '⅝” Flat Grid Between the Glass', '⅝” Flat Grid Between the Glass Prarie'],
     Fin: ['Dual Wall Integral Flush Fin', 'Nail Fin', 'No Fin'],
-    Color: ['White', 'Almond'],
+    Color: ['White', 'Almond','Bronze','Black','AC Black'],
     TemperingOption: ['Yes', 'No'],
     installation: ['Yes', 'No'],
     Lock: ['Auto Lock', 'Cam Lock'],
@@ -176,7 +176,7 @@ const DimensionsProduct = () => {
     SideWindowOpens: ['XO', 'OX'],
   };
 
-  
+
   const apiEndpoints = {
     widthHeight: 'dimsWH',
     Grid: 'dimsGrid',
