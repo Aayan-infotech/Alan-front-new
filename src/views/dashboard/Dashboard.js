@@ -140,21 +140,40 @@ const Dashboard = () => {
   return (
     <div>
       <div className="container-fluid">
+        {/* Sales Overview Box */}
         <div className="row my-4">
           <div className="col-12">
-            <SalesChart />
+            <div className="card">
+              <div className="card-header">
+                <h5>Sales Overview</h5>
+              </div>
+              <div className="card-body">
+                <SalesChart />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="row my-4">
-        <Calendar
-          localizer={localizer}
-          events={appointments}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: '80vh', width: '100%' }}
-          onSelectEvent={handleEventClick}
-        />
+
+        {/* Appointment Box */}
+        <div className="row my-4">
+          <div className="col-12">
+            <div className="card">
+              <div className="card-header">
+                <h5>Appointment</h5>
+              </div>
+              <div className="card-body">
+                <Calendar
+                  localizer={localizer}
+                  events={appointments}
+                  startAccessor="start"
+                  endAccessor="end"
+                  style={{ height: '80vh', width: '100%' }}
+                  onSelectEvent={handleEventClick}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       {modalOpen && (
         <AppointmentModal
