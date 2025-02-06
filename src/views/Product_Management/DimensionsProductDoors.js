@@ -14,7 +14,7 @@ const DimensionsProductDoors = () => {
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const response = await axios.get(`http://localhost:7878/api/products/getProductsbyid/${productIdfordet}`);
+        const response = await axios.get(`http://44.196.64.110:7878/api/products/getProductsbyid/${productIdfordet}`);
         setProduct(response.data);
       } catch (err) {
         setError('Error fetching product data');
