@@ -28,8 +28,7 @@ import {
   CModalFooter
 } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faImage , faObjectGroup } from '@fortawesome/free-solid-svg-icons'; // Import icons
-
+import { faEdit, faTrash, faImage, faObjectGroup } from '@fortawesome/free-solid-svg-icons'; // Import icons
 
 const ManageProduct = () => {
   const navigate = useNavigate(); // Initialize navigation
@@ -60,9 +59,7 @@ const ManageProduct = () => {
   });
   const [data, setData] = useState([]);
   const [newImages, setNewImages] = useState([]);
-
   const [showImagesModal, setShowImagesModal] = useState(false);
-
   const [newImage, setNewImage] = useState(null);
 
   // Fetch Categories
@@ -136,8 +133,6 @@ const ManageProduct = () => {
       setNewImages([...newImages, ...files]);
     }
   };
-
-
   // EDIT 
   const handleEditProduct = (product) => {
     // setEditProductData(product);
@@ -147,7 +142,7 @@ const ManageProduct = () => {
       category_name: product.category_name || '',
       sub_category_name: product.sub_category_name || '',
       sub_sub_category_name: product.sub_sub_category_name || '',
-      productFormulaAdded : product.productFormulaAdded || '',
+      productFormulaAdded: product.productFormulaAdded || '',
       status: product.status || '',
     });
     setShowEditModal(true);
@@ -168,8 +163,6 @@ const ManageProduct = () => {
         console.error('Error updating product:', error);
       });
   };
-
-
   const handleDeleteProduct = (productId) => {
     axios.delete(`http://44.196.64.110:7878/api/products/DEL/${productId}`)
       .then(() => {
@@ -180,16 +173,11 @@ const ManageProduct = () => {
         console.error('Error deleting product:', error);
       });
   };
-
-
-
   const handleAddImages = (productId) => {
     setSelectedProductId(productId); // Store the selected product ID
     setShowImagesModal(true); // Show the modal for adding images
     fetchImages(productId); // Fetch images for the selected product
   };
-
-
   // Function to upload images
   const handleAddImageConfirm = () => {
     if (newImages.length > 0 && selectedProductId) {
@@ -348,14 +336,6 @@ const ManageProduct = () => {
                     <CTableDataCell>{product.status}</CTableDataCell>
                     <CTableDataCell>
                       <CTableDataCell>
-                        {/* Edit Button with FontAwesome Icon */}
-                        {/* <CButton
-                          color="warning"
-                          className="mr-2"
-                          onClick={() => handleEditProduct(product)}
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </CButton> */}
                         <span
                           className="icon-clickable"
                           onClick={() => handleEditProduct(product)}
@@ -364,47 +344,24 @@ const ManageProduct = () => {
                         >
                           <FontAwesomeIcon icon={faEdit} />
                         </span>
-
-
-                        {/* Delete Button with FontAwesome Icon */}
-                        {/* <CButton
-                          color="danger"
-                          onClick={() => handleDeleteProduct(product._id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </CButton> */}
-                        {/* Add Images Button with FontAwesome Icon */}
-                        {/* <CButton
-                          color="info"
-                          className="mr-2"
-                          onClick={() => handleAddImages(product._id)}
-                        >
-                          <FontAwesomeIcon icon={faImage} />
-                        </CButton> */}
                         <FontAwesomeIcon
                           icon={faTrash}
                           color="red"
                           onClick={() => handleDeleteProduct(product._id)}
-                          style={{ cursor: 'pointer' ,marginRight: '8px' }}
+                          style={{ cursor: 'pointer', marginRight: '8px' }}
                           title="Delete"
                         />
                         <FontAwesomeIcon
                           icon={faImage}
                           color="blue"
                           onClick={() => handleAddImages(product._id)}
-                          style={{ cursor: 'pointer',marginRight: '8px' }}
+                          style={{ cursor: 'pointer', marginRight: '8px' }}
                           title="Add Images"
                         />
                       </CTableDataCell>
                       <CTableDataCell>
-                        {/* <CButton
-                          color="secondary"
-                          onClick={() => handleAddDimensions(product._id)}
-                        >
-                          Add Dimensions
-                        </CButton> */}
                         <FontAwesomeIcon
-                          icon={faObjectGroup }
+                          icon={faObjectGroup}
                           color="blue"
                           onClick={() => handleAddDimensions(product._id)}
                           style={{ cursor: 'pointer' }}
