@@ -131,7 +131,7 @@ const ManageOrders = () => {
                   {/* <CTableDataCell>{order.orderSummary}</CTableDataCell> */}
                   <CTableDataCell>
                     <div
-                    style={{color: 'darkgreen'}}
+                      style={{ color: 'darkgreen' }}
                       className="action-icon"
                       onClick={() => handleOrderDetails(order)}
                     >
@@ -140,35 +140,18 @@ const ManageOrders = () => {
                     </div>
                   </CTableDataCell>
                   <CTableDataCell>{order.paymentStatus}</CTableDataCell>
-                  {/* <CTableDataCell>{order.OrderDetails}</CTableDataCell> */}
-                  {/* <CTableDataCell>{order.paymentDetails}</CTableDataCell> */}
-                  
                   <CTableDataCell>
                     <div
-                    style={{color: 'darkgreen'}}
+                      style={{ color: 'darkgreen' }}
                       className="action-icon"
                       onClick={() => handlePaymentDetails(order)}
-                      
+
                     >
                       <CIcon icon={cilShortText} />
                       {' '}View details
                     </div>
                   </CTableDataCell>
                   <CTableDataCell>
-                    {/* <CButton
-                      color="warning"
-                      className="action-btn edit-btn"
-                      onClick={() => handleEditOrder(order)}
-                    >
-                      <CIcon icon={cilPencil} /> Edit
-                    </CButton>
-                    <CButton
-                      color="danger"
-                      className="action-btn delete-btn ms-2"
-                      onClick={() => handleDeleteOrder(order.id)}
-                    >
-                      <CIcon icon={cilTrash} /> Delete
-                    </CButton> */}
                     <div className="action-icons">
                       <div
                         className="action-icon edit-icon"
@@ -176,12 +159,6 @@ const ManageOrders = () => {
                       >
                         <CIcon icon={cilPencil} />
                       </div>
-                      {/* <div
-                        className="action-icon delete-icon ms-2"
-                        onClick={() => handleDeleteOrder(order.id)}
-                      >
-                        <CIcon icon={cilTrash} />
-                      </div> */}
                     </div>
                   </CTableDataCell>
                 </CTableRow>
@@ -243,16 +220,6 @@ const ManageOrders = () => {
                 }
               />
             </div>
-            {/* <div className="form-group mt-3">
-              <label>Payment Status</label>
-              <CFormInput
-                type="text"
-                value={selectedOrder.paymentStatus}
-                onChange={(e) =>
-                  setSelectedOrder({ ...selectedOrder, paymentStatus: e.target.value })
-                }
-              />
-            </div> */}
             <div className="form-group mt-3">
               <label>Billing Address</label>
               <CFormTextarea
@@ -287,7 +254,6 @@ const ManageOrders = () => {
           </CModalFooter>
         </CModal>
       )}
-
       {/* Order Details Modal */}
       {selectedOrder && (
         <CModal
@@ -314,44 +280,39 @@ const ManageOrders = () => {
           </CModalFooter>
         </CModal>
       )}
-
-
       {/* Payment Details Modal */}
       {selectedOrder && (
         <CModal
           visible={showPaymentDetailsModal}
           onClose={() => setShowPaymentDetailsModal(false)}
-           size="lg"
-             alignment="center"
+          size="lg"
+          alignment="center"
         >
           <CModalHeader className='border-0'>
             <CModalTitle>Payment Details</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <div className='table-responsive'>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">Transaction ID:</th>
-                  <th scope="col">Transaction Date:</th>
-                  <th scope="col">Transaction Status:</th>
-                  <th scope="col">Transaction Amount:</th>
-                  <th scope="col">Transaction Mode:</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1234</td>
-                  <td>13 Jan 2024</td>
-                  <td>Success</td>
-                  <td> USD 1300/-</td>
-                  <td>Card</td>
-                  
-                
-                </tr>
-              
-              </tbody>
-            </table>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Transaction ID:</th>
+                    <th scope="col">Transaction Date:</th>
+                    <th scope="col">Transaction Status:</th>
+                    <th scope="col">Transaction Amount:</th>
+                    <th scope="col">Transaction Mode:</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1234</td>
+                    <td>13 Jan 2024</td>
+                    <td>Success</td>
+                    <td> USD 1300/-</td>
+                    <td>Card</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </CModalBody>
           <CModalFooter className='border-0'>
