@@ -16,7 +16,7 @@ const ManageOrders = () => {
   const [showPaymentDetailsModal, setShowPaymentDetailsModal] = useState(false);
 
   useEffect(() => {
-    axios.get('http://localhost:7878/api/FnalCustData/getAllCustData')
+    axios.get('http://44.196.64.110:7878/api/FnalCustData/getAllCustData')
       .then(response => {
         setOrders(response.data);
       })
