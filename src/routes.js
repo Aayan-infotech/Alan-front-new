@@ -11,6 +11,7 @@ const ManageProduct = React.lazy(() => import('./views/Product_Management/Manage
 const ManageOrders = React.lazy(() => import('./views/Order Management/ManageOrders'))
 const CancelledOrders = React.lazy(() => import('./views/Order Management/CancelledOrders'))
 const DimensionsProduct = React.lazy(() => import('./views/Product_Management/DimensionsProduct'))
+const DimensionsProductDoors = React.lazy(() => import('./views/Product_Management/DimensionsProductDoors'))
 
 
 const StaticContentManagement = React.lazy(() => import('./views/Static Content Management/StaticContentManagement'))
@@ -29,6 +30,8 @@ const routes = [
   { path: '/ManageOrders', name: 'ManageOrders', element: ManageOrders },
   { path: '/CancelledOrders', name: 'CancelledOrders', element: CancelledOrders },
   { path: '/DimensionsProduct', name: 'DimensionsProduct', element: DimensionsProduct },
+  { path: '/DimensionsProductDoors', name: 'DimensionsProductDoors', element: DimensionsProductDoors },
+
 
   { path: '/StaticContentManagement', name: 'StaticContentManagement', element: StaticContentManagement },
 

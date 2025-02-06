@@ -103,8 +103,8 @@ const _nav = [
       },
       // {
       //   component: CNavItem,
-      //   name: 'Dimensions Product',
-      //   to: '/DimensionsProduct',
+      //   name: 'Dimensions ProductDoors',
+      //   to: '/DimensionsProductDoors',
       // },      
       
     ],

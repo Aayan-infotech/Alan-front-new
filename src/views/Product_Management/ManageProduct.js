@@ -33,9 +33,17 @@ import { faEdit, faTrash, faImage, faObjectGroup } from '@fortawesome/free-solid
 const ManageProduct = () => {
   const navigate = useNavigate(); // Initialize navigation
   // Function to handle Add Dimensions button
-  const handleAddDimensions = (productId) => {
-    navigate('/DimensionsProduct', { state: { Product_id: productId } });
+  // const handleAddDimensions = (productId) => {
+  //   navigate('/DimensionsProduct', { state: { Product_id: productId } });
+  // };
+  const handleAddDimensions = (productId, categoryName) => {
+    if (categoryName === 'Windows') {
+      navigate('/DimensionsProduct', { state: { Product_id: productId } });
+    } else if (categoryName === 'Doors') {
+      navigate(`/DimensionsProductDoors/${productId}/${categoryName}`);
+    }
   };
+
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editProductData, setEditProductData] = useState({
@@ -359,11 +367,20 @@ const ManageProduct = () => {
                           title="Add Images"
                         />
                       </CTableDataCell>
-                      <CTableDataCell>
+                      {/* <CTableDataCell>
                         <FontAwesomeIcon
                           icon={faObjectGroup}
                           color="blue"
                           onClick={() => handleAddDimensions(product._id)}
+                          style={{ cursor: 'pointer' }}
+                          title="Add Dimensions"
+                        />
+                      </CTableDataCell> */}
+                      <CTableDataCell>
+                        <FontAwesomeIcon
+                          icon={faObjectGroup}
+                          color="blue"
+                          onClick={() => handleAddDimensions(product._id, product.category_name)}
                           style={{ cursor: 'pointer' }}
                           title="Add Dimensions"
                         />
