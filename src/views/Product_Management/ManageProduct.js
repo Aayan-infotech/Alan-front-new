@@ -40,7 +40,8 @@ const ManageProduct = () => {
     if (categoryName === 'Windows') {
       navigate('/DimensionsProduct', { state: { Product_id: productId } });
     } else if (categoryName === 'Doors') {
-      navigate(`/DimensionsProductDoors/${productId}/${categoryName}`);
+      // navigate(`/DimensionsProductDoors/${productId}/${categoryName}`);
+      navigate('/DimensionsProductDoors', { state: { productIdfordet: productId } });
     }
   };
 
