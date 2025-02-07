@@ -122,12 +122,20 @@ const ManageOrders = () => {
             <p>Product Price: {selectedOrder.product_price}</p>
             <p>Total Price: {selectedOrder.totalPrice}</p>
             <p>Product SKU: {selectedOrder.productSku}</p>
+            <p>Selected Options:</p>
+            <ul>
+              {selectedOrder.selectedOptions &&
+                Object.entries(selectedOrder.selectedOptions).map(([key, value]) => (
+                  <li key={key}><strong>{key}:</strong> {value}</li>
+                ))}
+            </ul>
           </CModalBody>
           <CModalFooter>
             <CButton color="secondary" onClick={() => setShowOrderDetailsModal(false)}>Close</CButton>
           </CModalFooter>
         </CModal>
       )}
+
       {/* Payment Details Modal */}
       {selectedOrder && showPaymentDetailsModal && (
         <CModal visible={showPaymentDetailsModal} onClose={() => setShowPaymentDetailsModal(false)}>
@@ -135,6 +143,14 @@ const ManageOrders = () => {
             <CModalTitle>Payment Details</CModalTitle>
           </CModalHeader>
           <CModalBody>
+            <div className="form-group col-4">
+              <label>Order Date</label>
+              <CFormInput
+                type="text"
+                value={new Date(selectedOrder.date).toISOString().split('T')[0]}
+                readOnly
+              />
+            </div>
             <p>Payment ID: {selectedOrder.paymentId}</p>
             <p>Payment Status: {selectedOrder.paymentStatus}</p>
             <p>Quantity: {selectedOrder.quantity}</p>
@@ -162,7 +178,6 @@ const ManageOrders = () => {
                 title={selectedOrder.order_id} // Shows full Order ID on hover
               />
             </div>
-
             <div className="form-group col-4">
               <label>Order Date</label>
               <CFormInput
@@ -199,6 +214,20 @@ const ManageOrders = () => {
                 </div>
               </div>
             </div>
+            <div className="form-group mt-3">
+              <label>Shipping Details</label>
+              <CFormTextarea rows={6} readOnly
+                value={
+                  `Window Pick Up\n - Green World Windows and Doors\n - 3810 Wabash Drive\n - Mira Loma, CA 91752\n\n` +
+                  `Door Pickup\n - A.A.W. Doors\n - 13900 S Broadway\n - Los Angeles, CA 90061\n\n` +
+                  `Both Door and Window Pick Up\n - Discount Door and Window\n - 5450 Complex St.\n - Unit 301\n - San Diego, CA 92123`
+                }
+              />
+            </div>
+            <div className="form-group mt-3">
+              <label>Product Name</label>
+              <p>Product Name: {selectedOrder.productName}</p>
+            </div>
           </CModalBody>
           <CModalFooter>
             <CButton color="primary" onClick={handleUpdateOrderStatus}>Save Changes</CButton>
@@ -206,6 +235,7 @@ const ManageOrders = () => {
           </CModalFooter>
         </CModal>
       )}
+
     </>
   );
 };
