@@ -153,13 +153,23 @@ const ManageOrders = () => {
             <CModalTitle>Edit Order</CModalTitle>
           </CModalHeader>
           <CModalBody className='row gy-4'>
-            <div className="form-group col-7">
+            <div className="form-group col-4">
               <label>Order ID</label>
-              <CFormInput type="text" value={selectedOrder.order_id} readOnly />
+              <CFormInput
+                type="text"
+                value={selectedOrder.order_id}
+                readOnly
+                title={selectedOrder.order_id} // Shows full Order ID on hover
+              />
             </div>
+
             <div className="form-group col-4">
               <label>Order Date</label>
-              <CFormInput type="text" value={selectedOrder.date} readOnly />
+              <CFormInput
+                type="text"
+                value={new Date(selectedOrder.date).toISOString().split('T')[0]}
+                readOnly
+              />
             </div>
             <div className="form-group col-4">
               <label>Order Status</label>
@@ -175,13 +185,19 @@ const ManageOrders = () => {
             </div>
             <div className="form-group mt-3">
               <label>Billing Address</label>
-              <p>{selectedOrder.customerName}</p>
-              <p>{selectedOrder.customerEmail}</p>
-              <p>{selectedOrder.customerMobile}</p>
-              <p>{selectedOrder.customerAddress}</p>
-              <p>{selectedOrder.customerState}</p>
-              <p>{selectedOrder.customerZipCode}</p>
-              <p>{selectedOrder.customerCountry}</p>
+              <div className="card">
+                <div className="card-body">
+                  <ul className="list-unstyled">
+                    <li><strong>Name:</strong> {selectedOrder.customerName}</li>
+                    <li><strong>Email:</strong> {selectedOrder.customerEmail}</li>
+                    <li><strong>Mobile:</strong> {selectedOrder.customerMobile}</li>
+                    <li><strong>Address:</strong> {selectedOrder.customerAddress}</li>
+                    <li><strong>State:</strong> {selectedOrder.customerState}</li>
+                    <li><strong>Zip Code:</strong> {selectedOrder.customerZipCode}</li>
+                    <li><strong>Country:</strong> {selectedOrder.customerCountry}</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </CModalBody>
           <CModalFooter>
