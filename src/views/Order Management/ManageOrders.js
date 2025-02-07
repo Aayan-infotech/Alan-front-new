@@ -112,11 +112,11 @@ const ManageOrders = () => {
 
       {/* Order Details Modal */}
       {selectedOrder && (
-        <CModal visible={showOrderDetailsModal} onClose={() => setShowOrderDetailsModal(false)}>
+        <CModal visible={showOrderDetailsModal} onClose={() => setShowOrderDetailsModal(false)} size="xl">
           <CModalHeader>
             <CModalTitle>Order Details</CModalTitle>
           </CModalHeader>
-          <CModalBody>
+          {/* <CModalBody>
             <p>Order ID: {selectedOrder.order_id}</p>
             <p>Product Name: {selectedOrder.productName}</p>
             <p>Product Price: {selectedOrder.product_price}</p>
@@ -129,6 +129,37 @@ const ManageOrders = () => {
                   <li key={key}><strong>{key}:</strong> {value}</li>
                 ))}
             </ul>
+          </CModalBody> */}
+          <CModalBody>
+            <CTable bordered>
+              <CTableBody>
+                <CTableRow>
+                  <CTableHeaderCell style={{ width: '25%', color: 'red' }}>Order ID</CTableHeaderCell >
+                  <CTableDataCell style={{ width: '25%' }}>{selectedOrder.order_id}</CTableDataCell>
+                  <CTableHeaderCell style={{ width: '25%', color: 'red' }}>Order Date</CTableHeaderCell >
+                  <CTableDataCell style={{ width: '25%' }}>{new Date(selectedOrder.date).toLocaleDateString()}</CTableDataCell>
+                </CTableRow>
+                <CTableRow>
+                  <CTableHeaderCell style={{ color: 'red' }}>Product</CTableHeaderCell >
+                  <CTableDataCell colSpan={3}>{selectedOrder.productName}</CTableDataCell>
+                </CTableRow>
+                <CTableRow>
+                  <CTableHeaderCell style={{ color: 'red', height: '100px' }}>Product Details</CTableHeaderCell >
+                  <CTableDataCell colSpan={3} style={{ verticalAlign: 'top' }}>{selectedOrder.selectedOptions &&
+                    Object.entries(selectedOrder.selectedOptions).map(([key, value]) => (
+                      <li key={key}><strong>{key}:</strong> {value}</li>
+                    ))}</CTableDataCell>
+                </CTableRow>
+                <CTableRow>
+                  <CTableHeaderCell style={{ color: 'red' }}>Product Value</CTableHeaderCell >
+                  <CTableDataCell colSpan={3}>
+                    <div className='text-end'>
+                      {`USD ${selectedOrder.totalPrice}/-`}
+                    </div>
+                  </CTableDataCell>
+                </CTableRow>
+              </CTableBody>
+            </CTable >
           </CModalBody>
           <CModalFooter>
             <CButton color="secondary" onClick={() => setShowOrderDetailsModal(false)}>Close</CButton>
@@ -225,8 +256,8 @@ const ManageOrders = () => {
               />
             </div>
             <div className="form-group mt-3">
-              <label>Product Name</label>
-              <p>Product Name: {selectedOrder.productName}</p>
+              <label>Billing Address</label>
+              <CFormTextarea rows={3} value={selectedOrder.orderSummary || ""} readOnly />
             </div>
           </CModalBody>
           <CModalFooter>
