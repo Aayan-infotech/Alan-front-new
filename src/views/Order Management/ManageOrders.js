@@ -37,9 +37,25 @@ const ManageOrders = () => {
     setShowPaymentDetailsModal(true);
   };
 
+ 
   const handleEditOrder = (order) => {
     setSelectedOrder({ ...order });
     setShowEditOrderModal(true);
+  };
+
+  const handleUpdateOrderStatus = async () => {
+    if (!selectedOrder) return;
+    try {
+      await axios.put(`http://localhost:7878/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
+        orderStatus: selectedOrder.orderStatus,
+      });
+      setOrders((prevOrders) => prevOrders.map((order) => 
+        order.order_id === selectedOrder.order_id ? { ...order, orderStatus: selectedOrder.orderStatus } : order
+      ));
+      setShowEditOrderModal(false);
+    } catch (error) {
+      console.error('Error updating order status:', error);
+    }
   };
 
   return (
@@ -130,7 +146,8 @@ const ManageOrders = () => {
         </CModal>
       )}
        {/* Edit Order Modal */}
-       {selectedOrder && showEditOrderModal && (
+     {/* Edit Order Modal */}
+     {selectedOrder && showEditOrderModal && (
         <CModal visible={showEditOrderModal} onClose={() => setShowEditOrderModal(false)}>
           <CModalHeader>
             <CModalTitle>Edit Order</CModalTitle>
@@ -140,13 +157,11 @@ const ManageOrders = () => {
               <label>Order ID</label>
               <CFormInput type="text" value={selectedOrder.order_id} readOnly />
             </div>
-            {/* <div className="form-group col-4">
-              <label>Order Date</label>
-              <CFormInput type="date" value={order.date} readOnly />
-            </div> */}
             <div className="form-group col-4">
               <label>Order Status</label>
-              <CFormSelect value={selectedOrder.orderStatus} >
+              <CFormSelect 
+                value={selectedOrder.orderStatus} 
+                onChange={(e) => setSelectedOrder({ ...selectedOrder, orderStatus: e.target.value })}>
                 <option value="Pending">Pending</option>
                 <option value="Processing">Processing</option>
                 <option value="Shipped">Shipped</option>
@@ -166,6 +181,7 @@ const ManageOrders = () => {
             </div>
           </CModalBody>
           <CModalFooter>
+            <CButton color="primary" onClick={handleUpdateOrderStatus}>Save Changes</CButton>
             <CButton color="secondary" onClick={() => setShowEditOrderModal(false)}>Close</CButton>
           </CModalFooter>
         </CModal>
