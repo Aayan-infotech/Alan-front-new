@@ -37,7 +37,7 @@ const ManageOrders = () => {
     setShowPaymentDetailsModal(true);
   };
 
- 
+
   const handleEditOrder = (order) => {
     setSelectedOrder({ ...order });
     setShowEditOrderModal(true);
@@ -49,8 +49,8 @@ const ManageOrders = () => {
       await axios.put(`http://localhost:7878/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
         orderStatus: selectedOrder.orderStatus,
       });
-      setOrders((prevOrders) => prevOrders.map((order) => 
-        order.order_id === selectedOrder.order_id ? { ...order, orderStatus: selectedOrder.orderStatus } : order
+      setOrders((prevOrders) => prevOrders.map((order) =>
+        order.id === selectedOrder.id ? { ...order, orderStatus: selectedOrder.orderStatus } : order
       ));
       setShowEditOrderModal(false);
     } catch (error) {
@@ -145,22 +145,26 @@ const ManageOrders = () => {
           </CModalFooter>
         </CModal>
       )}
-       {/* Edit Order Modal */}
-     {/* Edit Order Modal */}
-     {selectedOrder && showEditOrderModal && (
+
+      {/* Edit Order Modal */}
+      {selectedOrder && showEditOrderModal && (
         <CModal visible={showEditOrderModal} onClose={() => setShowEditOrderModal(false)}>
           <CModalHeader>
             <CModalTitle>Edit Order</CModalTitle>
           </CModalHeader>
           <CModalBody className='row gy-4'>
-            <div className="form-group col-4">
+            <div className="form-group col-7">
               <label>Order ID</label>
               <CFormInput type="text" value={selectedOrder.order_id} readOnly />
             </div>
             <div className="form-group col-4">
+              <label>Order Date</label>
+              <CFormInput type="text" value={selectedOrder.date} readOnly />
+            </div>
+            <div className="form-group col-4">
               <label>Order Status</label>
-              <CFormSelect 
-                value={selectedOrder.orderStatus} 
+              <CFormSelect
+                value={selectedOrder.orderStatus}
                 onChange={(e) => setSelectedOrder({ ...selectedOrder, orderStatus: e.target.value })}>
                 <option value="Pending">Pending</option>
                 <option value="Processing">Processing</option>
@@ -198,7 +202,7 @@ export default ManageOrders;
 
 
 
- {/* Edit Order Modal */}
+{/* Edit Order Modal */ }
 //  {selectedOrder && showEditOrderModal && (
 //   <CModal visible={showEditOrderModal} onClose={() => setShowEditOrderModal(false)}>
 //     <CModalHeader>
