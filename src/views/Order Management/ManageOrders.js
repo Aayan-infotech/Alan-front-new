@@ -83,7 +83,17 @@ const ManageOrders = () => {
                   <CTableDataCell>{index + 1}</CTableDataCell>
                   <CTableDataCell>{order.order_id}</CTableDataCell>
                   <CTableDataCell>{order.customerName}</CTableDataCell>
-                  <CTableDataCell>{order.orderStatus}</CTableDataCell>
+                  {/* <CTableDataCell>{order.orderStatus}</CTableDataCell> */}
+                  <CTableDataCell
+                    className={`text-white text-center fw-bold ${order.orderStatus === "Pending" ? "bg-warning" :
+                      order.orderStatus === "Processing" ? "bg-info" :
+                        order.orderStatus === "Shipped" ? "bg-primary" :
+                          order.orderStatus === "Delivered" ? "bg-success" :
+                            "bg-danger"}`} // Color for "Cancelled"
+                  >
+                    {order.orderStatus}
+                  </CTableDataCell>
+
                   <CTableDataCell>{new Date(order.date).toLocaleDateString()}</CTableDataCell>
                   <CTableDataCell>
                     <div className="action-icon" onClick={() => handleOrderDetails(order)}>
@@ -168,7 +178,7 @@ const ManageOrders = () => {
       )}
 
       {/* Payment Details Modal */}
-      {selectedOrder && showPaymentDetailsModal && (
+      {/* {selectedOrder && showPaymentDetailsModal && (
         <CModal visible={showPaymentDetailsModal} onClose={() => setShowPaymentDetailsModal(false)}>
           <CModalHeader>
             <CModalTitle>Payment Details</CModalTitle>
@@ -191,11 +201,55 @@ const ManageOrders = () => {
             <CButton color="secondary" onClick={() => setShowPaymentDetailsModal(false)}>Close</CButton>
           </CModalFooter>
         </CModal>
-      )}
+      )} */}
+      {selectedOrder && showPaymentDetailsModal && (
+        <CModal visible={showPaymentDetailsModal} onClose={() => setShowPaymentDetailsModal(false)} size="xl">
+          <CModalHeader>
+            <CModalTitle>Payment Details</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <CTable bordered>
+              <CTableBody>
+                <CTableRow>
+                  {/* <CTableHeaderCell rowSpan={5} className="fw-bold text-success">Payment</CTableHeaderCell> */}
+                  <CTableHeaderCell
+                    rowSpan={5}
+                    className="fw-bold text-success text-center align-middle"
+                    style={{ verticalAlign: "middle" }}
+                  >
+                    Payment
+                  </CTableHeaderCell>
 
+                  <CTableHeaderCell className="fw-bold">Transaction ID</CTableHeaderCell>
+                  <CTableDataCell>{selectedOrder.paymentId}</CTableDataCell>
+                </CTableRow>
+                <CTableRow>
+                  <CTableHeaderCell className="fw-bold">Transaction Date</CTableHeaderCell>
+                  <CTableDataCell>{new Date(selectedOrder.date).toLocaleDateString()}</CTableDataCell>
+                </CTableRow>
+                <CTableRow>
+                  <CTableHeaderCell className="fw-bold">Transaction Status</CTableHeaderCell>
+                  <CTableDataCell>{selectedOrder.paymentStatus}</CTableDataCell>
+                </CTableRow>
+                <CTableRow>
+                  <CTableHeaderCell className="fw-bold">Transaction Amount</CTableHeaderCell>
+                  <CTableDataCell>USD {selectedOrder.paidAmount}/-</CTableDataCell>
+                </CTableRow>
+                {/* <CTableRow>
+                  <CTableHeaderCell className="fw-bold">Transaction Mode</CTableHeaderCell>
+                  <CTableDataCell>{selectedOrder.paymentMode}</CTableDataCell>
+                </CTableRow> */}
+              </CTableBody>
+            </CTable>
+          </CModalBody>
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setShowPaymentDetailsModal(false)}>Close</CButton>
+          </CModalFooter>
+        </CModal>
+      )}
       {/* Edit Order Modal */}
       {selectedOrder && showEditOrderModal && (
-        <CModal visible={showEditOrderModal} onClose={() => setShowEditOrderModal(false)}>
+        <CModal visible={showEditOrderModal} onClose={() => setShowEditOrderModal(false)} size="xl">
           <CModalHeader>
             <CModalTitle>Edit Order</CModalTitle>
           </CModalHeader>
@@ -219,7 +273,7 @@ const ManageOrders = () => {
             </div>
             <div className="form-group col-4">
               <label>Order Status</label>
-              <CFormSelect
+              {/* <CFormSelect
                 value={selectedOrder.orderStatus}
                 onChange={(e) => setSelectedOrder({ ...selectedOrder, orderStatus: e.target.value })}>
                 <option value="Pending">Pending</option>
@@ -227,7 +281,23 @@ const ManageOrders = () => {
                 <option value="Shipped">Shipped</option>
                 <option value="Delivered">Delivered</option>
                 <option value="Cancelled">Cancelled</option>
+              </CFormSelect> */}
+              <CFormSelect
+                className={`text-white ${selectedOrder.orderStatus === "Pending" ? "bg-warning" :
+                  selectedOrder.orderStatus === "Processing" ? "bg-info" :
+                    selectedOrder.orderStatus === "Shipped" ? "bg-primary" :
+                      selectedOrder.orderStatus === "Delivered" ? "bg-success" :
+                        "bg-danger"}`} // Color for "Cancelled"
+                value={selectedOrder.orderStatus}
+                onChange={(e) => setSelectedOrder({ ...selectedOrder, orderStatus: e.target.value })}
+              >
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
               </CFormSelect>
+
             </div>
             <div className="form-group mt-3">
               <label>Billing Address</label>
@@ -255,10 +325,10 @@ const ManageOrders = () => {
                 }
               />
             </div>
-            <div className="form-group mt-3">
+            {/* <div className="form-group mt-3">
               <label>Billing Address</label>
               <CFormTextarea rows={3} value={selectedOrder.orderSummary || ""} readOnly />
-            </div>
+            </div> */}
           </CModalBody>
           <CModalFooter>
             <CButton color="primary" onClick={handleUpdateOrderStatus}>Save Changes</CButton>
