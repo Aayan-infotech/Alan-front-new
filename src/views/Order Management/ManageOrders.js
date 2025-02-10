@@ -46,7 +46,7 @@ const ManageOrders = () => {
   const handleUpdateOrderStatus = async () => {
     if (!selectedOrder) return;
     try {
-      await axios.put(`http://localhost:7878/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
+      await axios.put(`http://44.196.64.110:7878/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
         orderStatus: selectedOrder.orderStatus,
       });
       setOrders((prevOrders) => prevOrders.map((order) =>
