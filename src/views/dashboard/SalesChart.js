@@ -88,7 +88,7 @@ const SalesChart = () => {
   const [filter, setFilter] = useState('15days');
 
   useEffect(() => {
-    fetch(`http://localhost:7878/api/appointments/chart?filter=${filter}`)
+    fetch(`http://44.196.64.110:7878/api/appointments/chart?filter=${filter}`)
       .then(response => response.json())
       .then(data => {
         setSalesData(data.data);
