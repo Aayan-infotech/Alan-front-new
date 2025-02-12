@@ -123,7 +123,40 @@ const DimensionsProductDoors = () => {
                                 {product ? product.name : <CSpinner size="sm" />}
                             </CCardTitle>
                             <hr />
-                            <CFormInput type="text" placeholder="Width x Height" value={frameSize} onChange={(e) => setFrameSize(e.target.value)} className="mb-3" />
+                            {/* <CFormInput type="text" placeholder="Width x Height" value={frameSize} onChange={(e) => setFrameSize(e.target.value)} className="mb-3" /> */}
+                            <CFormInput
+                                type="text"
+                                placeholder="Width x Height"
+                                value={frameSize}
+                                onChange={(e) => {
+                                    const fractionMap = {
+                                        "1/2": "½",
+                                        "1/4": "¼",
+                                        "3/4": "¾",
+                                        "1/3": "⅓",
+                                        "2/3": "⅔",
+                                        "1/5": "⅕",
+                                        "2/5": "⅖",
+                                        "3/5": "⅗",
+                                        "4/5": "⅘",
+                                        "1/6": "⅙",
+                                        "5/6": "⅚",
+                                        "1/8": "⅛",
+                                        "3/8": "⅜",
+                                        "5/8": "⅝",
+                                        "7/8": "⅞"
+                                    };
+
+                                    let newValue = e.target.value;
+                                    Object.keys(fractionMap).forEach((key) => {
+                                        newValue = newValue.replace(new RegExp(key, "g"), fractionMap[key]);
+                                    });
+
+                                    setFrameSize(newValue);
+                                }}
+                                className="mb-3"
+                            />
+
                             <CFormInput type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} className="mb-3" />
                             <CButton color="primary" onClick={handleAdd} disabled={loading}>{loading ? <CSpinner size="sm" /> : '+ Add'}</CButton>
                         </CCardBody>
