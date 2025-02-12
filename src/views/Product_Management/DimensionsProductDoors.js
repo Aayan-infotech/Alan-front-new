@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 const DimensionsProductDoors = () => {
     const [entries, setEntries] = useState([]);
     const [frameSize, setFrameSize] = useState('');
-    const [price, setPrice] = useState('');
+    const [amount, setamount] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [product, setProduct] = useState(null);
@@ -75,7 +75,7 @@ const DimensionsProductDoors = () => {
 
     // ✅ Handle Add Entry
     const handleAdd = async () => {
-        if (!frameSize || !price || !productIdfordet) {
+        if (!frameSize || !amount || !productIdfordet) {
             setError("Please provide all details.");
             return;
         }
@@ -84,14 +84,14 @@ const DimensionsProductDoors = () => {
             setLoading(true);
             const response = await axios.post('http://44.196.64.110:7878/api/DimDoorW_H/createDimDoorWidthHeight', {
                 widthHeight: frameSize,
-                price: parseFloat(price),
+                amount: parseFloat(amount),
                 productId: productIdfordet,
             });
 
             console.log("Added Dimension:", response.data); // Debugging log
             setEntries([...entries, response.data.data]);
             setFrameSize('');
-            setPrice('');
+            setamount('');
         } catch (err) {
             console.error("Add Entry Error:", err);
             setError('Error adding entry');
@@ -157,7 +157,7 @@ const DimensionsProductDoors = () => {
                                 className="mb-3"
                             />
 
-                            <CFormInput type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} className="mb-3" />
+                            <CFormInput type="number" placeholder="Amount" value={amount} onChange={(e) => setamount(e.target.value)} className="mb-3" />
                             <CButton color="primary" onClick={handleAdd} disabled={loading}>{loading ? <CSpinner size="sm" /> : '+ Add'}</CButton>
                         </CCardBody>
                     </CCard>
@@ -173,8 +173,8 @@ const DimensionsProductDoors = () => {
                                             {entry.widthHeight}
                                         </div>
                                         <div className='d-flex flex-column gap-2 text-start fw-semibold'>
-                                            <span className='fw-bold'>Price</span>
-                                            ${entry.price}
+                                            <span className='fw-bold'>Amount</span>
+                                            ${entry.amount}
                                         </div>
                                         <CButton color="danger" size="sm" onClick={() => handleDelete(entry._id)}>
                                             <FontAwesomeIcon icon={faTrash} />
