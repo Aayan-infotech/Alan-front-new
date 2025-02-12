@@ -525,7 +525,7 @@
 
 
 import { useNavigate } from 'react-router-dom';
-import { CListGroup, CListGroupItem } from '@coreui/react';
+import { CListGroup, CListGroupItem, CSpinner } from '@coreui/react';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -594,6 +594,7 @@ const ManageProduct = () => {
   const [newImages, setNewImages] = useState([]);
   const [showImagesModal, setShowImagesModal] = useState(false);
   const [newImage, setNewImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Fetch Categories on mount
   useEffect(() => {
@@ -631,9 +632,16 @@ const ManageProduct = () => {
   }, [filters.subCategory]);
 
   useEffect(() => {
+    setLoading(true);
     axios.get('http://44.196.64.110:7878/api/products')
-      .then(response => setData(response.data))
-      .catch(error => console.error('Error fetching products:', error));
+      .then(response => {
+        setData(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching products:', error);
+        setLoading(false);
+      });
   }, []);
 
   const handleFilterChange = (e) => {
@@ -827,66 +835,70 @@ const ManageProduct = () => {
                 </CCol>
               </CRow>
             </CForm>
-
-            {/* Data Table */}
-            <CTable striped>
-              <CTableHead>
-                <CTableRow>
-                  <CTableHeaderCell>Product Name</CTableHeaderCell>
-                  <CTableHeaderCell>Category</CTableHeaderCell>
-                  <CTableHeaderCell>Subcategory</CTableHeaderCell>
-                  <CTableHeaderCell>Sub-subcategory</CTableHeaderCell>
-                  <CTableHeaderCell>Status</CTableHeaderCell>
-                  <CTableHeaderCell>Actions</CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody>
-                {filteredData.map(product => (
-                  <CTableRow key={product._id}>
-                    <CTableDataCell>{product.name}</CTableDataCell>
-                    <CTableDataCell>{product.category_name}</CTableDataCell>
-                    <CTableDataCell>{product.sub_category_name}</CTableDataCell>
-                    <CTableDataCell>{product.sub_sub_category_name}</CTableDataCell>
-                    <CTableDataCell>{product.status}</CTableDataCell>
-                    <CTableDataCell>
-                      <CTableDataCell>
-                        <span
-                          className="icon-clickable"
-                          onClick={() => handleEditProduct(product)}
-                          style={{ cursor: 'pointer', color: 'orange', marginRight: '8px' }}
-                          title="Edit"
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                        </span>
-                        <FontAwesomeIcon
-                          icon={faTrash}
-                          color="red"
-                          onClick={() => handleDeleteProduct(product._id)}
-                          style={{ cursor: 'pointer', marginRight: '8px' }}
-                          title="Delete"
-                        />
-                        <FontAwesomeIcon
-                          icon={faImage}
-                          color="blue"
-                          onClick={() => handleAddImages(product._id)}
-                          style={{ cursor: 'pointer', marginRight: '8px' }}
-                          title="Add Images"
-                        />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <FontAwesomeIcon
-                          icon={faObjectGroup}
-                          color="blue"
-                          onClick={() => handleAddDimensions(product._id, product.category_name)}
-                          style={{ cursor: 'pointer' }}
-                          title="Add Dimensions"
-                        />
-                      </CTableDataCell>
-                    </CTableDataCell>
+            {loading ? (
+              <CRow className="justify-content-center">
+                <CSpinner color="primary" />
+              </CRow>
+            ) : (
+              <CTable striped>
+                <CTableHead>
+                  <CTableRow>
+                    <CTableHeaderCell>Product Name</CTableHeaderCell>
+                    <CTableHeaderCell>Category</CTableHeaderCell>
+                    <CTableHeaderCell>Subcategory</CTableHeaderCell>
+                    <CTableHeaderCell>Sub-subcategory</CTableHeaderCell>
+                    <CTableHeaderCell>Status</CTableHeaderCell>
+                    <CTableHeaderCell>Actions</CTableHeaderCell>
                   </CTableRow>
-                ))}
-              </CTableBody>
-            </CTable>
+                </CTableHead>
+                <CTableBody>
+                  {filteredData.map(product => (
+                    <CTableRow key={product._id}>
+                      <CTableDataCell>{product.name}</CTableDataCell>
+                      <CTableDataCell>{product.category_name}</CTableDataCell>
+                      <CTableDataCell>{product.sub_category_name}</CTableDataCell>
+                      <CTableDataCell>{product.sub_sub_category_name}</CTableDataCell>
+                      <CTableDataCell>{product.status}</CTableDataCell>
+                      <CTableDataCell>
+                        <CTableDataCell>
+                          <span
+                            className="icon-clickable"
+                            onClick={() => handleEditProduct(product)}
+                            style={{ cursor: 'pointer', color: 'orange', marginRight: '8px' }}
+                            title="Edit"
+                          >
+                            <FontAwesomeIcon icon={faEdit} />
+                          </span>
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            color="red"
+                            onClick={() => handleDeleteProduct(product._id)}
+                            style={{ cursor: 'pointer', marginRight: '8px' }}
+                            title="Delete"
+                          />
+                          <FontAwesomeIcon
+                            icon={faImage}
+                            color="blue"
+                            onClick={() => handleAddImages(product._id)}
+                            style={{ cursor: 'pointer', marginRight: '8px' }}
+                            title="Add Images"
+                          />
+                        </CTableDataCell>
+                        <CTableDataCell>
+                          <FontAwesomeIcon
+                            icon={faObjectGroup}
+                            color="blue"
+                            onClick={() => handleAddDimensions(product._id, product.category_name)}
+                            style={{ cursor: 'pointer' }}
+                            title="Add Dimensions"
+                          />
+                        </CTableDataCell>
+                      </CTableDataCell>
+                    </CTableRow>
+                  ))}
+                </CTableBody>
+              </CTable>
+            )}
           </CCardBody>
         </CCard>
       </CCol>
@@ -900,7 +912,6 @@ const ManageProduct = () => {
           <CForm>
             <CFormLabel htmlFor="productImages">Upload Images</CFormLabel>
             <CFormInput type="file" id="productImages" multiple onChange={handleImageUpload} />
-            {/* Display fetched images */}
             <CListGroup className="mt-3">
               {newImages && newImages.length > 0 ? (
                 newImages.map((image, index) => (

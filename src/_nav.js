@@ -44,6 +44,16 @@ const _nav = [
     },
   },
 
+  {
+    component: CNavItem,
+    name: 'Customer Management',
+    to: '/CustomerManagement',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    badge: {
+      color: 'info',
+    },
+  },
+
   // Categories
 
   {

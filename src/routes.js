@@ -2,6 +2,7 @@ import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const UserManagement = React.lazy(() => import('./views/User_Management/UserManagement'))
+const CustomerManagement = React.lazy(() => import('./views/CustomerManagement/CustomerManagement'))
 const CategoriesManagement = React.lazy(() => import('./views/Categories_Management/CategoriesManagement'))
 const SubCategory = React.lazy(() => import('./views/Categories_Management/SubCategory'))
 const SubSubCategory = React.lazy(() => import('./views/Categories_Management/SubSubCategory'))
@@ -21,6 +22,7 @@ const StaticContentManagement = React.lazy(() => import('./views/Static Content 
 const routes = [
   { path: '/Dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/UserManagement', name: 'UserManagement', element: UserManagement },
+  { path: '/CustomerManagement', name: 'CustomerManagement', element : CustomerManagement},
   { path: '/CategoriesManagement', name: 'CategoriesManagement', element: CategoriesManagement },
   { path: '/SubCategory', name: 'SubCategory', element: SubCategory },
   { path: '/SubSubCategory', name: 'SubSubCategory', element: SubSubCategory },
