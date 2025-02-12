@@ -24,7 +24,7 @@ const DimensionsProductDoors = () => {
             setLoading(true);
             try {
                 const response = await axios.get(
-                    `http://localhost:7878/api/DimDoorW_H/getAllDimDoorWidthHeights/${productIdfordet}`
+                    `http://44.196.64.110:7878/api/DimDoorW_H/getAllDimDoorWidthHeights/${productIdfordet}`
                 );
 
                 console.log("🔍 Full API Response:", response);
@@ -57,7 +57,7 @@ const DimensionsProductDoors = () => {
     const fetchEntries = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:7878/api/DimDoorW_H/getAllDimDoorWidthHeights/${productIdfordet}`);
+            const response = await axios.get(`http://44.196.64.110:7878/api/DimDoorW_H/getAllDimDoorWidthHeights/${productIdfordet}`);
             setEntries(response.data.data || []);
         } catch (err) {
             console.error("Fetch Dimensions Error:", err);
@@ -82,7 +82,7 @@ const DimensionsProductDoors = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post('http://localhost:7878/api/DimDoorW_H/createDimDoorWidthHeight', {
+            const response = await axios.post('http://44.196.64.110:7878/api/DimDoorW_H/createDimDoorWidthHeight', {
                 widthHeight: frameSize,
                 price: parseFloat(price),
                 productId: productIdfordet,
@@ -103,7 +103,7 @@ const DimensionsProductDoors = () => {
     // ✅ Handle Delete Entry
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:7878/api/DimDoorW_H/deleteDimDoorWidthHeight/${id}`);
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoorW_H/deleteDimDoorWidthHeight/${id}`);
             setEntries(entries.filter(entry => entry._id !== id));
         } catch (err) {
             console.error("Delete Entry Error:", err);
