@@ -113,35 +113,52 @@ const DimensionsProductDoors = () => {
 
     return (
         <div className="d-flex flex-column align-items-center mt-4">
-            <h1 className="mb-4 text-primary fw-bold">Dimensions</h1>
+            <h1 className="mb-4 text-primary fw-bold"> Door Dimensions</h1>
             {error && <CAlert color="danger" className="text-center">{error}</CAlert>}
-
-            <CCard className="shadow-lg border-primary rounded-3 p-3" style={{ width: '24rem' }}>
-                <CCardBody>
-                    <CCardTitle className="text-center text-uppercase fw-bold text-dark">
-                        Add Dimension
-                    </CCardTitle>
-                    <hr />
-                    <CFormInput type="text" placeholder="Width x Height" value={frameSize} onChange={(e) => setFrameSize(e.target.value)} className="mb-3" />
-                    <CFormInput type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} className="mb-3" />
-                    <CButton color="primary" onClick={handleAdd} disabled={loading}>{loading ? <CSpinner size="sm" /> : '+ Add'}</CButton>
-                </CCardBody>
-            </CCard>
-
-            <div className="mt-4 w-50">
-                {entries.length > 0 ? (
-                    entries.map((entry, index) => (
-                        <CCard key={entry._id || index} className="mb-2 shadow-sm p-2 d-flex flex-row justify-content-between align-items-center">
-                            <CCardText className="mb-0 fw-semibold">{entry.widthHeight} - ${entry.price}</CCardText>
-                            <CButton color="danger" size="sm" onClick={() => handleDelete(entry._id)}>
-                                <FontAwesomeIcon icon={faTrash} />
-                            </CButton>
-                        </CCard>
-                    ))
-                ) : (
-                    <CAlert color="info" className="text-center">No dimensions found.</CAlert>
-                )}
+            <div className='row gy-4 gx-3  w-100'>
+                <div className='col-6 ms-auto'>
+                    <CCard className="shadow-lg border-primary rounded-3 p-3 w-100">
+                        <CCardBody>
+                            <CCardTitle className="text-center text-uppercase fw-bold text-dark">
+                                Add Dimension
+                            </CCardTitle>
+                            <hr />
+                            <CFormInput type="text" placeholder="Width x Height" value={frameSize} onChange={(e) => setFrameSize(e.target.value)} className="mb-3" />
+                            <CFormInput type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} className="mb-3" />
+                            <CButton color="primary" onClick={handleAdd} disabled={loading}>{loading ? <CSpinner size="sm" /> : '+ Add'}</CButton>
+                        </CCardBody>
+                    </CCard>
+                </div>
+                <div className='col-4 me-auto'>
+                    <div className=" w-100">
+                        {entries.length > 0 ? (
+                            entries.map((entry, index) => (
+                                <CCard key={entry._id || index} className="mb-2 shadow-sm p-2 d-flex flex-row justify-content-between align-items-center">
+                                    <div className="d-flex flex-row justify-content-between w-100 align-items-center">
+                                        <div className='d-flex flex-column gap-2 text-start fw-semibold'>
+                                            <span className='fw-bold'>Height*Width</span>
+                                            {entry.widthHeight}
+                                        </div>
+                                        <div className='d-flex flex-column gap-2 text-start fw-semibold'>
+                                            <span className='fw-bold'>Price</span>
+                                            ${entry.price}
+                                        </div>
+                                        <CButton color="danger" size="sm" onClick={() => handleDelete(entry._id)}>
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </CButton>
+                                    </div>
+                                  
+                                </CCard>
+                            ))
+                        ) : (
+                            <CAlert color="info" className="text-center">No dimensions found.</CAlert>
+                        )}
+                    </div>
+                </div>
             </div>
+
+
+
 
         </div>
     );
