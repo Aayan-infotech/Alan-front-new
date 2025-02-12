@@ -114,12 +114,6 @@ const DimensionsProductDoors = () => {
     return (
         <div className="d-flex flex-column align-items-center mt-4">
             <h1 className="mb-4 text-primary fw-bold"> Door Dimensions</h1>
-            {/* {product ? (
-                <h1>{product.name}</h1>
-            ) : (
-                <CSpinner size="sm" />
-            )} */}
-
             {error && <CAlert color="danger" className="text-center">{error}</CAlert>}
             <div className='row gy-4 gx-3  w-100'>
                 <div className='col-6 ms-auto'>
@@ -162,10 +156,6 @@ const DimensionsProductDoors = () => {
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
     );
 };
