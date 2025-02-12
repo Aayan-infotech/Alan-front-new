@@ -12,6 +12,7 @@ const DimensionsProductDoors = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [product, setProduct] = useState(null);
+    // const { productId, categoryName } = useParams();
 
     const location = useLocation();
     const { productIdfordet } = location.state || {};
@@ -38,7 +39,7 @@ const DimensionsProductDoors = () => {
                 }
             } catch (err) {
                 console.error("Fetch Dimensions Error:", err);
-                setError("Error fetching dimensions");
+                setError("");
             } finally {
                 setLoading(false);
             }
@@ -54,23 +55,22 @@ const DimensionsProductDoors = () => {
     }, [entries]);
 
 
-    const fetchEntries = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get(`http://44.196.64.110:7878/api/DimDoorW_H/getAllDimDoorWidthHeights/${productIdfordet}`);
-            setEntries(response.data.data || []);
-        } catch (err) {
-            console.error("Fetch Dimensions Error:", err);
-            setError('Error fetching dimensions');
-        } finally {
-            setLoading(false);
-        }
-    };
-    // ✅ Fetch dimensions
     useEffect(() => {
-        if (!productIdfordet) {
-            fetchEntries();
-        }
+        if (!productIdfordet) return;
+
+        const fetchProductData = async () => {
+            try {
+                const response = await axios.get(`http://44.196.64.110:7878/api/products/getProductsbyid/${productIdfordet}`);
+                setProduct(response.data);  // Set the product state with fetched data
+                console.log("Fetched Product Data:", response.data);
+            } catch (err) {
+                setError('Error fetching product data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProductData();
     }, [productIdfordet]);
 
     // ✅ Handle Add Entry
@@ -114,13 +114,19 @@ const DimensionsProductDoors = () => {
     return (
         <div className="d-flex flex-column align-items-center mt-4">
             <h1 className="mb-4 text-primary fw-bold"> Door Dimensions</h1>
+            {/* {product ? (
+                <h1>{product.name}</h1>
+            ) : (
+                <CSpinner size="sm" />
+            )} */}
+
             {error && <CAlert color="danger" className="text-center">{error}</CAlert>}
             <div className='row gy-4 gx-3  w-100'>
                 <div className='col-6 ms-auto'>
                     <CCard className="shadow-lg border-primary rounded-3 p-3 w-100">
                         <CCardBody>
                             <CCardTitle className="text-center text-uppercase fw-bold text-dark">
-                                Add Dimension
+                                {product ? product.name : <CSpinner size="sm" />}
                             </CCardTitle>
                             <hr />
                             <CFormInput type="text" placeholder="Width x Height" value={frameSize} onChange={(e) => setFrameSize(e.target.value)} className="mb-3" />
@@ -144,10 +150,10 @@ const DimensionsProductDoors = () => {
                                             ${entry.price}
                                         </div>
                                         <CButton color="danger" size="sm" onClick={() => handleDelete(entry._id)}>
-                                        <FontAwesomeIcon icon={faTrash} />
-                                    </CButton>
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </CButton>
                                     </div>
-                                  
+
                                 </CCard>
                             ))
                         ) : (
