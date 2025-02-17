@@ -127,58 +127,58 @@ const DimensionsProductDoors = () => {
     };
 
     // ✅ Fetch Pre-finishing Options
-const fetchPreFinishingOptions = async () => {
-    setLoading(true);
-    try {
-        const response = await axios.get(
-            `http://44.196.64.110:7878/api/DimDoor/DoorPreFinishingOptions/${productIdfordet}`
-        );
-        console.log("🔍 Pre-finishing API Response:", response.data); // ✅ Debugging log
+    const fetchPreFinishingOptions = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(
+                `http://44.196.64.110:7878/api/DimDoor/DoorPreFinishingOptions/${productIdfordet}`
+            );
+            console.log("🔍 Pre-finishing API Response:", response.data); // ✅ Debugging log
 
-        setPreFinishingOptions(Array.isArray(response.data) ? response.data : []);
-    } catch (err) {
-        console.error("Fetch Pre-finishing Error:", err);
-        setError("Error fetching pre-finishing options.");
-    } finally {
-        setLoading(false);
-    }
-};
+            setPreFinishingOptions(Array.isArray(response.data) ? response.data : []);
+        } catch (err) {
+            console.error("Fetch Pre-finishing Error:", err);
+            setError("Error fetching pre-finishing options.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-// ✅ Add Pre-finishing Option
-const handleAddPreFinishingOptions = async () => {
-    if (!frameSize || !amount || !productIdfordet) {
-        setError("Please provide all details.");
-        return;
-    }
-    setLoading(true);
-    try {
-        await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorPreFinishingOptions', {
-            DoorPreFinishingOptions: frameSize,
-            amount: parseFloat(amount),
-            productId: productIdfordet,
-        });
-        console.log("✅ Added Pre-finishing Option:", frameSize, amount);
-        setFrameSize('');
-        setAmount('');
-        fetchPreFinishingOptions(); // ✅ Refresh Pre-Finishing Options
-    } catch (err) {
-        console.error("Add Pre-finishing Error:", err);
-        setError("Error adding pre-finishing option.");
-    } finally {
-        setLoading(false);
-    }
-};
+    // ✅ Add Pre-finishing Option
+    const handleAddPreFinishingOptions = async () => {
+        if (!frameSize || !amount || !productIdfordet) {
+            setError("Please provide all details.");
+            return;
+        }
+        setLoading(true);
+        try {
+            await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorPreFinishingOptions', {
+                DoorPreFinishingOptions: frameSize,
+                amount: parseFloat(amount),
+                productId: productIdfordet,
+            });
+            console.log("✅ Added Pre-finishing Option:", frameSize, amount);
+            setFrameSize('');
+            setAmount('');
+            fetchPreFinishingOptions(); // ✅ Refresh Pre-Finishing Options
+        } catch (err) {
+            console.error("Add Pre-finishing Error:", err);
+            setError("Error adding pre-finishing option.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-// ✅ Delete Pre-finishing Option
-const handleDeleteFinishingOption = async (id) => {
-    try {
-        await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorPreFinishingOptions/${id}`); // ✅ Fixed API endpoint
-        setPreFinishingOptions(preFinishingOptions.filter(option => option._id !== id));
-    } catch (err) {
-        console.error("Delete Pre-finishing Error:", err);
-        setError("Error deleting pre-finishing option.");
-    }
-};
+    // ✅ Delete Pre-finishing Option
+    const handleDeleteFinishingOption = async (id) => {
+        try {
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorPreFinishingOptions/${id}`); // ✅ Fixed API endpoint
+            setPreFinishingOptions(preFinishingOptions.filter(option => option._id !== id));
+        } catch (err) {
+            console.error("Delete Pre-finishing Error:", err);
+            setError("Error deleting pre-finishing option.");
+        }
+    };
 
 
     return (
