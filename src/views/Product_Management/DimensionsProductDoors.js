@@ -19,7 +19,7 @@ const DimensionsProductDoors = () => {
     const [SwingDirection, setSwingDirection] = useState([]);
     const [PeepView, setPeepView] = useState([]);
     const [HingeColor, setHingeColor] = useState([]);
-
+    const [Sill, setSill] = useState([]);
 
 
     useEffect(() => {
@@ -31,10 +31,61 @@ const DimensionsProductDoors = () => {
         fetchSwingDirection();
         fetchPeepView();
         fetchHingeColor();
+        fetchSill()
     }, [productIdfordet]);
 
+    // Add Sill
+    const fetchSill = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`http://44.196.64.110:7878/api/DimDoor/DoorSill/${productIdfordet}`);
+            console.log('Sill Data:', response.data); // Log response
+            setSill(Array.isArray(response.data) ? response.data : []);
+        } catch (err) {
+            setError("Error fetching sill options.");
+            console.error(err); // Log error
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // ✅ Add Sill
+    const handleAddSill = async () => {
+        if (!frameSize || !amount || !productIdfordet) {
+            setError("Please provide all details.");
+            return;
+        }
+        setLoading(true);
+        try {
+            await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorSill', {
+                DoorSill: frameSize,
+                amount: parseFloat(amount),
+                productId: productIdfordet,
+            });
+            setFrameSize('');
+            setAmount('');
+            fetchSill();
+        } catch (err) {
+            setError("Error adding frame option.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // ✅ Delete Sill
+    // Delete Sill
+    const handleDeleteSill = async (id) => {
+        try {
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorSill/${id}`);
+            setSill(Sill.filter(option => option._id !== id)); // Use Sill array here
+        } catch (err) {
+            setError("Error deleting sill option.");
+            console.error(err); // Log error
+        }
+    };
+
     // Add Hinge Color  
-     const fetchHingeColor = async () => {
+    const fetchHingeColor = async () => {
         setLoading(true);
         try {
             const response = await axios.get(
@@ -575,8 +626,8 @@ const DimensionsProductDoors = () => {
             ) : (
                 <CAlert color="info">No frame options found.</CAlert>
             )}
-{/* 🔹 Hinge Color  */}
-              <h3 className="mt-4">Hinge Color</h3>
+            {/* 🔹 Hinge Color  */}
+            <h3 className="mt-4">Hinge Color</h3>
             <CFormInput
                 type="text"
                 placeholder="Hinge Color"
@@ -599,6 +650,39 @@ const DimensionsProductDoors = () => {
                         <CCardBody>
                             <CCardTitle>{option.DoorHingeColor} - ${option.amount}</CCardTitle>
                             <CButton color="danger" size="sm" onClick={() => handleDeleteHingeColor(option._id)}>
+                                <FontAwesomeIcon icon={faTrash} />
+                            </CButton>
+                        </CCardBody>
+                    </CCard>
+                ))
+            ) : (
+                <CAlert color="info">No pre-finishing options found.</CAlert>
+            )}
+
+            {/* 🔹 sill  */}
+            <h3 className="mt-4">Sill</h3>
+            <CFormInput
+                type="text"
+                placeholder="Sill"
+                value={frameSize}
+                onChange={(e) => setFrameSize(e.target.value)}
+            />
+            <CFormInput
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+            />
+            <CButton color="primary" onClick={handleAddSill} disabled={loading}>
+                {loading ? <CSpinner size="sm" /> : '+ Add Sill'}
+            </CButton>
+
+            {Sill.length > 0 ? (
+                Sill.map((option) => (
+                    <CCard key={option._id} className="mt-2 p-3">
+                        <CCardBody>
+                            <CCardTitle>{option.DoorSill} - ${option.amount}</CCardTitle>
+                            <CButton color="danger" size="sm" onClick={() => handleDeleteSill(option._id)}>
                                 <FontAwesomeIcon icon={faTrash} />
                             </CButton>
                         </CCardBody>
