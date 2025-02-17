@@ -16,6 +16,8 @@ const DimensionsProductDoors = () => {
     const { productIdfordet } = location.state || {};
     const [preFinishingOptions, setPreFinishingOptions] = useState([]);
     const [FrameOptions, setFrameOptions] = useState([]);
+    const [SwingDirection, setSwingDirection] = useState([]);
+
 
 
     useEffect(() => {
@@ -24,6 +26,7 @@ const DimensionsProductDoors = () => {
         fetchPreHungOptions();
         fetchPreFinishingOptions();
         fetchFrameOptions();
+        fetchSwingDirection()
     }, [productIdfordet]);
 
     // ✅ Fetch Door Dimensions
@@ -235,6 +238,57 @@ const DimensionsProductDoors = () => {
         }
     };
 
+       // ✅ Fetch Select Door Swing Direction
+       const fetchSwingDirection = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(
+                `http://44.196.64.110:7878/api/DimDoor/DoorSwingDirection/${productIdfordet}`
+            );
+            setSwingDirection(Array.isArray(response.data) ? response.data : []);
+        } catch (err) {
+            console.error("Fetch Frame Options Error:", err);
+            setError("Error fetching frame options.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // ✅ Add Select Door Swing Direction
+    const handleAddSwingDirection = async () => {
+        if (!frameSize || !amount || !productIdfordet) {
+            setError("Please provide all details.");
+            return;
+        }
+        setLoading(true);
+        try {
+            await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorSwingDirection', {
+                DoorSwingDirection: frameSize,
+                amount: parseFloat(amount),
+                productId: productIdfordet,
+            });
+            console.log("✅ Added Frame Option:", frameSize, amount); // ✅ Debugging log
+            setFrameSize('');
+            setAmount('');
+            fetchSwingDirection(); 
+        } catch (err) {
+            console.error("Add Frame Options Error:", err);
+            setError("Error adding frame option.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // ✅ Delete Select Door Swing Direction
+    const handleDeleteSwingDirection = async (id) => {
+        try {
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorSwingDirection/${id}`);
+            setSwingDirection(FrameOptions.filter(option => option._id !== id)); 
+        } catch (err) {
+            console.error("Delete Frame Options Error:", err);
+            setError("Error deleting frame option.");
+        }
+    };
 
     return (
         <div className="container">
@@ -344,6 +398,39 @@ const DimensionsProductDoors = () => {
                         <CCardBody>
                             <CCardTitle>{option.DoorFrameOptions} - ${option.amount}</CCardTitle> {/* ✅ Fixed field name */}
                             <CButton color="danger" size="sm" onClick={() => handleDeleteFrameOption(option._id)}>
+                                <FontAwesomeIcon icon={faTrash} />
+                            </CButton>
+                        </CCardBody>
+                    </CCard>
+                ))
+            ) : (
+                <CAlert color="info">No frame options found.</CAlert>
+            )}
+
+            {/* 🔹 Select Door Swing Direction */}
+            <h3 className="mt-4">Swing Direction</h3>
+            <CFormInput
+                type="text"
+                placeholder="Swing Direction"
+                value={frameSize}
+                onChange={(e) => setFrameSize(e.target.value)}
+            />
+            <CFormInput
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+            />
+            <CButton color="primary" onClick={handleAddSwingDirection} disabled={loading}>
+                {loading ? <CSpinner size="sm" /> : '+ Add Swing Direction'}
+            </CButton>
+
+            {SwingDirection.length > 0 ? (
+                SwingDirection.map((option) => (
+                    <CCard key={option._id} className="mt-2 p-3">
+                        <CCardBody>
+                            <CCardTitle>{option.DoorSwingDirection} - ${option.amount}</CCardTitle> 
+                            <CButton color="danger" size="sm" onClick={() => handleDeleteSwingDirection(option._id)}>
                                 <FontAwesomeIcon icon={faTrash} />
                             </CButton>
                         </CCardBody>
