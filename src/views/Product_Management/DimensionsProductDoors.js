@@ -238,8 +238,8 @@ const DimensionsProductDoors = () => {
         }
     };
 
-       // ✅ Fetch Select Door Swing Direction
-       const fetchSwingDirection = async () => {
+    // ✅ Fetch Select Door Swing Direction
+    const fetchSwingDirection = async () => {
         setLoading(true);
         try {
             const response = await axios.get(
@@ -270,7 +270,7 @@ const DimensionsProductDoors = () => {
             console.log("✅ Added Frame Option:", frameSize, amount); // ✅ Debugging log
             setFrameSize('');
             setAmount('');
-            fetchSwingDirection(); 
+            fetchSwingDirection();
         } catch (err) {
             console.error("Add Frame Options Error:", err);
             setError("Error adding frame option.");
@@ -283,7 +283,7 @@ const DimensionsProductDoors = () => {
     const handleDeleteSwingDirection = async (id) => {
         try {
             await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorSwingDirection/${id}`);
-            setSwingDirection(FrameOptions.filter(option => option._id !== id)); 
+            setSwingDirection(FrameOptions.filter(option => option._id !== id));
         } catch (err) {
             console.error("Delete Frame Options Error:", err);
             setError("Error deleting frame option.");
@@ -429,7 +429,7 @@ const DimensionsProductDoors = () => {
                 SwingDirection.map((option) => (
                     <CCard key={option._id} className="mt-2 p-3">
                         <CCardBody>
-                            <CCardTitle>{option.DoorSwingDirection} - ${option.amount}</CCardTitle> 
+                            <CCardTitle>{option.DoorSwingDirection} - ${option.amount}</CCardTitle>
                             <CButton color="danger" size="sm" onClick={() => handleDeleteSwingDirection(option._id)}>
                                 <FontAwesomeIcon icon={faTrash} />
                             </CButton>
