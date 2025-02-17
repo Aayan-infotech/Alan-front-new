@@ -13,47 +13,41 @@ const DimensionsProductDoors = () => {
     const [error, setError] = useState(null);
     const [product, setProduct] = useState(null);
     // const { productId, categoryName } = useParams();
-
     const location = useLocation();
     const { productIdfordet } = location.state || {};
 
     // ✅ Fetch product details
     useEffect(() => {
         if (!productIdfordet) return;
-
-        const fetchEntries = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get(
-                    `http://44.196.64.110:7878/api/DimDoorW_H/getAllDimDoorWidthHeights/${productIdfordet}`
-                );
-
-                console.log("🔍 Full API Response:", response);
-                console.log("📌 Expected Data:", response.data);
-
-                if (Array.isArray(response.data)) {
-                    setEntries(response.data); // ✅ Correctly setting state
-                } else {
-                    setEntries([]); // Fallback in case of unexpected structure
-                    console.error("❌ Unexpected Data Structure:", response.data);
-                }
-            } catch (err) {
-                console.error("Fetch Dimensions Error:", err);
-                setError("");
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchEntries();
     }, [productIdfordet]);
 
+    const fetchEntries = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(
+                `http://44.196.64.110:7878/api/DimDoor/DoorWidthHeight/${productIdfordet}`
+            );
 
+            // console.log("🔍 Full API Response:", response);
+            // console.log("📌 Expected Data:", response.data);
+            if (Array.isArray(response.data)) {
+                setEntries(response.data); // ✅ Correctly setting state
+            } else {
+                setEntries([]); // Fallback in case of unexpected structure
+                console.error("❌ Unexpected Data Structure:", response.data);
+            }
+        } catch (err) {
+            console.error("Fetch Dimensions Error:", err);
+            setError("");
+        } finally {
+            setLoading(false);
+        }
+    };
     // ✅ Log state to check re-renders
     useEffect(() => {
         console.log("Updated Entries:", entries);
     }, [entries]);
-
 
     useEffect(() => {
         if (!productIdfordet) return;
@@ -79,17 +73,14 @@ const DimensionsProductDoors = () => {
             setError("Please provide all details.");
             return;
         }
-
         try {
             setLoading(true);
-            const response = await axios.post('http://44.196.64.110:7878/api/DimDoorW_H/createDimDoorWidthHeight', {
-                widthHeight: frameSize,
+            const response = await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorWidthHeight', {
+                DoorWidthHeight: frameSize,
                 amount: parseFloat(amount),
                 productId: productIdfordet,
             });
-
-            console.log("Added Dimension:", response.data); // Debugging log
-            setEntries([...entries, response.data.data]);
+            await fetchEntries();
             setFrameSize('');
             setamount('');
         } catch (err) {
@@ -103,7 +94,7 @@ const DimensionsProductDoors = () => {
     // ✅ Handle Delete Entry
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://44.196.64.110:7878/api/DimDoorW_H/deleteDimDoorWidthHeight/${id}`);
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorWidthHeight/${id}`);
             setEntries(entries.filter(entry => entry._id !== id));
         } catch (err) {
             console.error("Delete Entry Error:", err);
@@ -170,7 +161,7 @@ const DimensionsProductDoors = () => {
                                     <div className="d-flex flex-row justify-content-between w-100 align-items-center">
                                         <div className='d-flex flex-column gap-2 text-start fw-semibold'>
                                             <span className='fw-bold'>Height*Width</span>
-                                            {entry.widthHeight}
+                                            {entry.DoorWidthHeight}
                                         </div>
                                         <div className='d-flex flex-column gap-2 text-start fw-semibold'>
                                             <span className='fw-bold'>Amount</span>
