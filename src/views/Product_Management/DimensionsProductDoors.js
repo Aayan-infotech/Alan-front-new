@@ -14,7 +14,8 @@ const DimensionsProductDoors = () => {
     const [error, setError] = useState(null);
     const location = useLocation();
     const { productIdfordet } = location.state || {};
-    const [preFinishingOptions, setPreFinishingOptions] = useState([]); // ✅ Correct state initialization
+    const [preFinishingOptions, setPreFinishingOptions] = useState([]);
+    const [FrameOptions, setFrameOptions] = useState([]);
 
 
     useEffect(() => {
@@ -22,6 +23,7 @@ const DimensionsProductDoors = () => {
         fetchEntries();
         fetchPreHungOptions();
         fetchPreFinishingOptions();
+        fetchFrameOptions();
     }, [productIdfordet]);
 
     // ✅ Fetch Door Dimensions
@@ -180,6 +182,59 @@ const DimensionsProductDoors = () => {
         }
     };
 
+    // ✅ Fetch Select Frame Options
+    const fetchFrameOptions = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(
+                `http://44.196.64.110:7878/api/DimDoor/DoorFrameOptions/${productIdfordet}`
+            );
+            console.log("🔍 Frame Options API Response:", response.data); // ✅ Debugging log
+            setFrameOptions(Array.isArray(response.data) ? response.data : []);
+        } catch (err) {
+            console.error("Fetch Frame Options Error:", err);
+            setError("Error fetching frame options.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // ✅ Add Select Frame Options
+    const handleAddFrameOptions = async () => {
+        if (!frameSize || !amount || !productIdfordet) {
+            setError("Please provide all details.");
+            return;
+        }
+        setLoading(true);
+        try {
+            await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorFrameOptions', {
+                DoorFrameOptions: frameSize,
+                amount: parseFloat(amount),
+                productId: productIdfordet,
+            });
+            console.log("✅ Added Frame Option:", frameSize, amount); // ✅ Debugging log
+            setFrameSize('');
+            setAmount('');
+            fetchFrameOptions(); // ✅ Refresh Frame Options
+        } catch (err) {
+            console.error("Add Frame Options Error:", err);
+            setError("Error adding frame option.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // ✅ Delete Select Frame Options
+    const handleDeleteFrameOption = async (id) => {
+        try {
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorFrameOptions/${id}`);
+            setFrameOptions(FrameOptions.filter(option => option._id !== id)); // ✅ Fixed state update
+        } catch (err) {
+            console.error("Delete Frame Options Error:", err);
+            setError("Error deleting frame option.");
+        }
+    };
+
 
     return (
         <div className="container">
@@ -263,6 +318,39 @@ const DimensionsProductDoors = () => {
                 ))
             ) : (
                 <CAlert color="info">No pre-finishing options found.</CAlert>
+            )}
+
+            {/* 🔹 Select Frame Options */}
+            <h3 className="mt-4">Frame Options</h3>
+            <CFormInput
+                type="text"
+                placeholder="Frame Option"
+                value={frameSize}
+                onChange={(e) => setFrameSize(e.target.value)}
+            />
+            <CFormInput
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+            />
+            <CButton color="primary" onClick={handleAddFrameOptions} disabled={loading}>
+                {loading ? <CSpinner size="sm" /> : '+ Add Frame Option'}
+            </CButton>
+
+            {FrameOptions.length > 0 ? (
+                FrameOptions.map((option) => (
+                    <CCard key={option._id} className="mt-2 p-3">
+                        <CCardBody>
+                            <CCardTitle>{option.DoorFrameOptions} - ${option.amount}</CCardTitle> {/* ✅ Fixed field name */}
+                            <CButton color="danger" size="sm" onClick={() => handleDeleteFrameOption(option._id)}>
+                                <FontAwesomeIcon icon={faTrash} />
+                            </CButton>
+                        </CCardBody>
+                    </CCard>
+                ))
+            ) : (
+                <CAlert color="info">No frame options found.</CAlert>
             )}
 
         </div>
