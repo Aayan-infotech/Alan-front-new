@@ -20,6 +20,7 @@ const DimensionsProductDoors = () => {
     const [PeepView, setPeepView] = useState([]);
     const [HingeColor, setHingeColor] = useState([]);
     const [Sill, setSill] = useState([]);
+    const [weatherStripColor, setWeatherStripColor] = useState([]);
 
 
     useEffect(() => {
@@ -31,8 +32,57 @@ const DimensionsProductDoors = () => {
         fetchSwingDirection();
         fetchPeepView();
         fetchHingeColor();
-        fetchSill()
+        fetchSill();
+        fetchWeatherStripColor();
     }, [productIdfordet]);
+
+ // Fetch Weather Strip Color
+const fetchWeatherStripColor = async () => {
+    setLoading(true);
+    try {
+        const response = await axios.get(`http://44.196.64.110:7878/api/DimDoor/DoorWeatherStripColor/${productIdfordet}`);
+        setWeatherStripColor(Array.isArray(response.data) ? response.data : []);
+    } catch (err) {
+        setError("Error fetching weather strip options.");
+        console.error(err); // Log error
+    } finally {
+        setLoading(false);
+    }
+};
+
+// Add Weather Strip Color
+const handleAddWeatherStripColor = async () => {
+    if (!frameSize.trim() || !amount.trim() || !productIdfordet) {
+        setError("Please provide all details.");
+        return;
+    }
+    setLoading(true);
+    try {
+        await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorWeatherStripColor', {
+            DoorWeatherStripColor: frameSize.trim(),
+            amount: parseFloat(amount.trim()),
+            productId: productIdfordet,
+        });
+        setFrameSize('');
+        setAmount('');
+        fetchWeatherStripColor();
+    } catch (err) {
+        setError("Error adding weather strip option.");
+    } finally {
+        setLoading(false);
+    }
+};
+
+// Delete Weather Strip Color
+const handleDeleteWeatherStripColor = async (id) => {
+    try {
+        await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorWeatherStripColor/${id}`);
+        setWeatherStripColor(weatherStripColor.filter(option => option._id !== id)); // Update state to remove the deleted option
+    } catch (err) {
+        setError("Error deleting weather strip option.");
+        console.error(err); // Log error
+    }
+};
 
     // Add Sill
     const fetchSill = async () => {
@@ -689,6 +739,39 @@ const DimensionsProductDoors = () => {
             ) : (
                 <CAlert color="info">No pre-finishing options found.</CAlert>
             )}
+
+
+<h3 className="mt-4">Weather Strip Color</h3>
+        <CFormInput
+            type="text"
+            placeholder="Weather Strip Color"
+            value={frameSize}
+            onChange={(e) => setFrameSize(e.target.value)}
+        />
+        <CFormInput
+            type="number"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+        />
+        <CButton color="primary" onClick={handleAddWeatherStripColor} disabled={loading}>
+            {loading ? <CSpinner size="sm" /> : '+ Add Weather Strip Color'}
+        </CButton>
+
+        {weatherStripColor.length > 0 ? (
+            weatherStripColor.map((option) => (
+                <CCard key={option._id} className="mt-2 p-3">
+                    <CCardBody>
+                        <CCardTitle>{option.DoorWeatherStripColor} - ${option.amount}</CCardTitle>
+                        <CButton color="danger" size="sm" onClick={() => handleDeleteWeatherStripColor(option._id)}>
+                            <FontAwesomeIcon icon={faTrash} />
+                        </CButton>
+                    </CCardBody>
+                </CCard>
+            ))
+        ) : (
+            <CAlert color="info">No weather strip colors available.</CAlert>
+        )}
 
         </div>
     );
