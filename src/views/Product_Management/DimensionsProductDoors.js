@@ -12,7 +12,6 @@ const DimensionsProductDoors = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [product, setProduct] = useState(null);
-    // const { productId, categoryName } = useParams();
     const location = useLocation();
     const { productIdfordet } = location.state || {};
 
