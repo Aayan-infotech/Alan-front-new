@@ -18,7 +18,7 @@ const DimensionsProductDoors = () => {
     const [FrameOptions, setFrameOptions] = useState([]);
     const [SwingDirection, setSwingDirection] = useState([]);
     const [PeepView, setPeepView] = useState([]);
-
+    const [HingeColor, setHingeColor] = useState([]);
 
 
 
@@ -30,7 +30,58 @@ const DimensionsProductDoors = () => {
         fetchFrameOptions();
         fetchSwingDirection();
         fetchPeepView();
+        fetchHingeColor();
     }, [productIdfordet]);
+
+    // Add Hinge Color  
+     const fetchHingeColor = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(
+                `http://44.196.64.110:7878/api/DimDoor/DoorHingeColor/${productIdfordet}`
+            );
+            setHingeColor(Array.isArray(response.data) ? response.data : []);
+        } catch (err) {
+            setError("Error Hinge Color.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // ✅ Add Peep View
+    const handleAddHingeColor = async () => {
+        if (!frameSize || !amount || !productIdfordet) {
+            setError("Please provide all details.");
+            return;
+        }
+        setLoading(true);
+        try {
+            await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorHingeColor', {
+                DoorHingeColor: frameSize,
+                amount: parseFloat(amount),
+                productId: productIdfordet,
+            });
+            setFrameSize('');
+            setAmount('');
+            fetchHingeColor();
+        } catch (err) {
+            setError("Error adding frame option.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // ✅ Delete Peep View
+    const handleDeleteHingeColor = async (id) => {
+        try {
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorHingeColor/${id}`);
+            setHingeColor(FrameOptions.filter(option => option._id !== id));
+        } catch (err) {
+            console.error("Delete Frame Options Error:", err);
+            setError("Error deleting frame option.");
+        }
+    };
+
 
     // ✅ Fetch Door Dimensions
     const fetchEntries = async () => {
@@ -492,8 +543,8 @@ const DimensionsProductDoors = () => {
                 <CAlert color="info">No frame options found.</CAlert>
             )}
 
-             {/* 🔹 Peep View  */}
-             <h3 className="mt-4">Peep View </h3>
+            {/* 🔹 Peep View  */}
+            <h3 className="mt-4">Peep View </h3>
             <CFormInput
                 type="text"
                 placeholder="Peep View"
@@ -523,6 +574,38 @@ const DimensionsProductDoors = () => {
                 ))
             ) : (
                 <CAlert color="info">No frame options found.</CAlert>
+            )}
+{/* 🔹 Hinge Color  */}
+              <h3 className="mt-4">Hinge Color</h3>
+            <CFormInput
+                type="text"
+                placeholder="Hinge Color"
+                value={frameSize}
+                onChange={(e) => setFrameSize(e.target.value)}
+            />
+            <CFormInput
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+            />
+            <CButton color="primary" onClick={handleAddHingeColor} disabled={loading}>
+                {loading ? <CSpinner size="sm" /> : '+ Add Hinge Color'}
+            </CButton>
+
+            {HingeColor.length > 0 ? (
+                HingeColor.map((option) => (
+                    <CCard key={option._id} className="mt-2 p-3">
+                        <CCardBody>
+                            <CCardTitle>{option.DoorHingeColor} - ${option.amount}</CCardTitle>
+                            <CButton color="danger" size="sm" onClick={() => handleDeleteHingeColor(option._id)}>
+                                <FontAwesomeIcon icon={faTrash} />
+                            </CButton>
+                        </CCardBody>
+                    </CCard>
+                ))
+            ) : (
+                <CAlert color="info">No pre-finishing options found.</CAlert>
             )}
 
         </div>
