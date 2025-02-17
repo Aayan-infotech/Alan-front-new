@@ -51,15 +51,15 @@ const DimensionsProductDoors = () => {
 
     // ✅ Add Sill
     const handleAddSill = async () => {
-        if (!frameSize || !amount || !productIdfordet) {
+        if (!frameSize.trim() || !amount.trim() || !productIdfordet) {
             setError("Please provide all details.");
             return;
         }
         setLoading(true);
         try {
             await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorSill', {
-                DoorSill: frameSize,
-                amount: parseFloat(amount),
+                DoorSill: frameSize.trim(),
+                amount: parseFloat(amount.trim()),
                 productId: productIdfordet,
             });
             setFrameSize('');
@@ -73,7 +73,6 @@ const DimensionsProductDoors = () => {
     };
 
     // ✅ Delete Sill
-    // Delete Sill
     const handleDeleteSill = async (id) => {
         try {
             await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorSill/${id}`);
@@ -132,7 +131,6 @@ const DimensionsProductDoors = () => {
             setError("Error deleting frame option.");
         }
     };
-
 
     // ✅ Fetch Door Dimensions
     const fetchEntries = async () => {
