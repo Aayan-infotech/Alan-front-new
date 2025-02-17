@@ -151,6 +151,1079 @@ const DimensionsProductDoors = () => {
   const location = useLocation()
   const { productIdfordet } = location.state || {}
 
+
+
+  // ---------------------------
+  // Dimensions (DoorWidthHeight)
+  // ---------------------------
+  const fetchEntries = async () => {
+    setLoadingDimensions(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorWidthHeight/${productIdfordet}`
+      )
+      setEntries(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Dimensions Error:', err)
+      setError('Error fetching dimensions.')
+    } finally {
+      setLoadingDimensions(false)
+    }
+  }
+
+  const handleAddDimension = async () => {
+    if (!dimensionValue || !dimensionAmount || !productIdfordet) {
+      setError('Please provide all details for dimensions.')
+      return
+    }
+    setLoadingDimensions(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorWidthHeight', {
+        DoorWidthHeight: dimensionValue,
+        amount: parseFloat(dimensionAmount),
+        productId: productIdfordet,
+      })
+      setDimensionValue('')
+      setDimensionAmount('')
+      fetchEntries()
+    } catch (err) {
+      console.error('Add Dimension Error:', err)
+      setError('Error adding dimension.')
+    } finally {
+      setLoadingDimensions(false)
+    }
+  }
+
+  const handleDeleteDimension = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorWidthHeight/${id}`)
+      setEntries(entries.filter((entry) => entry._id !== id))
+    } catch (err) {
+      console.error('Delete Dimension Error:', err)
+      setError('Error deleting dimension.')
+    }
+  }
+
+  // ---------------------------
+  // Pre Hung Options (DoorPreHungOptions)
+  // ---------------------------
+  const fetchPreHungOptions = async () => {
+    setLoadingPreHung(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorPreHungOptions/${productIdfordet}`
+      )
+      setPreHungOptions(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Pre Hung Error:', err)
+      setError('Error fetching pre-hung options.')
+    } finally {
+      setLoadingPreHung(false)
+    }
+  }
+
+  const handleAddPreHungOption = async () => {
+    if (!preHungValue || !preHungAmount || !productIdfordet) {
+      setError('Please provide all details for pre-hung option.')
+      return
+    }
+    setLoadingPreHung(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorPreHungOptions', {
+        DoorPreHungOptions: preHungValue,
+        amount: parseFloat(preHungAmount),
+        productId: productIdfordet,
+      })
+      setPreHungValue('')
+      setPreHungAmount('')
+      fetchPreHungOptions()
+    } catch (err) {
+      console.error('Add Pre Hung Error:', err)
+      setError('Error adding pre-hung option.')
+    } finally {
+      setLoadingPreHung(false)
+    }
+  }
+
+  const handleDeletePreHungOption = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorPreHungOptions/${id}`)
+      setPreHungOptions(preHungOptions.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Pre Hung Error:', err)
+      setError('Error deleting pre-hung option.')
+    }
+  }
+
+  // ---------------------------
+  // Pre Finishing Options (DoorPreFinishingOptions)
+  // ---------------------------
+  const fetchPreFinishingOptions = async () => {
+    setLoadingPreFinishing(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorPreFinishingOptions/${productIdfordet}`
+      )
+      setPreFinishingOptions(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Pre-finishing Error:', err)
+      setError('Error fetching pre-finishing options.')
+    } finally {
+      setLoadingPreFinishing(false)
+    }
+  }
+
+  const handleAddPreFinishingOptions = async () => {
+    if (!preFinishingValue || !preFinishingAmount || !productIdfordet) {
+      setError('Please provide all details for pre-finishing option.')
+      return
+    }
+    setLoadingPreFinishing(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorPreFinishingOptions', {
+        DoorPreFinishingOptions: preFinishingValue,
+        amount: parseFloat(preFinishingAmount),
+        productId: productIdfordet,
+      })
+      setPreFinishingValue('')
+      setPreFinishingAmount('')
+      fetchPreFinishingOptions()
+    } catch (err) {
+      console.error('Add Pre-finishing Error:', err)
+      setError('Error adding pre-finishing option.')
+    } finally {
+      setLoadingPreFinishing(false)
+    }
+  }
+
+  const handleDeleteFinishingOption = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorPreFinishingOptions/${id}`)
+      setPreFinishingOptions(preFinishingOptions.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Pre-finishing Error:', err)
+      setError('Error deleting pre-finishing option.')
+    }
+  }
+
+  // ---------------------------
+  // Frame Options (DoorFrameOptions)
+  // ---------------------------
+  const fetchFrameOptions = async () => {
+    setLoadingFrameOptions(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorFrameOptions/${productIdfordet}`
+      )
+      setFrameOptions(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Frame Options Error:', err)
+      setError('Error fetching frame options.')
+    } finally {
+      setLoadingFrameOptions(false)
+    }
+  }
+
+  const handleAddFrameOptions = async () => {
+    if (!frameOptionValue || !frameOptionAmount || !productIdfordet) {
+      setError('Please provide all details for frame option.')
+      return
+    }
+    setLoadingFrameOptions(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorFrameOptions', {
+        DoorFrameOptions: frameOptionValue,
+        amount: parseFloat(frameOptionAmount),
+        productId: productIdfordet,
+      })
+      setFrameOptionValue('')
+      setFrameOptionAmount('')
+      fetchFrameOptions()
+    } catch (err) {
+      console.error('Add Frame Options Error:', err)
+      setError('Error adding frame option.')
+    } finally {
+      setLoadingFrameOptions(false)
+    }
+  }
+
+  const handleDeleteFrameOption = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorFrameOptions/${id}`)
+      setFrameOptions(frameOptions.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Frame Options Error:', err)
+      setError('Error deleting frame option.')
+    }
+  }
+
+  // ---------------------------
+  // Swing Direction (DoorSwingDirection)
+  // ---------------------------
+  const fetchSwingDirection = async () => {
+    setLoadingSwingDirection(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorSwingDirection/${productIdfordet}`
+      )
+      setSwingDirection(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Swing Direction Error:', err)
+      setError('Error fetching swing direction.')
+    } finally {
+      setLoadingSwingDirection(false)
+    }
+  }
+
+  const handleAddSwingDirection = async () => {
+    if (!swingDirectionValue || !swingDirectionAmount || !productIdfordet) {
+      setError('Please provide all details for swing direction.')
+      return
+    }
+    setLoadingSwingDirection(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorSwingDirection', {
+        DoorSwingDirection: swingDirectionValue,
+        amount: parseFloat(swingDirectionAmount),
+        productId: productIdfordet,
+      })
+      setSwingDirectionValue('')
+      setSwingDirectionAmount('')
+      fetchSwingDirection()
+    } catch (err) {
+      console.error('Add Swing Direction Error:', err)
+      setError('Error adding swing direction.')
+    } finally {
+      setLoadingSwingDirection(false)
+    }
+  }
+
+  const handleDeleteSwingDirection = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorSwingDirection/${id}`)
+      setSwingDirection(swingDirection.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Swing Direction Error:', err)
+      setError('Error deleting swing direction.')
+    }
+  }
+
+  // ---------------------------
+  // Peep View (DoorPeepView)
+  // ---------------------------
+  const fetchPeepView = async () => {
+    setLoadingPeepView(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorPeepView/${productIdfordet}`
+      )
+      setPeepView(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Peep View Error:', err)
+      setError('Error fetching peep view.')
+    } finally {
+      setLoadingPeepView(false)
+    }
+  }
+
+  const handleAddPeepView = async () => {
+    if (!peepViewValue || !peepViewAmount || !productIdfordet) {
+      setError('Please provide all details for peep view.')
+      return
+    }
+    setLoadingPeepView(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorPeepView', {
+        DoorPeepView: peepViewValue,
+        amount: parseFloat(peepViewAmount),
+        productId: productIdfordet,
+      })
+      setPeepViewValue('')
+      setPeepViewAmount('')
+      fetchPeepView()
+    } catch (err) {
+      console.error('Add Peep View Error:', err)
+      setError('Error adding peep view.')
+    } finally {
+      setLoadingPeepView(false)
+    }
+  }
+
+  const handleDeletePeepView = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorPeepView/${id}`)
+      setPeepView(peepView.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Peep View Error:', err)
+      setError('Error deleting peep view.')
+    }
+  }
+
+  // ---------------------------
+  // Hinge Color (DoorHingeColor)
+  // ---------------------------
+  const fetchHingeColor = async () => {
+    setLoadingHingeColor(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorHingeColor/${productIdfordet}`
+      )
+      setHingeColor(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Hinge Color Error:', err)
+      setError('Error fetching hinge color.')
+    } finally {
+      setLoadingHingeColor(false)
+    }
+  }
+
+  const handleAddHingeColor = async () => {
+    if (!hingeColorValue || !hingeColorAmount || !productIdfordet) {
+      setError('Please provide all details for hinge color.')
+      return
+    }
+    setLoadingHingeColor(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorHingeColor', {
+        DoorHingeColor: hingeColorValue,
+        amount: parseFloat(hingeColorAmount),
+        productId: productIdfordet,
+      })
+      setHingeColorValue('')
+      setHingeColorAmount('')
+      fetchHingeColor()
+    } catch (err) {
+      console.error('Add Hinge Color Error:', err)
+      setError('Error adding hinge color.')
+    } finally {
+      setLoadingHingeColor(false)
+    }
+  }
+
+  const handleDeleteHingeColor = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorHingeColor/${id}`)
+      setHingeColor(hingeColor.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Hinge Color Error:', err)
+      setError('Error deleting hinge color.')
+    }
+  }
+
+  // ---------------------------
+  // Sill (DoorSill)
+  // ---------------------------
+  const fetchSillOptions = async () => {
+    setLoadingSill(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorSill/${productIdfordet}`
+      )
+      setSillOptions(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Sill Error:', err)
+      setError('Error fetching sill options.')
+    } finally {
+      setLoadingSill(false)
+    }
+  }
+
+  const handleAddSill = async () => {
+    if (!sillValue || !sillAmount || !productIdfordet) {
+      setError('Please provide all details for sill.')
+      return
+    }
+    setLoadingSill(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorSill', {
+        DoorSill: sillValue,
+        amount: parseFloat(sillAmount),
+        productId: productIdfordet,
+      })
+      setSillValue('')
+      setSillAmount('')
+      fetchSillOptions()
+    } catch (err) {
+      console.error('Add Sill Error:', err)
+      setError('Error adding sill option.')
+    } finally {
+      setLoadingSill(false)
+    }
+  }
+
+  const handleDeleteSill = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorSill/${id}`)
+      setSillOptions(sillOptions.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Sill Error:', err)
+      setError('Error deleting sill option.')
+    }
+  }
+
+  // ---------------------------
+  // Weather Strip Color (DoorWeatherStripColor)
+  // ---------------------------
+  const fetchWeatherStripColor = async () => {
+    setLoadingWeatherStripColor(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorWeatherStripColor/${productIdfordet}`
+      )
+      setWeatherStripColor(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Weather Strip Color Error:', err)
+      setError('Error fetching weather strip color.')
+    } finally {
+      setLoadingWeatherStripColor(false)
+    }
+  }
+
+  const handleAddWeatherStripColor = async () => {
+    if (!weatherStripColorValue || !weatherStripColorAmount || !productIdfordet) {
+      setError('Please provide all details for weather strip color.')
+      return
+    }
+    setLoadingWeatherStripColor(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorWeatherStripColor', {
+        DoorWeatherStripColor: weatherStripColorValue,
+        amount: parseFloat(weatherStripColorAmount),
+        productId: productIdfordet,
+      })
+      setWeatherStripColorValue('')
+      setWeatherStripColorAmount('')
+      fetchWeatherStripColor()
+    } catch (err) {
+      console.error('Add Weather Strip Color Error:', err)
+      setError('Error adding weather strip color.')
+    } finally {
+      setLoadingWeatherStripColor(false)
+    }
+  }
+
+  const handleDeleteWeatherStripColor = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorWeatherStripColor/${id}`)
+      setWeatherStripColor(weatherStripColor.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Weather Strip Color Error:', err)
+      setError('Error deleting weather strip color.')
+    }
+  }
+
+  // ---------------------------
+  // Grid Options (DoorGridOptions)
+  // ---------------------------
+  const fetchGridOptions = async () => {
+    setLoadingGridOptions(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorGridOptions/${productIdfordet}`
+      )
+      setGridOptions(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Grid Options Error:', err)
+      setError('Error fetching grid options.')
+    } finally {
+      setLoadingGridOptions(false)
+    }
+  }
+
+  const handleAddGridOptions = async () => {
+    if (!gridOptionValue || !gridOptionAmount || !productIdfordet) {
+      setError('Please provide all details for grid options.')
+      return
+    }
+    setLoadingGridOptions(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorGridOptions', {
+        DoorGridOptions: gridOptionValue,
+        amount: parseFloat(gridOptionAmount),
+        productId: productIdfordet,
+      })
+      setGridOptionValue('')
+      setGridOptionAmount('')
+      fetchGridOptions()
+    } catch (err) {
+      console.error('Add Grid Options Error:', err)
+      setError('Error adding grid options.')
+    } finally {
+      setLoadingGridOptions(false)
+    }
+  }
+
+  const handleDeleteGridOptions = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorGridOptions/${id}`)
+      setGridOptions(gridOptions.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Grid Options Error:', err)
+      setError('Error deleting grid options.')
+    }
+  }
+
+  // ---------------------------
+  // Frame Extrusion (DoorFrameExtrusion)
+  // ---------------------------
+  const fetchFrameExtrusion = async () => {
+    setLoadingFrameExtrusion(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorFrameExtrusion/${productIdfordet}`
+      )
+      setFrameExtrusion(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Frame Extrusion Error:', err)
+      setError('Error fetching frame extrusion options.')
+    } finally {
+      setLoadingFrameExtrusion(false)
+    }
+  }
+
+  const handleAddFrameExtrusion = async () => {
+    if (!frameExtrusionValue || !frameExtrusionAmount || !productIdfordet) {
+      setError('Please provide all details for frame extrusion.')
+      return
+    }
+    setLoadingFrameExtrusion(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorFrameExtrusion', {
+        DoorFrameExtrusion: frameExtrusionValue,
+        amount: parseFloat(frameExtrusionAmount),
+        productId: productIdfordet,
+      })
+      setFrameExtrusionValue('')
+      setFrameExtrusionAmount('')
+      fetchFrameExtrusion()
+    } catch (err) {
+      console.error('Add Frame Extrusion Error:', err)
+      setError('Error adding frame extrusion.')
+    } finally {
+      setLoadingFrameExtrusion(false)
+    }
+  }
+
+  const handleDeleteFrameExtrusion = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorFrameExtrusion/${id}`)
+      setFrameExtrusion(frameExtrusion.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Frame Extrusion Error:', err)
+      setError('Error deleting frame extrusion.')
+    }
+  }
+
+  // ---------------------------
+  // Lock Option (DoorLockOption)
+  // ---------------------------
+  const fetchLockOption = async () => {
+    setLoadingLockOption(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorLockOption/${productIdfordet}`
+      )
+      setLockOption(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Lock Option Error:', err)
+      setError('Error fetching lock options.')
+    } finally {
+      setLoadingLockOption(false)
+    }
+  }
+
+  const handleAddLockOption = async () => {
+    if (!lockOptionValue || !lockOptionAmount || !productIdfordet) {
+      setError('Please provide all details for lock option.')
+      return
+    }
+    setLoadingLockOption(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorLockOption', {
+        DoorLockOption: lockOptionValue,
+        amount: parseFloat(lockOptionAmount),
+        productId: productIdfordet,
+      })
+      setLockOptionValue('')
+      setLockOptionAmount('')
+      fetchLockOption()
+    } catch (err) {
+      console.error('Add Lock Option Error:', err)
+      setError('Error adding lock option.')
+    } finally {
+      setLoadingLockOption(false)
+    }
+  }
+
+  const handleDeleteLockOption = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorLockOption/${id}`)
+      setLockOption(lockOption.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Lock Option Error:', err)
+      setError('Error deleting lock option.')
+    }
+  }
+
+  // ---------------------------
+  // Door Color (DoorColor)
+  // ---------------------------
+  const fetchDoorColor = async () => {
+    setLoadingDoorColor(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorColor/${productIdfordet}`
+      )
+      setDoorColor(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Door Color Error:', err)
+      setError('Error fetching door color options.')
+    } finally {
+      setLoadingDoorColor(false)
+    }
+  }
+
+  const handleAddDoorColor = async () => {
+    if (!doorColorValue || !doorColorAmount || !productIdfordet) {
+      setError('Please provide all details for door color.')
+      return
+    }
+    setLoadingDoorColor(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorColor', {
+        DoorColor: doorColorValue,
+        amount: parseFloat(doorColorAmount),
+        productId: productIdfordet,
+      })
+      setDoorColorValue('')
+      setDoorColorAmount('')
+      fetchDoorColor()
+    } catch (err) {
+      console.error('Add Door Color Error:', err)
+      setError('Error adding door color.')
+    } finally {
+      setLoadingDoorColor(false)
+    }
+  }
+
+  const handleDeleteDoorColor = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorColor/${id}`)
+      setDoorColor(doorColor.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Door Color Error:', err)
+      setError('Error deleting door color.')
+    }
+  }
+
+  // ---------------------------
+  // Width Frame (DoorWidthFrame)
+  // ---------------------------
+  const fetchWidthFrame = async () => {
+    setLoadingWidthFrame(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorWidthFrame/${productIdfordet}`
+      )
+      setWidthFrame(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Width Frame Error:', err)
+      setError('Error fetching width frame options.')
+    } finally {
+      setLoadingWidthFrame(false)
+    }
+  }
+
+  const handleAddWidthFrame = async () => {
+    if (!widthFrameValue || !widthFrameAmount || !productIdfordet) {
+      setError('Please provide all details for width frame.')
+      return
+    }
+    setLoadingWidthFrame(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorWidthFrame', {
+        DoorWidthFrame: widthFrameValue,
+        amount: parseFloat(widthFrameAmount),
+        productId: productIdfordet,
+      })
+      setWidthFrameValue('')
+      setWidthFrameAmount('')
+      fetchWidthFrame()
+    } catch (err) {
+      console.error('Add Width Frame Error:', err)
+      setError('Error adding width frame.')
+    } finally {
+      setLoadingWidthFrame(false)
+    }
+  }
+
+  const handleDeleteWidthFrame = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorWidthFrame/${id}`)
+      setWidthFrame(widthFrame.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Width Frame Error:', err)
+      setError('Error deleting width frame.')
+    }
+  }
+
+  // ---------------------------
+  // Jamb Size (DoorJambSize)
+  // ---------------------------
+  const fetchJambSize = async () => {
+    setLoadingJambSize(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorJambSize/${productIdfordet}`
+      )
+      setJambSize(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Jamb Size Error:', err)
+      setError('Error fetching jamb size options.')
+    } finally {
+      setLoadingJambSize(false)
+    }
+  }
+
+  const handleAddJambSize = async () => {
+    if (!jambSizeValue || !jambSizeAmount || !productIdfordet) {
+      setError('Please provide all details for jamb size.')
+      return
+    }
+    setLoadingJambSize(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorJambSize', {
+        DoorJambSize: jambSizeValue,
+        amount: parseFloat(jambSizeAmount),
+        productId: productIdfordet,
+      })
+      setJambSizeValue('')
+      setJambSizeAmount('')
+      fetchJambSize()
+    } catch (err) {
+      console.error('Add Jamb Size Error:', err)
+      setError('Error adding jamb size.')
+    } finally {
+      setLoadingJambSize(false)
+    }
+  }
+
+  const handleDeleteJambSize = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorJambSize/${id}`)
+      setJambSize(jambSize.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Jamb Size Error:', err)
+      setError('Error deleting jamb size.')
+    }
+  }
+
+  // ---------------------------
+  // Door Shoe (DoorShoe)
+  // ---------------------------
+  const fetchDoorShoe = async () => {
+    setLoadingDoorShoe(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorShoe/${productIdfordet}`
+      )
+      setDoorShoe(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Door Shoe Error:', err)
+      setError('Error fetching door shoe options.')
+    } finally {
+      setLoadingDoorShoe(false)
+    }
+  }
+
+  const handleAddDoorShoe = async () => {
+    if (!doorShoeValue || !doorShoeAmount || !productIdfordet) {
+      setError('Please provide all details for door shoe.')
+      return
+    }
+    setLoadingDoorShoe(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorShoe', {
+        DoorShoe: doorShoeValue,
+        amount: parseFloat(doorShoeAmount),
+        productId: productIdfordet,
+      })
+      setDoorShoeValue('')
+      setDoorShoeAmount('')
+      fetchDoorShoe()
+    } catch (err) {
+      console.error('Add Door Shoe Error:', err)
+      setError('Error adding door shoe.')
+    } finally {
+      setLoadingDoorShoe(false)
+    }
+  }
+
+  const handleDeleteDoorShoe = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorShoe/${id}`)
+      setDoorShoe(doorShoe.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Door Shoe Error:', err)
+      setError('Error deleting door shoe.')
+    }
+  }
+
+  // ---------------------------
+  // Door Weatherstrip (DoorWeatherstrip)
+  // ---------------------------
+  const fetchDoorWeatherstrip = async () => {
+    setLoadingDoorWeatherstrip(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorWeatherstrip/${productIdfordet}`
+      )
+      setDoorWeatherstrip(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Door Weatherstrip Error:', err)
+      setError('Error fetching door weatherstrip options.')
+    } finally {
+      setLoadingDoorWeatherstrip(false)
+    }
+  }
+
+  const handleAddDoorWeatherstrip = async () => {
+    if (!doorWeatherstripValue || !doorWeatherstripAmount || !productIdfordet) {
+      setError('Please provide all details for door weatherstrip.')
+      return
+    }
+    setLoadingDoorWeatherstrip(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorWeatherstrip', {
+        DoorWeatherstrip: doorWeatherstripValue,
+        amount: parseFloat(doorWeatherstripAmount),
+        productId: productIdfordet,
+      })
+      setDoorWeatherstripValue('')
+      setDoorWeatherstripAmount('')
+      fetchDoorWeatherstrip()
+    } catch (err) {
+      console.error('Add Door Weatherstrip Error:', err)
+      setError('Error adding door weatherstrip.')
+    } finally {
+      setLoadingDoorWeatherstrip(false)
+    }
+  }
+
+  const handleDeleteDoorWeatherstrip = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorWeatherstrip/${id}`)
+      setDoorWeatherstrip(doorWeatherstrip.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Door Weatherstrip Error:', err)
+      setError('Error deleting door weatherstrip.')
+    }
+  }
+
+  // ---------------------------
+  // Door Hinges (DoorHinges)
+  // ---------------------------
+  const fetchDoorHinges = async () => {
+    setLoadingDoorHinges(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorHinges/${productIdfordet}`
+      )
+      setDoorHinges(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Door Hinges Error:', err)
+      setError('Error fetching door hinges options.')
+    } finally {
+      setLoadingDoorHinges(false)
+    }
+  }
+
+  const handleAddDoorHinges = async () => {
+    if (!doorHingesValue || !doorHingesAmount || !productIdfordet) {
+      setError('Please provide all details for door hinges.')
+      return
+    }
+    setLoadingDoorHinges(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorHinges', {
+        DoorHinges: doorHingesValue,
+        amount: parseFloat(doorHingesAmount),
+        productId: productIdfordet,
+      })
+      setDoorHingesValue('')
+      setDoorHingesAmount('')
+      fetchDoorHinges()
+    } catch (err) {
+      console.error('Add Door Hinges Error:', err)
+      setError('Error adding door hinges.')
+    } finally {
+      setLoadingDoorHinges(false)
+    }
+  }
+
+  const handleDeleteDoorHinges = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorHinges/${id}`)
+      setDoorHinges(doorHinges.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Door Hinges Error:', err)
+      setError('Error deleting door hinges.')
+    }
+  }
+
+  // ---------------------------
+  // Bore Options (DoorBoreOptions)
+  // ---------------------------
+  const fetchBoreOptions = async () => {
+    setLoadingBoreOptions(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorBoreOptions/${productIdfordet}`
+      )
+      setBoreOptions(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Bore Options Error:', err)
+      setError('Error fetching bore options.')
+    } finally {
+      setLoadingBoreOptions(false)
+    }
+  }
+
+  const handleAddBoreOptions = async () => {
+    if (!boreOptionValue || !boreOptionAmount || !productIdfordet) {
+      setError('Please provide all details for bore options.')
+      return
+    }
+    setLoadingBoreOptions(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorBoreOptions', {
+        DoorBoreOptions: boreOptionValue,
+        amount: parseFloat(boreOptionAmount),
+        productId: productIdfordet,
+      })
+      setBoreOptionValue('')
+      setBoreOptionAmount('')
+      fetchBoreOptions()
+    } catch (err) {
+      console.error('Add Bore Options Error:', err)
+      setError('Error adding bore options.')
+    } finally {
+      setLoadingBoreOptions(false)
+    }
+  }
+
+  const handleDeleteBoreOptions = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorBoreOptions/${id}`)
+      setBoreOptions(boreOptions.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Bore Options Error:', err)
+      setError('Error deleting bore options.')
+    }
+  }
+
+  // ---------------------------
+  // Installation Availability (DoorInstallationAvailability)
+  // ---------------------------
+  const fetchInstallationAvailability = async () => {
+    setLoadingInstallationAvailability(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorInstallationAvailability/${productIdfordet}`
+      )
+      setInstallationAvailability(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Installation Availability Error:', err)
+      setError('Error fetching installation availability options.')
+    } finally {
+      setLoadingInstallationAvailability(false)
+    }
+  }
+
+  const handleAddInstallationAvailability = async () => {
+    if (!installationAvailabilityValue || !installationAvailabilityAmount || !productIdfordet) {
+      setError('Please provide all details for installation availability.')
+      return
+    }
+    setLoadingInstallationAvailability(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorInstallationAvailability', {
+        DoorInstallationAvailability: installationAvailabilityValue,
+        amount: parseFloat(installationAvailabilityAmount),
+        productId: productIdfordet,
+      })
+      setInstallationAvailabilityValue('')
+      setInstallationAvailabilityAmount('')
+      fetchInstallationAvailability()
+    } catch (err) {
+      console.error('Add Installation Availability Error:', err)
+      setError('Error adding installation availability.')
+    } finally {
+      setLoadingInstallationAvailability(false)
+    }
+  }
+
+  const handleDeleteInstallationAvailability = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorInstallationAvailability/${id}`)
+      setInstallationAvailability(installationAvailability.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Installation Availability Error:', err)
+      setError('Error deleting installation availability.')
+    }
+  }
+
+  // ---------------------------
+  // Side Window Opens (DoorSideWindowOpens)
+  // ---------------------------
+  const fetchSideWindowOpens = async () => {
+    setLoadingSideWindowOpens(true)
+    try {
+      const response = await axios.get(
+        `http://44.196.64.110:7878/api/DimDoor/DoorSideWindowOpens/${productIdfordet}`
+      )
+      setSideWindowOpens(Array.isArray(response.data) ? response.data : [])
+    } catch (err) {
+      console.error('Fetch Side Window Opens Error:', err)
+      setError('Error fetching side window opens options.')
+    } finally {
+      setLoadingSideWindowOpens(false)
+    }
+  }
+
+  const handleAddSideWindowOpens = async () => {
+    if (!sideWindowOpensValue || !sideWindowOpensAmount || !productIdfordet) {
+      setError('Please provide all details for side window opens.')
+      return
+    }
+    setLoadingSideWindowOpens(true)
+    try {
+      await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorSideWindowOpens', {
+        DoorSideWindowOpens: sideWindowOpensValue,
+        amount: parseFloat(sideWindowOpensAmount),
+        productId: productIdfordet,
+      })
+      setSideWindowOpensValue('')
+      setSideWindowOpensAmount('')
+      fetchSideWindowOpens()
+    } catch (err) {
+      console.error('Add Side Window Opens Error:', err)
+      setError('Error adding side window opens.')
+    } finally {
+      setLoadingSideWindowOpens(false)
+    }
+  }
+
+  const handleDeleteSideWindowOpens = async (id) => {
+    try {
+      await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorSideWindowOpens/${id}`)
+      setSideWindowOpens(sideWindowOpens.filter((option) => option._id !== id))
+    } catch (err) {
+      console.error('Delete Side Window Opens Error:', err)
+      setError('Error deleting side window opens.')
+    }
+  }
+
   useEffect(() => {
     if (!productIdfordet) return
     fetchEntries()
@@ -176,1080 +1249,7 @@ const DimensionsProductDoors = () => {
     fetchSideWindowOpens()
   }, [productIdfordet])
 
-  // ---------------------------
-  // Dimensions (DoorWidthHeight)
-  // ---------------------------
-  const fetchEntries = async () => {
-    setLoadingDimensions(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorWidthHeight/${productIdfordet}`
-      )
-      setEntries(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Dimensions Error:', err)
-      setError('Error fetching dimensions.')
-    } finally {
-      setLoadingDimensions(false)
-    }
-  }
-
-  const handleAddDimension = async () => {
-    if (!dimensionValue || !dimensionAmount || !productIdfordet) {
-      setError('Please provide all details for dimensions.')
-      return
-    }
-    setLoadingDimensions(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorWidthHeight', {
-        DoorWidthHeight: dimensionValue,
-        amount: parseFloat(dimensionAmount),
-        productId: productIdfordet,
-      })
-      setDimensionValue('')
-      setDimensionAmount('')
-      fetchEntries()
-    } catch (err) {
-      console.error('Add Dimension Error:', err)
-      setError('Error adding dimension.')
-    } finally {
-      setLoadingDimensions(false)
-    }
-  }
-
-  const handleDeleteDimension = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorWidthHeight/${id}`)
-      setEntries(entries.filter((entry) => entry._id !== id))
-    } catch (err) {
-      console.error('Delete Dimension Error:', err)
-      setError('Error deleting dimension.')
-    }
-  }
-
-  // ---------------------------
-  // Pre Hung Options (DoorPreHungOptions)
-  // ---------------------------
-  const fetchPreHungOptions = async () => {
-    setLoadingPreHung(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorPreHungOptions/${productIdfordet}`
-      )
-      setPreHungOptions(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Pre Hung Error:', err)
-      setError('Error fetching pre-hung options.')
-    } finally {
-      setLoadingPreHung(false)
-    }
-  }
-
-  const handleAddPreHungOption = async () => {
-    if (!preHungValue || !preHungAmount || !productIdfordet) {
-      setError('Please provide all details for pre-hung option.')
-      return
-    }
-    setLoadingPreHung(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorPreHungOptions', {
-        DoorPreHungOptions: preHungValue,
-        amount: parseFloat(preHungAmount),
-        productId: productIdfordet,
-      })
-      setPreHungValue('')
-      setPreHungAmount('')
-      fetchPreHungOptions()
-    } catch (err) {
-      console.error('Add Pre Hung Error:', err)
-      setError('Error adding pre-hung option.')
-    } finally {
-      setLoadingPreHung(false)
-    }
-  }
-
-  const handleDeletePreHungOption = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorPreHungOptions/${id}`)
-      setPreHungOptions(preHungOptions.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Pre Hung Error:', err)
-      setError('Error deleting pre-hung option.')
-    }
-  }
-
-  // ---------------------------
-  // Pre Finishing Options (DoorPreFinishingOptions)
-  // ---------------------------
-  const fetchPreFinishingOptions = async () => {
-    setLoadingPreFinishing(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorPreFinishingOptions/${productIdfordet}`
-      )
-      setPreFinishingOptions(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Pre-finishing Error:', err)
-      setError('Error fetching pre-finishing options.')
-    } finally {
-      setLoadingPreFinishing(false)
-    }
-  }
-
-  const handleAddPreFinishingOptions = async () => {
-    if (!preFinishingValue || !preFinishingAmount || !productIdfordet) {
-      setError('Please provide all details for pre-finishing option.')
-      return
-    }
-    setLoadingPreFinishing(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorPreFinishingOptions', {
-        DoorPreFinishingOptions: preFinishingValue,
-        amount: parseFloat(preFinishingAmount),
-        productId: productIdfordet,
-      })
-      setPreFinishingValue('')
-      setPreFinishingAmount('')
-      fetchPreFinishingOptions()
-    } catch (err) {
-      console.error('Add Pre-finishing Error:', err)
-      setError('Error adding pre-finishing option.')
-    } finally {
-      setLoadingPreFinishing(false)
-    }
-  }
-
-  const handleDeleteFinishingOption = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorPreFinishingOptions/${id}`)
-      setPreFinishingOptions(preFinishingOptions.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Pre-finishing Error:', err)
-      setError('Error deleting pre-finishing option.')
-    }
-  }
-
-  // ---------------------------
-  // Frame Options (DoorFrameOptions)
-  // ---------------------------
-  const fetchFrameOptions = async () => {
-    setLoadingFrameOptions(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorFrameOptions/${productIdfordet}`
-      )
-      setFrameOptions(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Frame Options Error:', err)
-      setError('Error fetching frame options.')
-    } finally {
-      setLoadingFrameOptions(false)
-    }
-  }
-
-  const handleAddFrameOptions = async () => {
-    if (!frameOptionValue || !frameOptionAmount || !productIdfordet) {
-      setError('Please provide all details for frame option.')
-      return
-    }
-    setLoadingFrameOptions(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorFrameOptions', {
-        DoorFrameOptions: frameOptionValue,
-        amount: parseFloat(frameOptionAmount),
-        productId: productIdfordet,
-      })
-      setFrameOptionValue('')
-      setFrameOptionAmount('')
-      fetchFrameOptions()
-    } catch (err) {
-      console.error('Add Frame Options Error:', err)
-      setError('Error adding frame option.')
-    } finally {
-      setLoadingFrameOptions(false)
-    }
-  }
-
-  const handleDeleteFrameOption = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorFrameOptions/${id}`)
-      setFrameOptions(frameOptions.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Frame Options Error:', err)
-      setError('Error deleting frame option.')
-    }
-  }
-
-  // ---------------------------
-  // Swing Direction (DoorSwingDirection)
-  // ---------------------------
-  const fetchSwingDirection = async () => {
-    setLoadingSwingDirection(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorSwingDirection/${productIdfordet}`
-      )
-      setSwingDirection(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Swing Direction Error:', err)
-      setError('Error fetching swing direction.')
-    } finally {
-      setLoadingSwingDirection(false)
-    }
-  }
-
-  const handleAddSwingDirection = async () => {
-    if (!swingDirectionValue || !swingDirectionAmount || !productIdfordet) {
-      setError('Please provide all details for swing direction.')
-      return
-    }
-    setLoadingSwingDirection(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorSwingDirection', {
-        DoorSwingDirection: swingDirectionValue,
-        amount: parseFloat(swingDirectionAmount),
-        productId: productIdfordet,
-      })
-      setSwingDirectionValue('')
-      setSwingDirectionAmount('')
-      fetchSwingDirection()
-    } catch (err) {
-      console.error('Add Swing Direction Error:', err)
-      setError('Error adding swing direction.')
-    } finally {
-      setLoadingSwingDirection(false)
-    }
-  }
-
-  const handleDeleteSwingDirection = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorSwingDirection/${id}`)
-      setSwingDirection(swingDirection.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Swing Direction Error:', err)
-      setError('Error deleting swing direction.')
-    }
-  }
-
-  // ---------------------------
-  // Peep View (DoorPeepView)
-  // ---------------------------
-  const fetchPeepView = async () => {
-    setLoadingPeepView(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorPeepView/${productIdfordet}`
-      )
-      setPeepView(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Peep View Error:', err)
-      setError('Error fetching peep view.')
-    } finally {
-      setLoadingPeepView(false)
-    }
-  }
-
-  const handleAddPeepView = async () => {
-    if (!peepViewValue || !peepViewAmount || !productIdfordet) {
-      setError('Please provide all details for peep view.')
-      return
-    }
-    setLoadingPeepView(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorPeepView', {
-        DoorPeepView: peepViewValue,
-        amount: parseFloat(peepViewAmount),
-        productId: productIdfordet,
-      })
-      setPeepViewValue('')
-      setPeepViewAmount('')
-      fetchPeepView()
-    } catch (err) {
-      console.error('Add Peep View Error:', err)
-      setError('Error adding peep view.')
-    } finally {
-      setLoadingPeepView(false)
-    }
-  }
-
-  const handleDeletePeepView = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorPeepView/${id}`)
-      setPeepView(peepView.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Peep View Error:', err)
-      setError('Error deleting peep view.')
-    }
-  }
-
-  // ---------------------------
-  // Hinge Color (DoorHingeColor)
-  // ---------------------------
-  const fetchHingeColor = async () => {
-    setLoadingHingeColor(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorHingeColor/${productIdfordet}`
-      )
-      setHingeColor(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Hinge Color Error:', err)
-      setError('Error fetching hinge color.')
-    } finally {
-      setLoadingHingeColor(false)
-    }
-  }
-
-  const handleAddHingeColor = async () => {
-    if (!hingeColorValue || !hingeColorAmount || !productIdfordet) {
-      setError('Please provide all details for hinge color.')
-      return
-    }
-    setLoadingHingeColor(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorHingeColor', {
-        DoorHingeColor: hingeColorValue,
-        amount: parseFloat(hingeColorAmount),
-        productId: productIdfordet,
-      })
-      setHingeColorValue('')
-      setHingeColorAmount('')
-      fetchHingeColor()
-    } catch (err) {
-      console.error('Add Hinge Color Error:', err)
-      setError('Error adding hinge color.')
-    } finally {
-      setLoadingHingeColor(false)
-    }
-  }
-
-  const handleDeleteHingeColor = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorHingeColor/${id}`)
-      setHingeColor(hingeColor.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Hinge Color Error:', err)
-      setError('Error deleting hinge color.')
-    }
-  }
-
-  // ---------------------------
-  // Sill (DoorSill)
-  // ---------------------------
-  const fetchSillOptions = async () => {
-    setLoadingSill(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorSill/${productIdfordet}`
-      )
-      setSillOptions(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Sill Error:', err)
-      setError('Error fetching sill options.')
-    } finally {
-      setLoadingSill(false)
-    }
-  }
-
-  const handleAddSill = async () => {
-    if (!sillValue || !sillAmount || !productIdfordet) {
-      setError('Please provide all details for sill.')
-      return
-    }
-    setLoadingSill(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorSill', {
-        DoorSill: sillValue,
-        amount: parseFloat(sillAmount),
-        productId: productIdfordet,
-      })
-      setSillValue('')
-      setSillAmount('')
-      fetchSillOptions()
-    } catch (err) {
-      console.error('Add Sill Error:', err)
-      setError('Error adding sill option.')
-    } finally {
-      setLoadingSill(false)
-    }
-  }
-
-  const handleDeleteSill = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorSill/${id}`)
-      setSillOptions(sillOptions.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Sill Error:', err)
-      setError('Error deleting sill option.')
-    }
-  }
-
-  // ---------------------------
-  // Weather Strip Color (DoorWeatherStripColor)
-  // ---------------------------
-  const fetchWeatherStripColor = async () => {
-    setLoadingWeatherStripColor(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorWeatherStripColor/${productIdfordet}`
-      )
-      setWeatherStripColor(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Weather Strip Color Error:', err)
-      setError('Error fetching weather strip color.')
-    } finally {
-      setLoadingWeatherStripColor(false)
-    }
-  }
-
-  const handleAddWeatherStripColor = async () => {
-    if (!weatherStripColorValue || !weatherStripColorAmount || !productIdfordet) {
-      setError('Please provide all details for weather strip color.')
-      return
-    }
-    setLoadingWeatherStripColor(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorWeatherStripColor', {
-        DoorWeatherStripColor: weatherStripColorValue,
-        amount: parseFloat(weatherStripColorAmount),
-        productId: productIdfordet,
-      })
-      setWeatherStripColorValue('')
-      setWeatherStripColorAmount('')
-      fetchWeatherStripColor()
-    } catch (err) {
-      console.error('Add Weather Strip Color Error:', err)
-      setError('Error adding weather strip color.')
-    } finally {
-      setLoadingWeatherStripColor(false)
-    }
-  }
-
-  const handleDeleteWeatherStripColor = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorWeatherStripColor/${id}`)
-      setWeatherStripColor(weatherStripColor.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Weather Strip Color Error:', err)
-      setError('Error deleting weather strip color.')
-    }
-  }
-
-  // ---------------------------
-  // Grid Options (DoorGridOptions)
-  // ---------------------------
-  const fetchGridOptions = async () => {
-    setLoadingGridOptions(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorGridOptions/${productIdfordet}`
-      )
-      setGridOptions(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Grid Options Error:', err)
-      setError('Error fetching grid options.')
-    } finally {
-      setLoadingGridOptions(false)
-    }
-  }
-
-  const handleAddGridOptions = async () => {
-    if (!gridOptionValue || !gridOptionAmount || !productIdfordet) {
-      setError('Please provide all details for grid options.')
-      return
-    }
-    setLoadingGridOptions(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorGridOptions', {
-        DoorGridOptions: gridOptionValue,
-        amount: parseFloat(gridOptionAmount),
-        productId: productIdfordet,
-      })
-      setGridOptionValue('')
-      setGridOptionAmount('')
-      fetchGridOptions()
-    } catch (err) {
-      console.error('Add Grid Options Error:', err)
-      setError('Error adding grid options.')
-    } finally {
-      setLoadingGridOptions(false)
-    }
-  }
-
-  const handleDeleteGridOptions = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorGridOptions/${id}`)
-      setGridOptions(gridOptions.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Grid Options Error:', err)
-      setError('Error deleting grid options.')
-    }
-  }
-
-  // ---------------------------
-  // Frame Extrusion (DoorFrameExtrusion)
-  // ---------------------------
-  const fetchFrameExtrusion = async () => {
-    setLoadingFrameExtrusion(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorFrameExtrusion/${productIdfordet}`
-      )
-      setFrameExtrusion(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Frame Extrusion Error:', err)
-      setError('Error fetching frame extrusion options.')
-    } finally {
-      setLoadingFrameExtrusion(false)
-    }
-  }
-
-  const handleAddFrameExtrusion = async () => {
-    if (!frameExtrusionValue || !frameExtrusionAmount || !productIdfordet) {
-      setError('Please provide all details for frame extrusion.')
-      return
-    }
-    setLoadingFrameExtrusion(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorFrameExtrusion', {
-        DoorFrameExtrusion: frameExtrusionValue,
-        amount: parseFloat(frameExtrusionAmount),
-        productId: productIdfordet,
-      })
-      setFrameExtrusionValue('')
-      setFrameExtrusionAmount('')
-      fetchFrameExtrusion()
-    } catch (err) {
-      console.error('Add Frame Extrusion Error:', err)
-      setError('Error adding frame extrusion.')
-    } finally {
-      setLoadingFrameExtrusion(false)
-    }
-  }
-
-  const handleDeleteFrameExtrusion = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorFrameExtrusion/${id}`)
-      setFrameExtrusion(frameExtrusion.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Frame Extrusion Error:', err)
-      setError('Error deleting frame extrusion.')
-    }
-  }
-
-  // ---------------------------
-  // Lock Option (DoorLockOption)
-  // ---------------------------
-  const fetchLockOption = async () => {
-    setLoadingLockOption(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorLockOption/${productIdfordet}`
-      )
-      setLockOption(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Lock Option Error:', err)
-      setError('Error fetching lock options.')
-    } finally {
-      setLoadingLockOption(false)
-    }
-  }
-
-  const handleAddLockOption = async () => {
-    if (!lockOptionValue || !lockOptionAmount || !productIdfordet) {
-      setError('Please provide all details for lock option.')
-      return
-    }
-    setLoadingLockOption(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorLockOption', {
-        DoorLockOption: lockOptionValue,
-        amount: parseFloat(lockOptionAmount),
-        productId: productIdfordet,
-      })
-      setLockOptionValue('')
-      setLockOptionAmount('')
-      fetchLockOption()
-    } catch (err) {
-      console.error('Add Lock Option Error:', err)
-      setError('Error adding lock option.')
-    } finally {
-      setLoadingLockOption(false)
-    }
-  }
-
-  const handleDeleteLockOption = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorLockOption/${id}`)
-      setLockOption(lockOption.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Lock Option Error:', err)
-      setError('Error deleting lock option.')
-    }
-  }
-
-  // ---------------------------
-  // Door Color (DoorColor)
-  // ---------------------------
-  const fetchDoorColor = async () => {
-    setLoadingDoorColor(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorColor/${productIdfordet}`
-      )
-      setDoorColor(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Door Color Error:', err)
-      setError('Error fetching door color options.')
-    } finally {
-      setLoadingDoorColor(false)
-    }
-  }
-
-  const handleAddDoorColor = async () => {
-    if (!doorColorValue || !doorColorAmount || !productIdfordet) {
-      setError('Please provide all details for door color.')
-      return
-    }
-    setLoadingDoorColor(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorColor', {
-        DoorColor: doorColorValue,
-        amount: parseFloat(doorColorAmount),
-        productId: productIdfordet,
-      })
-      setDoorColorValue('')
-      setDoorColorAmount('')
-      fetchDoorColor()
-    } catch (err) {
-      console.error('Add Door Color Error:', err)
-      setError('Error adding door color.')
-    } finally {
-      setLoadingDoorColor(false)
-    }
-  }
-
-  const handleDeleteDoorColor = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorColor/${id}`)
-      setDoorColor(doorColor.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Door Color Error:', err)
-      setError('Error deleting door color.')
-    }
-  }
-
-  // ---------------------------
-  // Width Frame (DoorWidthFrame)
-  // ---------------------------
-  const fetchWidthFrame = async () => {
-    setLoadingWidthFrame(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorWidthFrame/${productIdfordet}`
-      )
-      setWidthFrame(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Width Frame Error:', err)
-      setError('Error fetching width frame options.')
-    } finally {
-      setLoadingWidthFrame(false)
-    }
-  }
-
-  const handleAddWidthFrame = async () => {
-    if (!widthFrameValue || !widthFrameAmount || !productIdfordet) {
-      setError('Please provide all details for width frame.')
-      return
-    }
-    setLoadingWidthFrame(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorWidthFrame', {
-        DoorWidthFrame: widthFrameValue,
-        amount: parseFloat(widthFrameAmount),
-        productId: productIdfordet,
-      })
-      setWidthFrameValue('')
-      setWidthFrameAmount('')
-      fetchWidthFrame()
-    } catch (err) {
-      console.error('Add Width Frame Error:', err)
-      setError('Error adding width frame.')
-    } finally {
-      setLoadingWidthFrame(false)
-    }
-  }
-
-  const handleDeleteWidthFrame = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorWidthFrame/${id}`)
-      setWidthFrame(widthFrame.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Width Frame Error:', err)
-      setError('Error deleting width frame.')
-    }
-  }
-
-  // ---------------------------
-  // Jamb Size (DoorJambSize)
-  // ---------------------------
-  const fetchJambSize = async () => {
-    setLoadingJambSize(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorJambSize/${productIdfordet}`
-      )
-      setJambSize(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Jamb Size Error:', err)
-      setError('Error fetching jamb size options.')
-    } finally {
-      setLoadingJambSize(false)
-    }
-  }
-
-  const handleAddJambSize = async () => {
-    if (!jambSizeValue || !jambSizeAmount || !productIdfordet) {
-      setError('Please provide all details for jamb size.')
-      return
-    }
-    setLoadingJambSize(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorJambSize', {
-        DoorJambSize: jambSizeValue,
-        amount: parseFloat(jambSizeAmount),
-        productId: productIdfordet,
-      })
-      setJambSizeValue('')
-      setJambSizeAmount('')
-      fetchJambSize()
-    } catch (err) {
-      console.error('Add Jamb Size Error:', err)
-      setError('Error adding jamb size.')
-    } finally {
-      setLoadingJambSize(false)
-    }
-  }
-
-  const handleDeleteJambSize = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorJambSize/${id}`)
-      setJambSize(jambSize.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Jamb Size Error:', err)
-      setError('Error deleting jamb size.')
-    }
-  }
-
-  // ---------------------------
-  // Door Shoe (DoorShoe)
-  // ---------------------------
-  const fetchDoorShoe = async () => {
-    setLoadingDoorShoe(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorShoe/${productIdfordet}`
-      )
-      setDoorShoe(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Door Shoe Error:', err)
-      setError('Error fetching door shoe options.')
-    } finally {
-      setLoadingDoorShoe(false)
-    }
-  }
-
-  const handleAddDoorShoe = async () => {
-    if (!doorShoeValue || !doorShoeAmount || !productIdfordet) {
-      setError('Please provide all details for door shoe.')
-      return
-    }
-    setLoadingDoorShoe(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorShoe', {
-        DoorShoe: doorShoeValue,
-        amount: parseFloat(doorShoeAmount),
-        productId: productIdfordet,
-      })
-      setDoorShoeValue('')
-      setDoorShoeAmount('')
-      fetchDoorShoe()
-    } catch (err) {
-      console.error('Add Door Shoe Error:', err)
-      setError('Error adding door shoe.')
-    } finally {
-      setLoadingDoorShoe(false)
-    }
-  }
-
-  const handleDeleteDoorShoe = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorShoe/${id}`)
-      setDoorShoe(doorShoe.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Door Shoe Error:', err)
-      setError('Error deleting door shoe.')
-    }
-  }
-
-  // ---------------------------
-  // Door Weatherstrip (DoorWeatherstrip)
-  // ---------------------------
-  const fetchDoorWeatherstrip = async () => {
-    setLoadingDoorWeatherstrip(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorWeatherstrip/${productIdfordet}`
-      )
-      setDoorWeatherstrip(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Door Weatherstrip Error:', err)
-      setError('Error fetching door weatherstrip options.')
-    } finally {
-      setLoadingDoorWeatherstrip(false)
-    }
-  }
-
-  const handleAddDoorWeatherstrip = async () => {
-    if (!doorWeatherstripValue || !doorWeatherstripAmount || !productIdfordet) {
-      setError('Please provide all details for door weatherstrip.')
-      return
-    }
-    setLoadingDoorWeatherstrip(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorWeatherstrip', {
-        DoorWeatherstrip: doorWeatherstripValue,
-        amount: parseFloat(doorWeatherstripAmount),
-        productId: productIdfordet,
-      })
-      setDoorWeatherstripValue('')
-      setDoorWeatherstripAmount('')
-      fetchDoorWeatherstrip()
-    } catch (err) {
-      console.error('Add Door Weatherstrip Error:', err)
-      setError('Error adding door weatherstrip.')
-    } finally {
-      setLoadingDoorWeatherstrip(false)
-    }
-  }
-
-  const handleDeleteDoorWeatherstrip = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorWeatherstrip/${id}`)
-      setDoorWeatherstrip(doorWeatherstrip.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Door Weatherstrip Error:', err)
-      setError('Error deleting door weatherstrip.')
-    }
-  }
-
-  // ---------------------------
-  // Door Hinges (DoorHinges)
-  // ---------------------------
-  const fetchDoorHinges = async () => {
-    setLoadingDoorHinges(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorHinges/${productIdfordet}`
-      )
-      setDoorHinges(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Door Hinges Error:', err)
-      setError('Error fetching door hinges options.')
-    } finally {
-      setLoadingDoorHinges(false)
-    }
-  }
-
-  const handleAddDoorHinges = async () => {
-    if (!doorHingesValue || !doorHingesAmount || !productIdfordet) {
-      setError('Please provide all details for door hinges.')
-      return
-    }
-    setLoadingDoorHinges(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorHinges', {
-        DoorHinges: doorHingesValue,
-        amount: parseFloat(doorHingesAmount),
-        productId: productIdfordet,
-      })
-      setDoorHingesValue('')
-      setDoorHingesAmount('')
-      fetchDoorHinges()
-    } catch (err) {
-      console.error('Add Door Hinges Error:', err)
-      setError('Error adding door hinges.')
-    } finally {
-      setLoadingDoorHinges(false)
-    }
-  }
-
-  const handleDeleteDoorHinges = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorHinges/${id}`)
-      setDoorHinges(doorHinges.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Door Hinges Error:', err)
-      setError('Error deleting door hinges.')
-    }
-  }
-
-  // ---------------------------
-  // Bore Options (DoorBoreOptions)
-  // ---------------------------
-  const fetchBoreOptions = async () => {
-    setLoadingBoreOptions(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorBoreOptions/${productIdfordet}`
-      )
-      setBoreOptions(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Bore Options Error:', err)
-      setError('Error fetching bore options.')
-    } finally {
-      setLoadingBoreOptions(false)
-    }
-  }
-
-  const handleAddBoreOptions = async () => {
-    if (!boreOptionValue || !boreOptionAmount || !productIdfordet) {
-      setError('Please provide all details for bore options.')
-      return
-    }
-    setLoadingBoreOptions(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorBoreOptions', {
-        DoorBoreOptions: boreOptionValue,
-        amount: parseFloat(boreOptionAmount),
-        productId: productIdfordet,
-      })
-      setBoreOptionValue('')
-      setBoreOptionAmount('')
-      fetchBoreOptions()
-    } catch (err) {
-      console.error('Add Bore Options Error:', err)
-      setError('Error adding bore options.')
-    } finally {
-      setLoadingBoreOptions(false)
-    }
-  }
-
-  const handleDeleteBoreOptions = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorBoreOptions/${id}`)
-      setBoreOptions(boreOptions.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Bore Options Error:', err)
-      setError('Error deleting bore options.')
-    }
-  }
-
-  // ---------------------------
-  // Installation Availability (DoorInstallationAvailability)
-  // ---------------------------
-  const fetchInstallationAvailability = async () => {
-    setLoadingInstallationAvailability(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorInstallationAvailability/${productIdfordet}`
-      )
-      setInstallationAvailability(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Installation Availability Error:', err)
-      setError('Error fetching installation availability options.')
-    } finally {
-      setLoadingInstallationAvailability(false)
-    }
-  }
-
-  const handleAddInstallationAvailability = async () => {
-    if (!installationAvailabilityValue || !installationAvailabilityAmount || !productIdfordet) {
-      setError('Please provide all details for installation availability.')
-      return
-    }
-    setLoadingInstallationAvailability(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorInstallationAvailability', {
-        DoorInstallationAvailability: installationAvailabilityValue,
-        amount: parseFloat(installationAvailabilityAmount),
-        productId: productIdfordet,
-      })
-      setInstallationAvailabilityValue('')
-      setInstallationAvailabilityAmount('')
-      fetchInstallationAvailability()
-    } catch (err) {
-      console.error('Add Installation Availability Error:', err)
-      setError('Error adding installation availability.')
-    } finally {
-      setLoadingInstallationAvailability(false)
-    }
-  }
-
-  const handleDeleteInstallationAvailability = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorInstallationAvailability/${id}`)
-      setInstallationAvailability(installationAvailability.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Installation Availability Error:', err)
-      setError('Error deleting installation availability.')
-    }
-  }
-
-  // ---------------------------
-  // Side Window Opens (DoorSideWindowOpens)
-  // ---------------------------
-  const fetchSideWindowOpens = async () => {
-    setLoadingSideWindowOpens(true)
-    try {
-      const response = await axios.get(
-        `http://localhost:7878/api/DimDoor/DoorSideWindowOpens/${productIdfordet}`
-      )
-      setSideWindowOpens(Array.isArray(response.data) ? response.data : [])
-    } catch (err) {
-      console.error('Fetch Side Window Opens Error:', err)
-      setError('Error fetching side window opens options.')
-    } finally {
-      setLoadingSideWindowOpens(false)
-    }
-  }
-
-  const handleAddSideWindowOpens = async () => {
-    if (!sideWindowOpensValue || !sideWindowOpensAmount || !productIdfordet) {
-      setError('Please provide all details for side window opens.')
-      return
-    }
-    setLoadingSideWindowOpens(true)
-    try {
-      await axios.post('http://localhost:7878/api/DimDoor/DoorSideWindowOpens', {
-        DoorSideWindowOpens: sideWindowOpensValue,
-        amount: parseFloat(sideWindowOpensAmount),
-        productId: productIdfordet,
-      })
-      setSideWindowOpensValue('')
-      setSideWindowOpensAmount('')
-      fetchSideWindowOpens()
-    } catch (err) {
-      console.error('Add Side Window Opens Error:', err)
-      setError('Error adding side window opens.')
-    } finally {
-      setLoadingSideWindowOpens(false)
-    }
-  }
-
-  const handleDeleteSideWindowOpens = async (id) => {
-    try {
-      await axios.delete(`http://localhost:7878/api/DimDoor/DoorSideWindowOpens/${id}`)
-      setSideWindowOpens(sideWindowOpens.filter((option) => option._id !== id))
-    } catch (err) {
-      console.error('Delete Side Window Opens Error:', err)
-      setError('Error deleting side window opens.')
-    }
-  }
-
-  // ---------------------------
-  // Render the UI
-  // ---------------------------
+  
   return (
     <div className="container">
       <h1 className="text-primary fw-bold text-center mt-4">Door Configurations</h1>
