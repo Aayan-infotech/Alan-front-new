@@ -21,7 +21,8 @@ const DimensionsProductDoors = () => {
     const [HingeColor, setHingeColor] = useState([]);
     const [Sill, setSill] = useState([]);
     const [weatherStripColor, setWeatherStripColor] = useState([]);
-
+    const [BoreOptions, setBoreOptions] = useState([]);
+    const [InstallationAvailability, setInstallationAvailability] = useState([]);
 
     useEffect(() => {
         if (!productIdfordet) return;
@@ -34,7 +35,109 @@ const DimensionsProductDoors = () => {
         fetchHingeColor();
         fetchSill();
         fetchWeatherStripColor();
+        fetchInstallationAvailability();
     }, [productIdfordet]);
+
+
+
+    // Fetch Installation Availability
+    const fetchInstallationAvailability = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`http://44.196.64.110:7878/api/DimDoor/DoorInstallationAvailability/${productIdfordet}`);
+            setInstallationAvailability(Array.isArray(response.data) ? response.data : []);
+        } catch (err) {
+            setError("Error fetching installation availability.");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Add Installation Availability
+    const handleInstallationAvailability = async () => {
+        if (!frameSize.trim() || !amount.trim() || !productIdfordet) {
+            setError("Please provide all details.");
+            return;
+        }
+        setLoading(true);
+        try {
+            await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorInstallationAvailability', {
+                DoorInstallationAvailability: frameSize.trim(),
+                amount: parseFloat(amount.trim()),
+                productId: productIdfordet,
+            });
+            setFrameSize('');
+            setAmount('');
+            fetchInstallationAvailability(); // Refresh the list after adding a new option
+        } catch (err) {
+            setError("Error adding installation availability.");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Delete Installation Availability
+    const handleDeleteInstallationAvailability = async (id) => {
+        try {
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorInstallationAvailability/${id}`);
+            setInstallationAvailability(InstallationAvailability.filter(option => option._id !== id));
+        } catch (err) {
+            setError("Error deleting installation availability.");
+            console.error(err);
+        }
+    };
+
+
+    // Fetch Bore Options
+    const fetchBoreOptions = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`http://44.196.64.110:7878/api/DimDoor/DoorBoreOptions/${productIdfordet}`);
+            setBoreOptions(Array.isArray(response.data) ? response.data : []);
+        } catch (err) {
+            setError("Error fetching bore options.");
+            console.error(err); // Log error
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Add Bore Option
+    const handleBoreOptions = async () => {
+        if (!frameSize.trim() || !amount.trim() || !productIdfordet) {
+            setError("Please provide all details.");
+            return;
+        }
+        setLoading(true);
+        try {
+            await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorBoreOptions', {
+                DoorBoreOptions: frameSize.trim(),
+                amount: parseFloat(amount.trim()),
+                productId: productIdfordet,
+            });
+            setFrameSize('');
+            setAmount('');
+            fetchBoreOptions(); // Refresh the BoreOptions list
+        } catch (err) {
+            setError("Error adding bore option.");
+            console.error(err); // Log error
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Delete Bore Option
+    const handleDeleteBoreOptions = async (id) => {
+        try {
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorBoreOptions/${id}`);
+            setBoreOptions(BoreOptions.filter(option => option._id !== id)); // Update state to remove the deleted option
+        } catch (err) {
+            setError("Error deleting bore option.");
+            console.error(err); // Log error
+        }
+    };
 
     // Fetch Weather Strip Color
     const fetchWeatherStripColor = async () => {
@@ -740,7 +843,7 @@ const DimensionsProductDoors = () => {
                 <CAlert color="info">No pre-finishing options found.</CAlert>
             )}
 
-
+            {/* 🔹 Weather Strip Color  */}
             <h3 className="mt-4">Weather Strip Color</h3>
             <CFormInput
                 type="text"
@@ -771,6 +874,73 @@ const DimensionsProductDoors = () => {
                 ))
             ) : (
                 <CAlert color="info">No weather strip colors available.</CAlert>
+            )}
+
+            {/* 🔹 Bore Options  */}
+
+            <h3 className="mt-4">Bore Options</h3>
+            <CFormInput
+                type="text"
+                placeholder="Frame Size"
+                value={frameSize}
+                onChange={(e) => setFrameSize(e.target.value)}
+            />
+            <CFormInput
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+            />
+            <CButton color="primary" onClick={handleBoreOptions} disabled={loading}>
+                {loading ? <CSpinner size="sm" /> : '+ Add Bore Option'}
+            </CButton>
+
+            {BoreOptions.length > 0 ? (
+                BoreOptions.map((option) => (
+                    <CCard key={option._id} className="mt-2 p-3">
+                        <CCardBody>
+                            <CCardTitle>{option.DoorBoreOptions} - ${option.amount}</CCardTitle>
+                            <CButton color="danger" size="sm" onClick={() => handleDeleteBoreOptions(option._id)}>
+                                <FontAwesomeIcon icon={faTrash} />
+                            </CButton>
+                        </CCardBody>
+                    </CCard>
+                ))
+            ) : (
+                <CAlert color="info">No bore options available.</CAlert>
+            )}
+
+
+            <h3 className="mt-4">Installation Availability</h3>
+            <CFormInput
+                type="text"
+                placeholder="Frame Size"
+                value={frameSize}
+                onChange={(e) => setFrameSize(e.target.value)}
+            />
+            <CFormInput
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+            />
+            <CButton color="primary" onClick={handleInstallationAvailability} disabled={loading}>
+                {loading ? <CSpinner size="sm" /> : '+ Add Installation Availability'}
+            </CButton>
+
+            {InstallationAvailability.length > 0 ? (
+                InstallationAvailability.map((option) => (
+                    <CCard key={option._id} className="mt-2 p-3">
+                        <CCardBody>
+                            <CCardTitle>{option.DoorInstallationAvailability} - ${option.amount}</CCardTitle>
+                            <CButton color="danger" size="sm" onClick={() => handleDeleteInstallationAvailability(option._id)}>
+                                Delete
+                            </CButton>
+                        </CCardBody>
+                    </CCard>
+                ))
+            ) : (
+                <CAlert color="info">No installation availability found.</CAlert>
             )}
 
         </div>
