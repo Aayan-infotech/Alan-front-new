@@ -23,6 +23,8 @@ const DimensionsProductDoors = () => {
     const [weatherStripColor, setWeatherStripColor] = useState([]);
     const [BoreOptions, setBoreOptions] = useState([]);
     const [InstallationAvailability, setInstallationAvailability] = useState([]);
+    const [SideWindowOpens, setSideWindowOpens] = useState([]);
+    // const [ChooseGridOptions, setChooseGridOptions] = useState([]);
 
     useEffect(() => {
         if (!productIdfordet) return;
@@ -36,8 +38,107 @@ const DimensionsProductDoors = () => {
         fetchSill();
         fetchWeatherStripColor();
         fetchInstallationAvailability();
+        // fetchChooseGridOptions();
     }, [productIdfordet]);
 
+
+    // // Fetch Choose Grid Options
+    // const fetchChooseGridOptions = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const response = await axios.get(`http://44.196.64.110:7878/api/DimDoor/DoorGridOptions/${productIdfordet}`);
+    //         setChooseGridOptions(Array.isArray(response.data) ? response.data : []); // Correct state update
+    //     } catch (err) {
+    //         setError("Error fetching ChooseGridOptions.");
+    //         console.error(err);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+    // // Add Choose Grid Options
+    // const handleChooseGridOptions = async () => {
+    //     if (!frameSize.trim() || !amount.trim() || !productIdfordet) {
+    //         setError("Please provide all details.");
+    //         return;
+    //     }
+    //     setLoading(true);
+    //     try {
+    //         await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorGridOptions', {
+    //             DoorGridOptions: frameSize.trim(),
+    //             amount: parseFloat(amount.trim()),
+    //             productId: productIdfordet,
+    //         });
+    //         setFrameSize('');
+    //         setAmount('');
+    //         fetchChooseGridOptions(); // Fetch updated grid options
+    //     } catch (err) {
+    //         setError("Error adding ChooseGridOptions.");
+    //         console.error(err);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+    // // Delete Choose Grid Option
+    // const handleDeleteChooseGridOptions = async (id) => {
+    //     try {
+    //         await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorGridOptions/${id}`);
+    //         setChooseGridOptions(ChooseGridOptions.filter(option => option._id !== id)); // Correct state update
+    //     } catch (err) {
+    //         setError("Error deleting ChooseGridOptions.");
+    //         console.error(err);
+    //     }
+    // };
+
+    // Fetch SideWindowOpens
+    const fetchSideWindowOpens = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`http://44.196.64.110:7878/api/DimDoor/DoorSideWindowOpens/${productIdfordet}`);
+            setSideWindowOpens(Array.isArray(response.data) ? response.data : []); // Corrected to set 'SideWindowOpens'
+        } catch (err) {
+            setError("Error fetching SideWindowOpens.");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Add SideWindowOpens
+    const handleSideWindowOpens = async () => {
+        if (!frameSize.trim() || !amount.trim() || !productIdfordet) {
+            setError("Please provide all details.");
+            return;
+        }
+        setLoading(true);
+        try {
+            await axios.post('http://44.196.64.110:7878/api/DimDoor/DoorSideWindowOpens', {
+                DoorSideWindowOpens: frameSize.trim(),
+                amount: parseFloat(amount.trim()),
+                productId: productIdfordet,
+            });
+            setFrameSize('');
+            setAmount('');
+            fetchSideWindowOpens(); // Fetch the updated SideWindowOpens
+        } catch (err) {
+            setError("Error adding SideWindowOpens.");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Delete SideWindowOpens
+    const handleDeleteSideWindowOpens = async (id) => {  // Renamed function to avoid conflict
+        try {
+            await axios.delete(`http://44.196.64.110:7878/api/DimDoor/DoorSideWindowOpens/${id}`);
+            setSideWindowOpens(SideWindowOpens.filter(option => option._id !== id));  // Fixed filter on correct state
+        } catch (err) {
+            setError("Error deleting SideWindowOpens.");
+            console.error(err);
+        }
+    };
 
 
     // Fetch Installation Availability
@@ -910,7 +1011,7 @@ const DimensionsProductDoors = () => {
                 <CAlert color="info">No bore options available.</CAlert>
             )}
 
-
+            {/* 🔹 Installation Availability  */}
             <h3 className="mt-4">Installation Availability</h3>
             <CFormInput
                 type="text"
@@ -942,6 +1043,74 @@ const DimensionsProductDoors = () => {
             ) : (
                 <CAlert color="info">No installation availability found.</CAlert>
             )}
+
+            {/* 🔹 Side Window Opens  */}
+
+            <h3 className="mt-4">Side Window Opens</h3>
+            <CFormInput
+                type="text"
+                placeholder="Frame Size"
+                value={frameSize}
+                onChange={(e) => setFrameSize(e.target.value)}
+            />
+            <CFormInput
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+            />
+            <CButton color="primary" onClick={handleSideWindowOpens} disabled={loading}>
+                {loading ? <CSpinner size="sm" /> : '+ Add Side Window Open'}
+            </CButton>
+
+            {SideWindowOpens.length > 0 ? (  // Corrected to 'SideWindowOpens'
+                SideWindowOpens.map((option) => (
+                    <CCard key={option._id} className="mt-2 p-3">
+                        <CCardBody>
+                            <CCardTitle>{option.DoorSideWindowOpens} - ${option.amount}</CCardTitle>
+                            <CButton color="danger" size="sm" onClick={() => handleDeleteSideWindowOpens(option._id)}>
+                                Delete
+                            </CButton>
+                        </CCardBody>
+                    </CCard>
+                ))
+            ) : (
+                <CAlert color="info">No side window opens found.</CAlert>
+            )}
+
+            {/* 🔹 Side Window Opens  */}
+
+            {/* <h3 className="mt-4">Choose Grid Options</h3>
+            <CFormInput
+                type="text"
+                placeholder="Frame Size"
+                value={frameSize}
+                onChange={(e) => setFrameSize(e.target.value)}
+            />
+            <CFormInput
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+            />
+            <CButton color="primary" onClick={handleChooseGridOptions} disabled={loading}>
+                {loading ? <CSpinner size="sm" /> : '+ Add Choose Grid Option'}
+            </CButton>
+
+            {ChooseGridOptions.length > 0 ? (
+                ChooseGridOptions.map((option) => (
+                    <CCard key={option._id} className="mt-2 p-3">
+                        <CCardBody>
+                            <CCardTitle>{option.DoorGridOptions} - ${option.amount}</CCardTitle>
+                            <CButton color="danger" size="sm" onClick={() => handleDeleteChooseGridOptions(option._id)}>
+                                Delete
+                            </CButton>
+                        </CCardBody>
+                    </CCard>
+                ))
+            ) : (
+                <CAlert color="info">No grid options found.</CAlert>
+            )} */}
 
         </div>
     );
