@@ -1249,7 +1249,7 @@ const DimensionsProductDoors = () => {
     fetchSideWindowOpens()
   }, [productIdfordet])
 
-  
+
   return (
     <div className="container">
       <h1 className="text-primary fw-bold text-center mt-4">Door Configurations</h1>
@@ -1286,6 +1286,51 @@ const DimensionsProductDoors = () => {
       ) : (
         <CAlert color="info">No dimensions found.</CAlert>
       )}
+
+      {/* <div className="card shadow-sm p-4 mb-4">
+        <h3 className="text-secondary">Door Dimensions</h3>
+        <div className="row g-3">
+          <div className="col-md-6">
+            <CFormInput
+              type="text"
+              className="form-control"
+              placeholder="Width x Height"
+              value={dimensionValue}
+              onChange={(e) => setDimensionValue(e.target.value)}
+            />
+          </div>
+          <div className="col-md-4">
+            <CFormInput
+              type="number"
+              className="form-control"
+              placeholder="Amount"
+              value={dimensionAmount}
+              onChange={(e) => setDimensionAmount(e.target.value)}
+            />
+          </div>
+          <div className="col-md-2">
+            <CButton className="w-100" color="primary" onClick={handleAddDimension} disabled={loadingDimensions}>
+              {loadingDimensions ? <CSpinner size="sm" /> : '+ Add'}
+            </CButton>
+          </div>
+        </div>
+        {entries.length > 0 ? (
+          <div className="mt-3">
+            {entries.map((entry) => (
+              <CCard key={entry._id} className="mt-2 shadow-sm">
+                <CCardBody className="d-flex justify-content-between align-items-center">
+                  <CCardTitle>{entry.DoorWidthHeight} - ${entry.amount}</CCardTitle>
+                  <CButton color="danger" size="sm" onClick={() => handleDeleteDimension(entry._id)}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </CButton>
+                </CCardBody>
+              </CCard>
+            ))}
+          </div>
+        ) : (
+          <CAlert color="info" className="mt-3">No dimensions found.</CAlert>
+        )}
+      </div> */}
 
       {/* --- Pre Hung Options --- */}
       <h3 className="mt-4">Pre Hung Options</h3>
