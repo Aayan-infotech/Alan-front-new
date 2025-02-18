@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useLocation } from 'react-router-dom'
+import "./DimensionsProduct.css"
 
 const DimensionsProductDoors = () => {
   // Lists for each field
@@ -1249,6 +1250,29 @@ const DimensionsProductDoors = () => {
     fetchSideWindowOpens()
   }, [productIdfordet])
 
+  const fractionMap = {
+    "1/2": "½",
+    "1/4": "¼",
+    "3/4": "¾",
+    "1/3": "⅓",
+    "2/3": "⅔",
+    "1/5": "⅕",
+    "2/5": "⅖",
+    "3/5": "⅗",
+    "4/5": "⅘",
+    "1/6": "⅙",
+    "5/6": "⅚",
+    "1/8": "⅛",
+    "3/8": "⅜",
+    "5/8": "⅝",
+    "7/8": "⅞"
+  };
+
+  function convertFraction(input) {
+    return input.replace(/(\d+)?(1\/2|1\/4|3\/4|1\/3|2\/3|1\/5|2\/5|3\/5|4\/5|1\/6|5\/6|1\/8|3\/8|5\/8|7\/8)/g, (match, number, fraction) => {
+      return (number ? number + fractionMap[fraction] : fractionMap[fraction]);
+    });
+  }
 
   return (
     <div className="container">
@@ -1256,81 +1280,44 @@ const DimensionsProductDoors = () => {
       {error && <CAlert color="danger">{error}</CAlert>}
 
       {/* --- Dimensions --- */}
-      <h3 className="mt-4">Door Dimensions</h3>
-      <CFormInput
-        type="text"
-        placeholder="Width x Height"
-        value={dimensionValue}
-        onChange={(e) => setDimensionValue(e.target.value)}
-      />
-      <CFormInput
-        type="number"
-        placeholder="Amount"
-        value={dimensionAmount}
-        onChange={(e) => setDimensionAmount(e.target.value)}
-      />
-      <CButton color="primary" onClick={handleAddDimension} disabled={loadingDimensions}>
-        {loadingDimensions ? <CSpinner size="sm" /> : '+ Add Dimension'}
-      </CButton>
-      {entries.length > 0 ? (
-        entries.map((entry) => (
-          <CCard key={entry._id} className="mt-2 p-3">
-            <CCardBody>
-              <CCardTitle>{entry.DoorWidthHeight} - ${entry.amount}</CCardTitle>
-              <CButton color="danger" size="sm" onClick={() => handleDeleteDimension(entry._id)}>
-                <FontAwesomeIcon icon={faTrash} />
+      <div className='card'>
+        <div className='card-body'>
+          <div className='form-design-dimension'>
+            <h3 className="mt-4">Door Dimensions</h3>
+            <div>
+              <CFormInput
+                type="text"
+                placeholder="Width x Height"
+                value={dimensionValue}
+                onChange={(e) => setDimensionValue(convertFraction(e.target.value))}
+              />
+              <CFormInput
+                type="number"
+                placeholder="Amount"
+                value={dimensionAmount}
+                onChange={(e) => setDimensionAmount(e.target.value)}
+              />
+              <CButton color="primary" onClick={handleAddDimension} disabled={loadingDimensions}>
+                {loadingDimensions ? <CSpinner size="sm" /> : '+ Add Dimension'}
               </CButton>
-            </CCardBody>
-          </CCard>
-        ))
-      ) : (
-        <CAlert color="info">No dimensions found.</CAlert>
-      )}
-
-      {/* <div className="card shadow-sm p-4 mb-4">
-        <h3 className="text-secondary">Door Dimensions</h3>
-        <div className="row g-3">
-          <div className="col-md-6">
-            <CFormInput
-              type="text"
-              className="form-control"
-              placeholder="Width x Height"
-              value={dimensionValue}
-              onChange={(e) => setDimensionValue(e.target.value)}
-            />
+            </div>
           </div>
-          <div className="col-md-4">
-            <CFormInput
-              type="number"
-              className="form-control"
-              placeholder="Amount"
-              value={dimensionAmount}
-              onChange={(e) => setDimensionAmount(e.target.value)}
-            />
-          </div>
-          <div className="col-md-2">
-            <CButton className="w-100" color="primary" onClick={handleAddDimension} disabled={loadingDimensions}>
-              {loadingDimensions ? <CSpinner size="sm" /> : '+ Add'}
-            </CButton>
-          </div>
-        </div>
-        {entries.length > 0 ? (
-          <div className="mt-3">
-            {entries.map((entry) => (
-              <CCard key={entry._id} className="mt-2 shadow-sm">
-                <CCardBody className="d-flex justify-content-between align-items-center">
-                  <CCardTitle>{entry.DoorWidthHeight} - ${entry.amount}</CCardTitle>
-                  <CButton color="danger" size="sm" onClick={() => handleDeleteDimension(entry._id)}>
+          {entries.length > 0 ? (
+            entries.map((entry) => (
+              <div key={entry._id} className='my-4'>
+                <div className='d-flex flex-row justify-content-between align-items-center'>
+                  <span className='fw-bold fs-6'>{entry.DoorWidthHeight} - ${entry.amount}</span>
+                  <button className='btn btn-danger' onClick={() => handleDeleteDimension(entry._id)}>
                     <FontAwesomeIcon icon={faTrash} />
-                  </CButton>
-                </CCardBody>
-              </CCard>
-            ))}
-          </div>
-        ) : (
-          <CAlert color="info" className="mt-3">No dimensions found.</CAlert>
-        )}
-      </div> */}
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <CAlert color="info">No dimensions found.</CAlert>
+          )}
+        </div>
+      </div>
 
       {/* --- Pre Hung Options --- */}
       <h3 className="mt-4">Pre Hung Options</h3>
