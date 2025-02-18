@@ -143,15 +143,15 @@ const _nav = [
   },
 
   // Static Content Management
-  {
-    component: CNavItem,
-    name: 'Static Content Management',
-    to: '/StaticContentManagement',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-    },
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Static Content Management',
+  //   to: '/StaticContentManagement',
+  //   icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+  //   badge: {
+  //     color: 'info',
+  //   },
+  // },
 ]
 
 export default _nav
