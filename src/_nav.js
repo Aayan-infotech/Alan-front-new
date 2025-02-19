@@ -34,15 +34,15 @@ const _nav = [
   },
 
   // User Management
-  {
-    component: CNavItem,
-    name: 'User Management',
-    to: '/UserManagement',
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-    },
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'User Management',
+  //   to: '/UserManagement',
+  //   icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  //   badge: {
+  //     color: 'info',
+  //   },
+  // },
 
   {
     component: CNavItem,
