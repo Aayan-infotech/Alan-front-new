@@ -20,7 +20,7 @@ import {
   CFormInput,
   CFormLabel,
 } from '@coreui/react';
-import { cilPencil, cilTrash, cilSearch } from '@coreui/icons';
+import { cilPencil, cilInfo, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
 const API_URL = 'http://44.196.64.110:7878/api/CustMng/customers';
@@ -128,16 +128,21 @@ const CustomerManagement = () => {
                     <CTableDataCell>{customer.name}</CTableDataCell>
                     <CTableDataCell>{customer.email}</CTableDataCell>
                     <CTableDataCell>{customer.mobile || 'N/A'}</CTableDataCell>
-                    <CTableDataCell>
+                    {/* <CTableDataCell>
                       <CButton color="info" size="sm" onClick={() => handleViewCustomer(customer)} className="me-2">
-                        <CIcon icon={cilSearch} /> 
+                        <CIcon icon={cilInfo} /> 
                       </CButton>
                       <CButton color="warning" size="sm" onClick={() => handleEditCustomer(customer)} className="me-2">
-                        <CIcon icon={cilPencil} /> 
+                        <CIcon icon={cilPencil } /> 
                       </CButton>
                       <CButton color="danger" size="sm" onClick={() => setDeleteCustomerId(customer._id)}>
                         <CIcon icon={cilTrash} /> 
                       </CButton>
+                    </CTableDataCell> */}
+                    <CTableDataCell>
+                      <CIcon icon={cilInfo} size="lg" className="me-2" onClick={() => handleViewCustomer(customer)} />
+                      <CIcon icon={cilPencil} size="lg" className="me-2" onClick={() => handleEditCustomer(customer)} />
+                      <CIcon icon={cilTrash} size="lg" onClick={() => setDeleteCustomerId(customer._id)} />
                     </CTableDataCell>
                   </CTableRow>
                 ))}
