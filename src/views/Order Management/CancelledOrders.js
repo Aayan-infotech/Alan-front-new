@@ -17,7 +17,7 @@ const CancelledOrders = () => {
  //fetch all and filter cancelled 
 
   useEffect(() => {
-    axios.get('http://44.196.64.110:7878/api/FnalCustData/getAllCustData')
+    axios.get('http://54.236.98.193:7878/api/FnalCustData/getAllCustData')
       .then(response => {
         const cancelled = response.data.filter(order => order.orderStatus === 'Cancelled');
         setOrders(cancelled);

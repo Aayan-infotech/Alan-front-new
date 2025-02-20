@@ -21,17 +21,17 @@
 
 //   // Fetch data for categories, subcategories, and subsubcategories
 //   useEffect(() => {
-//     fetch('http://44.196.64.110:7878/api/categories')
+//     fetch('http://54.236.98.193:7878/api/categories')
 //       .then((response) => response.json())
 //       .then((data) => setCategories(data))
 //       .catch((error) => console.error('Error fetching categories:', error));
 
-//     fetch('http://44.196.64.110:7878/api/subcategory')
+//     fetch('http://54.236.98.193:7878/api/subcategory')
 //       .then((response) => response.json())
 //       .then((data) => setSubCategories(data))
 //       .catch((error) => console.error('Error fetching subcategories:', error));
 
-//     fetch('http://44.196.64.110:7878/api/subSubCategories')
+//     fetch('http://54.236.98.193:7878/api/subSubCategories')
 //       .then((response) => response.json())
 //       .then((data) => setSubSubCategories(data))
 //       .catch((error) => console.error('Error fetching subsubcategories:', error));
@@ -42,7 +42,7 @@
 //     const selectedCategory = e.target.value;
 //     setProductData({ ...productData, category: selectedCategory, subCategory: '', subSubCategory: '' });
 
-//     fetch(`http://44.196.64.110:7878/api/subcategory?category=${selectedCategory}`)
+//     fetch(`http://54.236.98.193:7878/api/subcategory?category=${selectedCategory}`)
 //       .then((response) => response.json())
 //       .then((data) => setSubCategories(data))
 //       .catch((error) => console.error('Error fetching subcategories for category:', error));
@@ -53,7 +53,7 @@
 //     const selectedSubCategory = e.target.value;
 //     setProductData({ ...productData, subCategory: selectedSubCategory, subSubCategory: '' });
 
-//     fetch(`http://44.196.64.110:7878/api/subSubCategories?subcategory=${selectedSubCategory}`)
+//     fetch(`http://54.236.98.193:7878/api/subSubCategories?subcategory=${selectedSubCategory}`)
 //       .then((response) => response.json())
 //       .then((data) => setSubSubCategories(data))
 //       .catch((error) => console.error('Error fetching subsubcategories for subcategory:', error));
@@ -88,7 +88,7 @@
 //     formData.append('ins_by', '');
 //     formData.append('productFormulaAdded',productFormulaAdded);
    
-//     fetch('http://44.196.64.110:7878/api/products', {
+//     fetch('http://54.236.98.193:7878/api/products', {
 //       method: 'POST',
 //       body: formData,
 //     })
@@ -281,7 +281,7 @@ const AddProductForm = () => {
 
   // Fetch data for categories, subcategories, and subsubcategories
   useEffect(() => {
-    fetch('http://44.196.64.110:7878/api/categories')
+    fetch('http://54.236.98.193:7878/api/categories')
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error('Error fetching categories:', error));
@@ -300,7 +300,7 @@ const AddProductForm = () => {
     setSubSubCategories([]);
 
     if (selectedCategory) {
-      fetch(`http://44.196.64.110:7878/api/subcategory/categoryid/${selectedCategory}`)
+      fetch(`http://54.236.98.193:7878/api/subcategory/categoryid/${selectedCategory}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
@@ -327,7 +327,7 @@ const AddProductForm = () => {
     setSubSubCategories([]);
 
     if (selectedSubCategory) {
-      fetch(`http://44.196.64.110:7878/api/subSubCategories/subcategoryid/${selectedSubCategory}`)
+      fetch(`http://54.236.98.193:7878/api/subSubCategories/subcategoryid/${selectedSubCategory}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
@@ -371,7 +371,7 @@ const AddProductForm = () => {
     formData.append('ins_by', '');
     formData.append('productFormulaAdded',productFormulaAdded);
    
-    fetch('http://44.196.64.110:7878/api/products', {
+    fetch('http://54.236.98.193:7878/api/products', {
       method: 'POST',
       body: formData,
     })

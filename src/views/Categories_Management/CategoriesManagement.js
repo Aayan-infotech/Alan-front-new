@@ -19,7 +19,7 @@ const CategoriesManagement = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://44.196.64.110:7878/api/categories');
+        const response = await axios.get('http://54.236.98.193:7878/api/categories');
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -48,7 +48,7 @@ const CategoriesManagement = () => {
       formData.append('ins_ip', userIp);
       formData.append('status', 1);
 
-      const response = await axios.post('http://44.196.64.110:7878/api/categories', formData);
+      const response = await axios.post('http://54.236.98.193:7878/api/categories', formData);
       setCategories([...categories, response.data.newCategory]);
       resetForm();
     } catch (error) {
@@ -64,7 +64,7 @@ const CategoriesManagement = () => {
       if (categoryImage) formData.append('images', categoryImage);
       formData.append('update_ip', userIp);
 
-      const response = await axios.put(`http://44.196.64.110:7878/api/categories/${editCategory._id}`, formData);
+      const response = await axios.put(`http://54.236.98.193:7878/api/categories/${editCategory._id}`, formData);
       setCategories(categories.map(category =>
         category._id === editCategory._id ? response.data.updatedCategory : category
       ));
@@ -90,7 +90,7 @@ const CategoriesManagement = () => {
 
   const handleDeleteCategory = async (categoryToDelete) => {
     try {
-      await axios.delete(`http://44.196.64.110:7878/api/categories/${categoryToDelete._id}`);
+      await axios.delete(`http://54.236.98.193:7878/api/categories/${categoryToDelete._id}`);
       setCategories(categories.filter(category => category._id !== categoryToDelete._id));
     } catch (error) {
       console.error('Error deleting category:', error);
@@ -100,7 +100,7 @@ const CategoriesManagement = () => {
   const handleToggleStatus = async (category) => {
     try {
       const updatedStatus = category.status === 1 ? 0 : 1;
-      const response = await axios.put(`http://44.196.64.110:7878/api/categories/${category._id}`, {
+      const response = await axios.put(`http://54.236.98.193:7878/api/categories/${category._id}`, {
         status: updatedStatus,
       });
       setCategories(categories.map(c => (c._id === category._id ? response.data.updatedCategory : c)));

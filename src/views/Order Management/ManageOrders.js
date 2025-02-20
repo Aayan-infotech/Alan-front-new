@@ -16,7 +16,7 @@ const ManageOrders = () => {
   const [showPaymentDetailsModal, setShowPaymentDetailsModal] = useState(false);
 
   useEffect(() => {
-    axios.get('http://44.196.64.110:7878/api/FnalCustData/getAllCustData')
+    axios.get('http://54.236.98.193:7878/api/FnalCustData/getAllCustData')
       .then(response => {
         setOrders(response.data);
       })
@@ -46,7 +46,7 @@ const ManageOrders = () => {
   const handleUpdateOrderStatus = async () => {
     if (!selectedOrder) return;
     try {
-      await axios.put(`http://44.196.64.110:7878/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
+      await axios.put(`http://54.236.98.193:7878/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
         orderStatus: selectedOrder.orderStatus,
       });
       setOrders((prevOrders) => prevOrders.map((order) =>

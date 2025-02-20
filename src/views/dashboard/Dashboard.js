@@ -102,7 +102,7 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://44.196.64.110:7878/api/appointments/');
+      const response = await axios.get('http://54.236.98.193:7878/api/appointments/');
       const formattedAppointments = response.data.data.map((appointment) => ({
         title: 'Appointment',
         start: new Date(appointment.date),
@@ -128,7 +128,7 @@ const Dashboard = () => {
 
   const handleDeleteAppointment = async (id) => {
     try {
-      await axios.delete(`http://44.196.64.110:7878/api/appointments/delete/${id}`);
+      await axios.delete(`http://54.236.98.193:7878/api/appointments/delete/${id}`);
       setModalOpen(false);
       setSelectedAppointment(null);
       fetchData(); // Refresh the appointments after deletion

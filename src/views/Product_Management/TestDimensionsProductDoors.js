@@ -14,7 +14,7 @@
 //   useEffect(() => {
 //     const fetchProductData = async () => {
 //       try {
-//         const response = await axios.get(`http://44.196.64.110:7878/api/products/getProductsbyid/${productIdfordet}`);
+//         const response = await axios.get(`http://54.236.98.193:7878/api/products/getProductsbyid/${productIdfordet}`);
 //         setProduct(response.data);
 //       } catch (err) {
 //         setError('Error fetching product data');
@@ -238,7 +238,7 @@ const DimensionsProductDoors = () => {
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const res = await axios.get(`http://44.196.64.110:7878`);
+        const res = await axios.get(`http://54.236.98.193:7878`);
         setProduct(res.data);
       } catch (err) {
         console.error('Error fetching product data:', err);
@@ -263,7 +263,7 @@ const DimensionsProductDoors = () => {
       payload.Amount = formData.Amount;
     }
     try {
-      const res = await fetch(`http://44.196.64.110:7878`, {
+      const res = await fetch(`http://54.236.98.193:7878`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -283,7 +283,7 @@ const DimensionsProductDoors = () => {
 
   const handleDeleteData = async (section, id, index) => {
     try {
-      await fetch(`http://44.196.64.110:7878`, { method: 'DELETE' });
+      await fetch(`http://54.236.98.193:7878`, { method: 'DELETE' });
       const updated = (displayData[section] || []).filter((_, i) => i !== index);
       setDisplayData((prev) => ({ ...prev, [section]: updated }));
     } catch (error) {

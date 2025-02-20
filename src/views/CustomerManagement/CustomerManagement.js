@@ -23,7 +23,7 @@ import {
 import { cilPencil, cilInfo, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
-const API_URL = 'http://44.196.64.110:7878/api/CustMng/customers';
+const API_URL = 'http://54.236.98.193:7878/api/CustMng/customers';
 
 const CustomerManagement = () => {
   const [customers, setCustomers] = useState([]);
@@ -76,7 +76,7 @@ const CustomerManagement = () => {
 
   const handleSaveCustomer = async () => {
     try {
-      await axios.put(`http://44.196.64.110:7878/api/CustMng/customers/${currentCustomer.id}`, {
+      await axios.put(`http://54.236.98.193:7878/api/CustMng/customers/${currentCustomer.id}`, {
         name: currentCustomer.name,
         mobile: currentCustomer.mobile,
         state: currentCustomer.state,
@@ -93,7 +93,7 @@ const CustomerManagement = () => {
 
   const confirmDeleteCustomer = async () => {
     try {
-      await axios.delete(`http://44.196.64.110:7878/api/CustMng/delete/${deleteCustomerId}`);
+      await axios.delete(`http://54.236.98.193:7878/api/CustMng/delete/${deleteCustomerId}`);
       fetchCustomers();
       setDeleteCustomerId(null);
     } catch (error) {

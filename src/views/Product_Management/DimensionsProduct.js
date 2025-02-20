@@ -199,7 +199,7 @@ const DimensionsProduct = () => {
       for (const [section, api] of Object.entries(apiEndpoints)) {
         try {
           // Fetch data for each section
-          const res = await fetch(`http://44.196.64.110:7878/api/dims/type/${section}/ProductID/${Product_id}`);
+          const res = await fetch(`http://54.236.98.193:7878/api/dims/type/${section}/ProductID/${Product_id}`);
 
           // Check if response is ok (status 200-299)
           if (!res.ok) {
@@ -247,7 +247,7 @@ const DimensionsProduct = () => {
     console.log(payload); // Log the payload
 
     try {
-      const res = await fetch(`http://44.196.64.110:7878/api/${apiEndpoints[section]}`, {
+      const res = await fetch(`http://54.236.98.193:7878/api/${apiEndpoints[section]}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -269,7 +269,7 @@ const DimensionsProduct = () => {
 
   const handleDeleteData = async (section, id, index) => {
     try {
-      await fetch(`http://44.196.64.110:7878/api/${apiEndpoints[section]}/${id}`, { method: 'DELETE' });
+      await fetch(`http://54.236.98.193:7878/api/${apiEndpoints[section]}/${id}`, { method: 'DELETE' });
 
       const updatedData = (displayData[section] || []).filter((_, i) => i !== index);
       setDisplayData({ ...displayData, [section]: updatedData });
@@ -287,7 +287,7 @@ const DimensionsProduct = () => {
 
     for (const [section, api] of Object.entries(apiEndpoints)) {
       try {
-        const res = await fetch(`http://44.196.64.110:7878/api/${api}`);
+        const res = await fetch(`http://54.236.98.193:7878/api/${api}`);
         const data = await res.json();
 
         // Special handling for widthHeight   if value is not included
