@@ -1103,7 +1103,7 @@ const DimensionsProductDoors = () => {
       setError('Error fetching side window opens options.')
     } finally {
       setLoadingSideWindowOpens(false)
-    }
+    } 
   }
   const handleAddSideWindowOpens = async () => {
     if (!sideWindowOpensValue || !sideWindowOpensAmount || !productIdfordet) {
