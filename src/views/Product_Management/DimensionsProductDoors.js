@@ -1109,7 +1109,7 @@ const DimensionsProductDoors = () => {
     if (!sideWindowOpensValue || !sideWindowOpensAmount || !productIdfordet) {
       setError('Please provide all details for side window opens.')
       return
-    }
+    }  
     setLoadingSideWindowOpens(true)
     try {
       await axios.post('http://54.236.98.193:7878/api/DimDoor/DoorSideWindowOpens', {
