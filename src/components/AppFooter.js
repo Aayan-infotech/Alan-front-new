@@ -12,7 +12,7 @@ const AppFooter = () => {
       </div> */}
       <div className="ms-auto">
         <span className="me-1">Aayan infotech</span>
-        <a href="http://18.221.196.222:2040/#/dashboard" target="_blank" rel="noopener noreferrer">
+        <a href="http://18.221.196.222:8080/#/dashboard" target="_blank" rel="noopener noreferrer">
         Discount Doors and Windows
         </a>
       </div>
