@@ -100,10 +100,19 @@ const CategoriesManagement = () => {
   const handleToggleStatus = async (category) => {
     try {
       const updatedStatus = category.status === 1 ? 0 : 1;
-      const response = await axios.put(`http://54.236.98.193:7878/api/categories/${category._id}`, {
+      const response = await axios.put(`http://54.236.98.193:7878/api/categories/updateStatus/${category._id}`, {
         status: updatedStatus,
       });
-      setCategories(categories.map(c => (c._id === category._id ? response.data.updatedCategory : c)));
+  
+      if (response.data && response.data.category) { // Ensure the response is valid
+        setCategories(prevCategories =>
+          prevCategories.map(c =>
+            c._id === category._id ? { ...c, status: updatedStatus } : c
+          )
+        );
+      } else {
+        console.error('Unexpected API response:', response.data);
+      }
     } catch (error) {
       console.error('Error toggling category status:', error);
     }
