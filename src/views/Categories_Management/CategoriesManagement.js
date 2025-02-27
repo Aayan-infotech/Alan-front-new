@@ -63,7 +63,6 @@ const CategoriesManagement = () => {
       formData.append('name', categoryName);
       if (categoryImage) formData.append('images', categoryImage);
       formData.append('update_ip', userIp);
-
       const response = await axios.put(`http://18.221.196.222:7878/api/categories/${editCategory._id}`, formData);
       setCategories(categories.map(category =>
         category._id === editCategory._id ? response.data.updatedCategory : category
