@@ -140,7 +140,7 @@ export default Login;
 
 //     try {
 //       // API call for user authentication
-//       const response = await fetch('http://54.236.98.193:7878/api/AdminUsers');
+//       const response = await fetch('http://18.221.196.222:7878/api/AdminUsers');
       
 //       if (!response.ok) {
 //         throw new Error('Network response was not ok');

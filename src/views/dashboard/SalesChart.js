@@ -18,7 +18,7 @@
 //   const [filter, setFilter] = useState('15days');
 
 //   useEffect(() => {
-//     fetch(`http://54.236.98.193:7878/api/appointments/chart?filter=${filter}`)
+//     fetch(`http://18.221.196.222:7878/api/appointments/chart?filter=${filter}`)
 //       .then(response => response.json())
 //       .then(data => {
 //         setSalesData(data.data);
@@ -88,7 +88,7 @@ const SalesChart = () => {
   const [filter, setFilter] = useState('15days');
 
   useEffect(() => {
-    fetch(`http://54.236.98.193:7878/api/appointments/chart?filter=${filter}`)
+    fetch(`http://18.221.196.222:7878/api/appointments/chart?filter=${filter}`)
       .then(response => response.json())
       .then(data => {
         setSalesData(data.data);

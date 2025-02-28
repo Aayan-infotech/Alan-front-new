@@ -23,7 +23,7 @@ import {
 import { cilTrash, cilPencil, cilLockUnlocked, cilLockLocked } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
-const API_URL = 'http://54.236.98.193:7878/api/AdminUsers';
+const API_URL = 'http://18.221.196.222:7878/api/AdminUsers';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
