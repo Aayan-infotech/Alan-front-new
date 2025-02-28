@@ -10,8 +10,10 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilChartLine ,
+  cilStorage ,
   cilStar,
   cilUser,
+  cilWindow ,
   cilRoom,
   cilGift
 } from '@coreui/icons'
@@ -97,7 +99,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Product Management',
     to: '/ProductManagement',
-    icon: <CIcon icon={cilGift} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilWindow} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -124,7 +126,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Order Management',
     to: '/OrderManagement',
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilGift} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -145,7 +147,17 @@ const _nav = [
     component: CNavItem,
     name: 'Managing fixed content',
     to: '/StaticContentManagement',
-    icon: <CIcon icon={cilAlignCenter} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
+    badge: {
+      color: 'info',
+    },
+  },
+
+  {
+    component: CNavItem,
+    name: 'Mass Price Adjustment',
+    to: '/PriceAdjustment',
+    icon: <CIcon icon={cilStorage} customClassName="nav-icon" />,
     badge: {
       color: 'info',
     },
