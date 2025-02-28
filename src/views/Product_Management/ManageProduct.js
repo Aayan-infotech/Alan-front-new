@@ -678,6 +678,7 @@ const ManageProduct = () => {
       sub_sub_category_name: product.sub_sub_category_name || '',
       productFormulaAdded: product.productFormulaAdded || '',
       status: product.status || '',
+      price: product.price || '',
     });
     setShowEditModal(true);
   };
