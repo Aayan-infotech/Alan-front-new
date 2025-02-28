@@ -59,9 +59,7 @@ const AppHeader = () => {
           </CNavItem>
 
         </CHeaderNav>
- 
-        <CHeaderNav>
-         
+        <CHeaderNav>         
           <CDropdown variant="nav-item" placement="bottom-end">
             <CDropdownToggle caret={false}>
               {colorMode === 'dark' ? (
