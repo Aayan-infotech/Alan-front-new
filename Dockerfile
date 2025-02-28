@@ -4,7 +4,6 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 
-# Install dependencies with compatibility flags
 RUN npm install --force --legacy-peer-deps
 
 # Copy the entire application source code
