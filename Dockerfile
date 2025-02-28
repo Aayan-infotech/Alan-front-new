@@ -2,7 +2,6 @@ FROM node:20-bullseye AS build
 
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the container
 COPY package.json ./
 
 # Install dependencies with compatibility flags
