@@ -6,12 +6,10 @@ import {
   cilChartPie,
   cilCursor,
   cilDescription,
-  cilDrop,
-  cilExternalLink,
-  cilNotes,
-  cilPencil,
+  cilAlignCenter ,
   cilPuzzle,
   cilSpeedometer,
+  cilChartLine ,
   cilStar,
   cilUser,
   cilRoom,
@@ -27,7 +25,7 @@ const _nav = [
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" style={{ color: 'blue' }} />,
+    icon: <CIcon icon={cilChartLine } customClassName="nav-icon" style={{ color: 'blue' }} />,
     badge: {
       color: 'info',
     },
@@ -143,15 +141,15 @@ const _nav = [
   },
 
   // Static Content Management
-  // {
-  //   component: CNavItem,
-  //   name: 'Static Content Management',
-  //   to: '/StaticContentManagement',
-  //   icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-  //   badge: {
-  //     color: 'info',
-  //   },
-  // },
+  {
+    component: CNavItem,
+    name: 'Managing fixed content',
+    to: '/StaticContentManagement',
+    icon: <CIcon icon={cilAlignCenter} customClassName="nav-icon" />,
+    badge: {
+      color: 'info',
+    },
+  },
 ]
 
 export default _nav
