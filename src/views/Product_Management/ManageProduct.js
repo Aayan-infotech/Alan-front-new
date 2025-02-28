@@ -678,6 +678,7 @@ const ManageProduct = () => {
       sub_sub_category_name: product.sub_sub_category_name || '',
       productFormulaAdded: product.productFormulaAdded || '',
       status: product.status || '',
+      price: product.price || '',
     });
     setShowEditModal(true);
   };
@@ -967,6 +968,8 @@ const ManageProduct = () => {
               <option value="Active">Active</option>
               <option value="Blocked">Blocked</option>
             </CFormSelect>
+            <CFormLabel htmlFor="price">Price</CFormLabel>
+            <CFormInput id="price" name="price" value={editProductData.price} onChange={handleEditFormChange} />
           </CForm>
         </CModalBody>
         <CModalFooter>
