@@ -20,7 +20,7 @@ const StaticContentManagement = () => {
 
   const fetchContent = async (section) => {
     try {
-      const response = await axios.get(`http://localhost:7878/api/StaticContent/${section}`);
+      const response = await axios.get(`http://18.221.196.222:7878/api/StaticContent/${section}`);
       setContentData(prev => ({ ...prev, [section]: response.data.content }));
     } catch (error) {
       console.error('Error fetching content:', error);
@@ -33,7 +33,7 @@ const StaticContentManagement = () => {
 
   const saveContent = async () => {
     try {
-      await axios.post('http://localhost:7878/api/StaticContent', { section: activeSection, content: contentData[activeSection] });
+      await axios.post('http://18.221.196.222:7878/api/StaticContent', { section: activeSection, content: contentData[activeSection] });
       alert('Content saved successfully!');
     } catch (error) {
       console.error('Error saving content:', error);
