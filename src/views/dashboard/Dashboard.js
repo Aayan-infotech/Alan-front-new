@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import SalesChart from './SalesChart';
 
-const localizer = momentLocalizer(moment);
+const localizer = momentLocalizer(moment); 
 
 const AppointmentModal = ({ appointment, onClose, onDelete }) => {
   if (!appointment) return null;
