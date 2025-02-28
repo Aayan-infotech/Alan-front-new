@@ -729,7 +729,7 @@ const ManageProduct = () => {
         .catch(error => console.error('Error uploading images:', error));
     }
   };
-
+ 
   const fetchImages = (productId) => {
     axios.get(`http://18.221.196.222:7878/api/ProductImg/product-images/${productId}`)
       .then(response => {
