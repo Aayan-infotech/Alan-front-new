@@ -967,6 +967,8 @@ const ManageProduct = () => {
               <option value="Active">Active</option>
               <option value="Blocked">Blocked</option>
             </CFormSelect>
+            <CFormLabel htmlFor="price">Price</CFormLabel>
+            <CFormInput id="price" name="price" value={editProductData.price} onChange={handleEditFormChange} />
           </CForm>
         </CModalBody>
         <CModalFooter>
