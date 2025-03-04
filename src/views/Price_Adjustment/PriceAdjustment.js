@@ -147,14 +147,6 @@ const PriceAdjustment = () => {
                   style={{ maxWidth: '200px', margin: '0 auto' }}
                 />
               </CCol>
-              {/* <CButton
-            
-                color="success"
-                className="w-50 fw-bold shadow-lg"
-                style={{ maxWidth: '226px', maxHeight:'50px' }}
-              >
-                APPLY PRICING
-              </CButton> */}
             </CRow>
 
             <div className="text-center mt-4">
