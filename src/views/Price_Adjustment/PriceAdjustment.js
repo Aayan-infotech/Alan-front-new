@@ -134,8 +134,8 @@ const PriceAdjustment = () => {
                 </CFormSelect>
               </CCol>
             </CRow>
-            <CRow className="mb-4 justify-content-center">
-              <CCol md={4} className="text-center">
+            <CRow className="mb-4 justify-content-center mx-auto align-items-end">
+              <CCol md={3} className="text-center px-0">
                 <CFormLabel>Price Adjustment</CFormLabel>
                 <CFormInput
                   type="number"
@@ -147,17 +147,18 @@ const PriceAdjustment = () => {
                   style={{ maxWidth: '200px', margin: '0 auto' }}
                 />
               </CCol>
-            </CRow>
-
-            <div className="text-center mt-4">
+              <CCol md={3} className="text-center px-0">
               <CButton
                 color="success"
-                className="w-50 fw-bold shadow-lg"
-                style={{ maxWidth: '226px', maxHeight: '50px' }}
+                className="w-100 fw-bold shadow-lg"
+              
               >
                 APPLY PRICING
               </CButton>
-            </div>
+                </CCol>
+            </CRow>
+
+           
             <div className="text-center mt-3">
               <CButton color="secondary" onClick={resetFilters}>
                 Reset
