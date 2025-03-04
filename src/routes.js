@@ -15,6 +15,7 @@ const DimensionsProduct = React.lazy(() => import('./views/Product_Management/Di
 const DimensionsProductDoors = React.lazy(() => import('./views/Product_Management/DimensionsProductDoors'))
 const StaticContentManagement = React.lazy(() => import('./views/Static Content Management/StaticContentManagement'))
 const PriceAdjustment = React.lazy(() => import('./views/Price_Adjustment/PriceAdjustment'))
+const priceHistories = React.lazy(() => import('./views/Price_Adjustment/priceHistories'))
 
 
 
@@ -35,6 +36,7 @@ const routes = [
   { path: '/DimensionsProductDoors', name: 'DimensionsProductDoors', element: DimensionsProductDoors },
   { path: '/StaticContentManagement', name: 'StaticContentManagement', element: StaticContentManagement },
   { path: '/PriceAdjustment', name: 'PriceAdjustment', element: PriceAdjustment },
+  { path: '/priceHistories', name: 'priceHistories', element: priceHistories },
 
 
 ]

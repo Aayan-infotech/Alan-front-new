@@ -16,8 +16,11 @@ import {
 } from '@coreui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
+
 
 const PriceAdjustment = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([])
   const [subCategories, setSubCategories] = useState([])
   const [subSubCategories, setSubSubCategories] = useState([])
@@ -66,6 +69,21 @@ const PriceAdjustment = () => {
 
   const resetFilters = () => {
     setFilters({ category: '', subCategory: '', subSubCategory: '', priceAdjustment: '' })
+  }
+
+  const applyPricing = async () => {
+    try {
+      const response = await axios.post('http://18.221.196.222:7878/api/updatePrices/PriceAdjustment', {
+        category_id: filters.category,
+        sub_category_id: filters.subCategory || undefined,
+        sub_sub_category_id: filters.subSubCategory || undefined,
+        updateFactor: parseFloat(filters.priceAdjustment),
+      })
+      alert(response.data.message)
+    } catch (error) {
+      console.error('Error applying pricing:', error)
+      alert('Failed to update prices')
+    }
   }
 
   return (
@@ -147,21 +165,34 @@ const PriceAdjustment = () => {
                   style={{ maxWidth: '200px', margin: '0 auto' }}
                 />
               </CCol>
-              <CCol md={3} className="text-center px-0">
-              <CButton
-                color="success"
-                className="w-100 fw-bold shadow-lg"
-              
-              >
-                APPLY PRICING
-              </CButton>
-                </CCol>
-            </CRow>
-
-           
-            <div className="text-center mt-3">
-              <CButton color="secondary" onClick={resetFilters}>
+              <CCol md={2} className="text-center">
+              <CButton color="secondary"  className="w-100 fw-bold shadow-lg"  onClick={resetFilters}>
                 Reset
+              </CButton>
+              </CCol>
+              <CCol md={3} className="text-center px-0">
+                <CButton
+                  color="success"
+                  className="w-100 fw-bold shadow-lg"
+                  onClick={applyPricing}
+                >
+                  APPLY PRICING
+                </CButton>
+
+                
+              </CCol>
+         
+            </CRow>
+            <div className="text-center mt-3">
+              {/* <CButton color="secondary" onClick={resetFilters}>
+                Reset
+              </CButton> */}
+              <CButton
+                color="info"
+                className="text-center mt-3"
+                onClick={() => navigate('/priceHistories')}
+              >
+                View History
               </CButton>
             </div>
           </CForm>
