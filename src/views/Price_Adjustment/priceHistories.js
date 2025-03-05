@@ -20,7 +20,7 @@ const PriceHistories = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:7878/api/updatePrices/getAllPriceAdjustments');
+        const response = await axios.get('http://18.221.196.222:7878/api/updatePrices/getAllPriceAdjustments');
         setPriceAdjustments(response.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Error fetching data');
