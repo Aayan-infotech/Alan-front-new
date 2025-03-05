@@ -109,7 +109,7 @@ const PriceAdjustment = () => {
     <CContainer className="d-flex justify-content-center">
       <CCard className="shadow-lg w-100">
         <CCardHeader className="bg-danger text-white text-center fs-5">
-         Price Adjustment
+          Price Adjustment
         </CCardHeader>
         <CCardBody>
           <CAlert color="danger" className="d-flex align-items-center">
@@ -191,24 +191,22 @@ const PriceAdjustment = () => {
               </CCol>
               <CCol md={3} className="text-center px-0">
                 <CButton
-                  color="primary" // Changed color to 'primary'
+                  color="primary"
                   className="w-95 fw-bold shadow-lg d-flex align-items-center justify-content-center"
                   onClick={applyPricing}
                 >
                   <FontAwesomeIcon icon={faArrowUp} className="mr-2"
-                    // disabled={!filters.priceAdjustment}
                   /> INCREASE PRICING
                 </CButton>
               </CCol>
 
               <CCol md={4} className="text-center px-0">
                 <CButton
-                  color="danger" // Changed color to 'danger'
+                  color="danger"
                   className="w-95 fw-bold shadow-lg d-flex align-items-center justify-content-center"
                   onClick={applyPricingDecr}
                 >
                   <FontAwesomeIcon icon={faArrowDown} className="mr-2"
-                    // disabled={!filters.priceAdjustment}
                   /> DECREASE PRICING
                 </CButton>
               </CCol>
@@ -231,9 +229,6 @@ const PriceAdjustment = () => {
               </CContainer>
             </CRow>
             <div className="text-center mt-3">
-              {/* <CButton color="secondary" onClick={resetFilters}>
-                Reset
-              </CButton> */}
               <CButton
                 color="info"
                 className="text-center mt-3"
