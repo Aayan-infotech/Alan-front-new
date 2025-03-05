@@ -17,11 +17,10 @@ const PriceHistories = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch data from the backend
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://18.221.196.222:7878/api/updatePrices/getAllPriceAdjustments');
+        const response = await axios.get('http://localhost:7878/api/updatePrices/getAllPriceAdjustments');
         setPriceAdjustments(response.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Error fetching data');
@@ -36,7 +35,7 @@ const PriceHistories = () => {
 
   if (loading) {
     return (
-      <CContainer className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+      <CContainer className="d-flex justify-content-center align-items-center vh-100">
         <CSpinner color="primary" />
       </CContainer>
     );
@@ -44,8 +43,8 @@ const PriceHistories = () => {
 
   if (error) {
     return (
-      <CContainer>
-        <CAlert color="danger">
+      <CContainer className="mt-4">
+        <CAlert color="danger" className="text-center">
           <FontAwesomeIcon icon={faExclamationTriangle} /> {error}
         </CAlert>
       </CContainer>
@@ -53,32 +52,34 @@ const PriceHistories = () => {
   }
 
   return (
-    <CContainer>
-      <CCard>
-        <CCardHeader>
+    <CContainer className="mt-5">
+      <CCard className="shadow-lg">
+        <CCardHeader className="bg-primary text-white text-center">
           <h4>Price Adjustment History</h4>
         </CCardHeader>
         <CCardBody>
-          <CTable striped hover>
-            <thead>
+          <CTable striped bordered hover responsive className="table table-sm text-center">
+            <thead className="table-dark">
               <tr>
-                <th scope="col">Index</th>
-                <th scope="col">Date</th>
-                <th scope="col">Category ID</th>
-                <th scope="col">Sub Category ID</th>
-                <th scope="col">Sub Sub Category ID</th>
-                <th scope="col">Update Percent</th>
+                <th>index</th>
+                <th>Date & Time</th>
+                <th>Category</th>
+                <th>Sub Category</th>
+                <th>Sub Sub Category</th>
+                <th>Update Percent</th>
+                <th>Price Adjustment</th>
               </tr>
             </thead>
             <tbody>
               {priceAdjustments.map((adjustment, index) => (
                 <tr key={adjustment._id}>
                   <td>{index + 1}</td>
-                  <td>{new Date(adjustment.date).toLocaleDateString()}</td>
-                  <td>{adjustment.category_id || 'N/A'}</td>
-                  <td>{adjustment.sub_category_id || 'N/A'}</td>
-                  <td>{adjustment.sub_sub_category_id || 'N/A'}</td>
+                  <td>{new Date(adjustment.date).toLocaleString()}</td>
+                  <td>{adjustment.category_name || 'N/A'}</td>
+                  <td>{adjustment.sub_category_name || 'N/A'}</td>
+                  <td>{adjustment.sub_sub_category_name || 'N/A'}</td>
                   <td>{adjustment.updatePercent}%</td>
+                  <td>{adjustment.PriceAdjustment}</td>
                 </tr>
               ))}
             </tbody>
