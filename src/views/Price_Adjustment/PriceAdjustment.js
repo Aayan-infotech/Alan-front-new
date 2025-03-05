@@ -108,8 +108,8 @@ const PriceAdjustment = () => {
   return (
     <CContainer className="d-flex justify-content-center">
       <CCard className="shadow-lg w-100">
-        <CCardHeader className="bg-primary text-white text-center fs-5">
-          Mass Price Adjustment
+        <CCardHeader className="bg-danger text-white text-center fs-5">
+         Price Adjustment
         </CCardHeader>
         <CCardBody>
           <CAlert color="danger" className="d-flex align-items-center">
