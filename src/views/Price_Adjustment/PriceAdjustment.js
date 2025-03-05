@@ -17,7 +17,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router-dom';
-
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const PriceAdjustment = () => {
   const navigate = useNavigate();
@@ -73,13 +73,32 @@ const PriceAdjustment = () => {
 
   const applyPricing = async () => {
     try {
-      const response = await axios.post('http://18.221.196.222:7878/api/updatePrices/PriceAdjustment', {
+      const response = await axios.post('http://18.221.196.222:7878/api/updatePrices/PriceAdjustmentIncrease', {
         category_id: filters.category,
         sub_category_id: filters.subCategory || undefined,
         sub_sub_category_id: filters.subSubCategory || undefined,
         updateFactor: parseFloat(filters.priceAdjustment),
       })
       alert(response.data.message)
+      // Clear the input after successful execution
+      setFilters((prev) => ({ ...prev, priceAdjustment: '' }))
+    } catch (error) {
+      console.error('Error applying pricing:', error)
+      alert('Failed to update prices')
+    }
+  }
+
+  const applyPricingDecr = async () => {
+    try {
+      const response = await axios.post('http://18.221.196.222:7878/api/updatePrices/PriceAdjustmentDecrease', {
+        category_id: filters.category,
+        sub_category_id: filters.subCategory || undefined,
+        sub_sub_category_id: filters.subSubCategory || undefined,
+        divide: parseFloat(filters.priceAdjustment),
+      })
+      alert(response.data.message)
+      // Clear the input after successful execution
+      setFilters((prev) => ({ ...prev, priceAdjustment: '' }))
     } catch (error) {
       console.error('Error applying pricing:', error)
       alert('Failed to update prices')
@@ -166,22 +185,34 @@ const PriceAdjustment = () => {
                 />
               </CCol>
               <CCol md={2} className="text-center">
-              <CButton color="secondary"  className="w-100 fw-bold shadow-lg"  onClick={resetFilters}>
-                Reset
-              </CButton>
+                <CButton color="secondary" className="w-100 fw-bold shadow-lg" onClick={resetFilters}>
+                  Reset
+                </CButton>
               </CCol>
               <CCol md={3} className="text-center px-0">
                 <CButton
-                  color="success"
-                  className="w-100 fw-bold shadow-lg"
+                  color="primary" // Changed color to 'primary'
+                  className="w-95 fw-bold shadow-lg d-flex align-items-center justify-content-center"
                   onClick={applyPricing}
                 >
-                  APPLY PRICING
+                  <FontAwesomeIcon icon={faArrowUp} className="mr-2"
+                    // disabled={!filters.priceAdjustment}
+                  /> INCREASE PRICING
                 </CButton>
-
-                
               </CCol>
-         
+
+              <CCol md={4} className="text-center px-0">
+                <CButton
+                  color="danger" // Changed color to 'danger'
+                  className="w-95 fw-bold shadow-lg d-flex align-items-center justify-content-center"
+                  onClick={applyPricingDecr}
+                >
+                  <FontAwesomeIcon icon={faArrowDown} className="mr-2"
+                    // disabled={!filters.priceAdjustment}
+                  /> DECREASE PRICING
+                </CButton>
+              </CCol>
+
             </CRow>
             <div className="text-center mt-3">
               {/* <CButton color="secondary" onClick={resetFilters}>
