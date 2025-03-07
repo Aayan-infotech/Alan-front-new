@@ -196,11 +196,11 @@ const PriceAdjustment = () => {
                   onClick={applyPricing}
                 >
                   <FontAwesomeIcon icon={faArrowUp} className="mr-2"
-                  /> INCREASE PRICING
+                  /> Update Pricing
                 </CButton>
               </CCol>
 
-              <CCol md={4} className="text-center px-0">
+              {/* <CCol md={4} className="text-center px-0">
                 <CButton
                   color="danger"
                   className="w-95 fw-bold shadow-lg d-flex align-items-center justify-content-center"
@@ -209,21 +209,22 @@ const PriceAdjustment = () => {
                   <FontAwesomeIcon icon={faArrowDown} className="mr-2"
                   /> DECREASE PRICING
                 </CButton>
-              </CCol>
+              </CCol> */}
               <CContainer className="d-flex justify-content-center mt-5">
                 <div className="border rounded p-4" style={{ backgroundColor: '#f4c7ab', borderWidth: '5px', borderColor: '#8b5a2b' }}>
                   <h5 className="fw-bold">Important Instruction :</h5>
                   <ul>
                     <li>
-                      On clicking <CButton color="primary" className="mx-2"   >
-                        <FontAwesomeIcon icon={faArrowUp} className="me-1" /> INCREASE PRICING
-                      </CButton> button, the entered percentage will be added to the existing price.
+                      On clicking the <CButton color="primary" className="mx-2">
+                        <FontAwesomeIcon icon={faArrowUp} className="me-1" /> Update Pricing
+                      </CButton> button, the entered percentage will be applied to the existing price.
                     </li>
-                    <li className="mt-3">
+
+                    {/* <li className="mt-3">
                       On clicking <CButton color="danger" className="mx-2"   >
                         <FontAwesomeIcon icon={faArrowDown} className="me-1" /> DECREASE PRICING
                       </CButton> button, the entered percentage will be deducted from the existing price.
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </CContainer>
