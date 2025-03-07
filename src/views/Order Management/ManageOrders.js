@@ -16,7 +16,7 @@ const ManageOrders = () => {
   const [showPaymentDetailsModal, setShowPaymentDetailsModal] = useState(false);
 
   useEffect(() => {
-    axios.get('http://18.221.196.222:7878/api/FnalCustData/getAllCustData')
+    axios.get('http://localhost:7878/api/FnalCustData/getAllCustData')
       .then(response => {
         setOrders(response.data);
       })
@@ -46,7 +46,7 @@ const ManageOrders = () => {
   const handleUpdateOrderStatus = async () => {
     if (!selectedOrder) return;
     try {
-      await axios.put(`http://18.221.196.222:7878/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
+      await axios.put(`http://localhost:7878/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
         orderStatus: selectedOrder.orderStatus,
       });
       setOrders((prevOrders) => prevOrders.map((order) =>
@@ -55,6 +55,39 @@ const ManageOrders = () => {
       setShowEditOrderModal(false);
     } catch (error) {
       console.error('Error updating order status:', error);
+    }
+  };
+
+  const handleTrackInfoSubmit = async () => {
+    if (!selectedOrder || !selectedOrder.id) {
+      alert("No order selected.");
+      return;
+    }
+    try {
+      const response = await axios.put(
+        `http://localhost:7878/api/FnalCustData/editFinalOrder/${selectedOrder.id}`,
+        {
+          trackId: selectedOrder.trackId || "",
+          trackPartner: selectedOrder.trackPartner || "",
+        }
+      );
+
+      if (response.status === 200) {
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === selectedOrder.id
+              ? { ...order, trackId: selectedOrder.trackId, trackPartner: selectedOrder.trackPartner }
+              : order
+          )
+        );
+
+        alert("Tracking info updated successfully");
+      } else {
+        alert("Failed to update tracking info");
+      }
+    } catch (error) {
+      console.error("Error updating tracking info:", error);
+      alert("Error updating tracking info");
     }
   };
 
@@ -273,15 +306,6 @@ const ManageOrders = () => {
             </div>
             <div className="form-group col-4">
               <label>Order Status</label>
-              {/* <CFormSelect
-                value={selectedOrder.orderStatus}
-                onChange={(e) => setSelectedOrder({ ...selectedOrder, orderStatus: e.target.value })}>
-                <option value="Pending">Pending</option>
-                <option value="Processing">Processing</option>
-                <option value="Shipped">Shipped</option>
-                <option value="Delivered">Delivered</option>
-                <option value="Cancelled">Cancelled</option>
-              </CFormSelect> */}
               <CFormSelect
                 className={`text-white ${selectedOrder.orderStatus === "Pending" ? "bg-warning" :
                   selectedOrder.orderStatus === "Processing" ? "bg-info" :
@@ -297,8 +321,35 @@ const ManageOrders = () => {
                 <option value="Delivered">Delivered</option>
                 <option value="Cancelled">Cancelled</option>
               </CFormSelect>
-
             </div>
+
+            {/* Track */}
+            <div className="form-group col-4">
+              <label>Track ID</label>
+              <CFormInput
+                type="text"
+                value={selectedOrder?.trackId || ""}
+                onChange={(e) =>
+                  setSelectedOrder((prev) => (prev ? { ...prev, trackId: e.target.value } : {}))
+                }
+                placeholder="Enter Track ID"
+              />
+            </div>
+            <div className="form-group col-4">
+              <label>Track Partner</label>
+              <CFormInput
+                type="text"
+                value={selectedOrder?.trackPartner || ""}
+                onChange={(e) =>
+                  setSelectedOrder((prev) => ({ ...prev, trackPartner: e.target.value }))
+                }
+                placeholder="Enter Track Partner"
+              />
+            </div>
+            <div className="form-group col-4 d-flex align-items-end">
+              <CButton color="success" onClick={handleTrackInfoSubmit}>Submit Tracking Info</CButton>
+            </div>
+
             <div className="form-group mt-3">
               <label>Billing Address</label>
               <div className="card">
@@ -325,10 +376,6 @@ const ManageOrders = () => {
                 }
               />
             </div>
-            {/* <div className="form-group mt-3">
-              <label>Billing Address</label>
-              <CFormTextarea rows={3} value={selectedOrder.orderSummary || ""} readOnly />
-            </div> */}
           </CModalBody>
           <CModalFooter>
             <CButton color="primary" onClick={handleUpdateOrderStatus}>Save Changes</CButton>
