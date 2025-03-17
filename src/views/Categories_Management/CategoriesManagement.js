@@ -169,12 +169,12 @@ const CategoriesManagement = () => {
                         onClick={() => handleEditCategory(category)}
                         style={{ margin: '0 8px', cursor: 'pointer' }}
                       />
-                      <FontAwesomeIcon
+                      {/* <FontAwesomeIcon
                         icon={faTrash}
                         color="danger"
                         onClick={() => handleDeleteCategory(category)}
                         style={{ cursor: 'pointer' }}
-                      />
+                      /> */}
                     </CTableDataCell>
                   </CTableRow>
                 ))
