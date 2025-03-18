@@ -124,9 +124,9 @@ const CategoriesManagement = () => {
         <CCardHeader className="categories-card-header">
           <div className="d-flex justify-content-between align-items-center">
             <h5>Categories Management</h5>
-            <CButton color="primary" onClick={() => setVisible(true)} className="add-category-btn">
+            {/* <CButton color="primary" onClick={() => setVisible(true)} className="add-category-btn">
               <FontAwesomeIcon icon={faPlus} /> Add Category
-            </CButton>
+            </CButton> */}
           </div>
         </CCardHeader>
 
