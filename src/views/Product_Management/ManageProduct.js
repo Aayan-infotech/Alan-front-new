@@ -142,7 +142,7 @@
 //       setNewImages([...newImages, ...files]);
 //     }
 //   };
-//   // EDIT 
+//   // EDIT
 //   const handleEditProduct = (product) => {
 //     // setEditProductData(product);
 //     setEditProductData({
@@ -514,20 +514,10 @@
 
 // export default ManageProduct;
 
-
-
-
-
-
-
-
-
-
-
-import { useNavigate } from 'react-router-dom';
-import { CListGroup, CListGroupItem, CSpinner } from '@coreui/react';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
+import { CListGroup, CListGroupItem, CSpinner } from '@coreui/react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import {
   CRow,
   CCol,
@@ -551,25 +541,32 @@ import {
   CModalHeader,
   CModalTitle,
   CModalBody,
-  CModalFooter
-} from '@coreui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faImage, faObjectGroup } from '@fortawesome/free-solid-svg-icons';
+  CModalFooter,
+} from '@coreui/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit, faTrash, faImage, faObjectGroup } from '@fortawesome/free-solid-svg-icons'
 
 const ManageProduct = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   // Handle "Add Dimensions" based on category name.
-  const handleAddDimensions = (productId, categoryName) => {
-    if (categoryName === 'Windows') {
-      navigate('/DimensionsProduct', { state: { Product_id: productId } });
-    } else if (categoryName === 'Doors') {
-      navigate('/DimensionsProductDoors', { state: { productIdfordet: productId } });
-    }
-  };
+  // const handleAddDimensions = (productId, categoryName) => {
+  //   if (categoryName === 'Windows') {
+  //     navigate('/DimensionsProduct', { state: { Product_id: productId } });
+  //   } else if (categoryName === 'Doors') {
+  //     navigate('/DimensionsProductDoors', { state: { productIdfordet: productId } });
+  //   }
+  // };
+  const handleAddDimensionsProduct = (productId) => {
+    navigate('/DimensionsProduct', { state: { Product_id: productId } })
+  }
 
-  const [selectedProductId, setSelectedProductId] = useState(null);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const handleAddDimensionsProductDoors = (productId) => {
+    navigate('/DimensionsProductDoors', { state: { productIdfordet: productId } })
+  }
+
+  const [selectedProductId, setSelectedProductId] = useState(null)
+  const [showEditModal, setShowEditModal] = useState(false)
   const [editProductData, setEditProductData] = useState({
     _id: '',
     name: '',
@@ -577,11 +574,11 @@ const ManageProduct = () => {
     sub_category_name: '',
     sub_sub_category_name: '',
     status: '',
-  });
+  })
 
-  const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
-  const [subSubCategories, setSubSubCategories] = useState([]);
+  const [categories, setCategories] = useState([])
+  const [subCategories, setSubCategories] = useState([])
+  const [subSubCategories, setSubSubCategories] = useState([])
   // Use IDs as filter values
   const [filters, setFilters] = useState({
     category: '',
@@ -589,85 +586,105 @@ const ManageProduct = () => {
     subSubCategory: '',
     status: '',
     search: '',
-  });
-  const [data, setData] = useState([]);
-  const [newImages, setNewImages] = useState([]);
-  const [showImagesModal, setShowImagesModal] = useState(false);
-  const [newImage, setNewImage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  })
+  const [data, setData] = useState([])
+  const [newImages, setNewImages] = useState([])
+  const [showImagesModal, setShowImagesModal] = useState(false)
+  const [newImage, setNewImage] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   // Fetch Categories on mount
   useEffect(() => {
-    axios.get('http://18.221.196.222:7878/api/categories')
-      .then(response => setCategories(response.data))
-      .catch(error => console.error('Error fetching categories:', error));
-  }, []);
+    axios
+      .get('http://18.221.196.222:7878/api/categories')
+      .then((response) => setCategories(response.data))
+      .catch((error) => console.error('Error fetching categories:', error))
+  }, [])
 
   useEffect(() => {
     if (filters.category) {
-      axios.get(`http://18.221.196.222:7878/api/subcategory/categoryid/${filters.category}`)
-        .then(response => {
-          setSubCategories(response.data.data || (Array.isArray(response.data) ? response.data : []));
+      axios
+        .get(`http://18.221.196.222:7878/api/subcategory/categoryid/${filters.category}`)
+        .then((response) => {
+          setSubCategories(
+            response.data.data || (Array.isArray(response.data) ? response.data : []),
+          )
         })
-        .catch(error => console.error('Error fetching subcategories:', error));
+        .catch((error) => console.error('Error fetching subcategories:', error))
     } else {
-      setSubCategories([]);
+      setSubCategories([])
     }
 
-    setFilters(prev => ({ ...prev, subCategory: '', subSubCategory: '' }));
-    setSubSubCategories([]);
-  }, [filters.category]);
+    setFilters((prev) => ({ ...prev, subCategory: '', subSubCategory: '' }))
+    setSubSubCategories([])
+  }, [filters.category])
 
   useEffect(() => {
     if (filters.subCategory) {
-      axios.get(`http://18.221.196.222:7878/api/subSubCategories/subcategoryid/${filters.subCategory}`)
-        .then(response => {
-          setSubSubCategories(response.data.data || (Array.isArray(response.data) ? response.data : []));
+      axios
+        .get(`http://18.221.196.222:7878/api/subSubCategories/subcategoryid/${filters.subCategory}`)
+        .then((response) => {
+          setSubSubCategories(
+            response.data.data || (Array.isArray(response.data) ? response.data : []),
+          )
         })
-        .catch(error => console.error('Error fetching subsubcategories:', error));
+        .catch((error) => console.error('Error fetching subsubcategories:', error))
     } else {
-      setSubSubCategories([]);
+      setSubSubCategories([])
     }
-    setFilters(prev => ({ ...prev, subSubCategory: '' }));
-  }, [filters.subCategory]);
+    setFilters((prev) => ({ ...prev, subSubCategory: '' }))
+  }, [filters.subCategory])
 
   useEffect(() => {
-    setLoading(true);
-    axios.get('http://18.221.196.222:7878/api/products')
-      .then(response => {
-        setData(response.data);
-        setLoading(false);
+    setLoading(true)
+    axios
+      .get('http://18.221.196.222:7878/api/products')
+      .then((response) => {
+        setData(response.data)
+        setLoading(false)
       })
-      .catch(error => {
-        console.error('Error fetching products:', error);
-        setLoading(false);
-      });
-  }, []);
+      .catch((error) => {
+        console.error('Error fetching products:', error)
+        setLoading(false)
+      })
+  }, [])
 
   const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters(prev => ({ ...prev, [name]: value }));
-  };
+    const { name, value } = e.target
+    setFilters((prev) => ({ ...prev, [name]: value }))
+  }
 
-  const selectedCategoryName = filters.category ? categories.find(c => c._id === filters.category)?.name : '';
-  const selectedSubCategoryName = filters.subCategory ? subCategories.find(sc => sc._id === filters.subCategory)?.name : '';
-  const selectedSubSubCategoryName = filters.subSubCategory ? subSubCategories.find(ssc => ssc._id === filters.subSubCategory)?.name : '';
+  const selectedCategoryName = filters.category
+    ? categories.find((c) => c._id === filters.category)?.name
+    : ''
+  const selectedSubCategoryName = filters.subCategory
+    ? subCategories.find((sc) => sc._id === filters.subCategory)?.name
+    : ''
+  const selectedSubSubCategoryName = filters.subSubCategory
+    ? subSubCategories.find((ssc) => ssc._id === filters.subSubCategory)?.name
+    : ''
 
-  const filteredData = data.filter(product => {
-    const matchCategory = filters.category ? product.category_name === selectedCategoryName : true;
-    const matchSubCategory = filters.subCategory ? product.sub_category_name === selectedSubCategoryName : true;
-    const matchSubSubCategory = filters.subSubCategory ? product.sub_sub_category_name === selectedSubSubCategoryName : true;
-    const matchStatus = filters.status ? product.status === filters.status : true;
-    const matchSearch = filters.search ? product.name.toLowerCase().includes(filters.search.toLowerCase()) : true;
-    return matchCategory && matchSubCategory && matchSubSubCategory && matchStatus && matchSearch;
-  });
+  const filteredData = data.filter((product) => {
+    const matchCategory = filters.category ? product.category_name === selectedCategoryName : true
+    const matchSubCategory = filters.subCategory
+      ? product.sub_category_name === selectedSubCategoryName
+      : true
+    const matchSubSubCategory = filters.subSubCategory
+      ? product.sub_sub_category_name === selectedSubSubCategoryName
+      : true
+    const matchStatus = filters.status ? product.status === filters.status : true
+    const matchSearch = filters.search
+      ? product.name.toLowerCase().includes(filters.search.toLowerCase())
+      : true
+    return matchCategory && matchSubCategory && matchSubSubCategory && matchStatus && matchSearch
+  })
 
   const handleImageUpload = (e) => {
-    const files = e.target.files;
+    const files = e.target.files
     if (files) {
-      setNewImages([...newImages, ...files]);
+      setNewImages([...newImages, ...files])
     }
-  };
+  }
 
   const handleEditProduct = (product) => {
     setEditProductData({
@@ -679,70 +696,75 @@ const ManageProduct = () => {
       productFormulaAdded: product.productFormulaAdded || '',
       status: product.status || '',
       price: product.price || '',
-    });
-    setShowEditModal(true);
-  };
+    })
+    setShowEditModal(true)
+  }
 
   const handleEditFormChange = (e) => {
-    const { name, value } = e.target;
-    setEditProductData(prev => ({ ...prev, [name]: value }));
-  };
+    const { name, value } = e.target
+    setEditProductData((prev) => ({ ...prev, [name]: value }))
+  }
 
   const handleEditProductSubmit = () => {
-    axios.put(`http://18.221.196.222:7878/api/products/${editProductData._id}`, editProductData)
+    axios
+      .put(`http://18.221.196.222:7878/api/products/${editProductData._id}`, editProductData)
       .then(() => {
-        alert('Product updated successfully');
-        setShowEditModal(false);
-        axios.get('http://18.221.196.222:7878/api/products')
-          .then(response => setData(response.data))
-          .catch(error => console.error('Error refetching products:', error));
+        alert('Product updated successfully')
+        setShowEditModal(false)
+        axios
+          .get('http://18.221.196.222:7878/api/products')
+          .then((response) => setData(response.data))
+          .catch((error) => console.error('Error refetching products:', error))
       })
-      .catch(error => console.error('Error updating product:', error));
-  };
+      .catch((error) => console.error('Error updating product:', error))
+  }
 
   const handleDeleteProduct = (productId) => {
-    axios.delete(`http://18.221.196.222:7878/api/products/DEL/${productId}`)
+    axios
+      .delete(`http://18.221.196.222:7878/api/products/DEL/${productId}`)
       .then(() => {
-        alert('Product deleted successfully');
-        setData(prev => prev.filter(product => product._id !== productId));
+        alert('Product deleted successfully')
+        setData((prev) => prev.filter((product) => product._id !== productId))
       })
-      .catch(error => console.error('Error deleting product:', error));
-  };
+      .catch((error) => console.error('Error deleting product:', error))
+  }
 
   const handleAddImages = (productId) => {
-    setSelectedProductId(productId);
-    setShowImagesModal(true);
-    fetchImages(productId);
-  };
+    setSelectedProductId(productId)
+    setShowImagesModal(true)
+    fetchImages(productId)
+  }
 
   const handleAddImageConfirm = () => {
     if (newImages.length > 0 && selectedProductId) {
-      const formData = new FormData();
-      formData.append('Product_id', selectedProductId);
-      newImages.forEach(image => formData.append('images', image));
+      const formData = new FormData()
+      formData.append('Product_id', selectedProductId)
+      newImages.forEach((image) => formData.append('images', image))
 
-      axios.post('http://18.221.196.222:7878/api/ProductImg/product-images', formData)
+      axios
+        .post('http://18.221.196.222:7878/api/ProductImg/product-images', formData)
         .then(() => {
-          alert('Images uploaded successfully');
-          setShowImagesModal(false);
-          setNewImages([]);
+          alert('Images uploaded successfully')
+          setShowImagesModal(false)
+          setNewImages([])
         })
-        .catch(error => console.error('Error uploading images:', error));
+        .catch((error) => console.error('Error uploading images:', error))
     }
-  };
+  }
 
   const fetchImages = (productId) => {
-    axios.get(`http://18.221.196.222:7878/api/ProductImg/product-images/${productId}`)
-      .then(response => {
+    axios
+      .get(`http://18.221.196.222:7878/api/ProductImg/product-images/${productId}`)
+      .then((response) => {
         if (response.data.productImages) {
-          const images = response.data.productImages.flatMap(item => item.images);
-          setNewImages(images);
+          const images = response.data.productImages.flatMap((item) => item.images)
+          setNewImages(images)
         } else {
-          console.error('No product images found');
+          console.error('No product images found')
         }
       })
-      .catch(error => console.error('Error fetching images:', error));
-  };
+      .catch((error) => console.error('Error fetching images:', error))
+  }
 
   return (
     <CRow>
@@ -764,7 +786,7 @@ const ManageProduct = () => {
                     onChange={handleFilterChange}
                   >
                     <option value="">Select Category</option>
-                    {categories.map(category => (
+                    {categories.map((category) => (
                       <option key={category._id} value={category._id}>
                         {category.name}
                       </option>
@@ -781,7 +803,7 @@ const ManageProduct = () => {
                   >
                     <option value="">Select Subcategory</option>
                     {filters.category &&
-                      subCategories.map(subCategory => (
+                      subCategories.map((subCategory) => (
                         <option key={subCategory._id} value={subCategory._id}>
                           {subCategory.name}
                         </option>
@@ -798,7 +820,7 @@ const ManageProduct = () => {
                   >
                     <option value="">Select Sub-subcategory</option>
                     {filters.subCategory &&
-                      subSubCategories.map(subSubCategory => (
+                      subSubCategories.map((subSubCategory) => (
                         <option key={subSubCategory._id} value={subSubCategory._id}>
                           {subSubCategory.name}
                         </option>
@@ -819,7 +841,18 @@ const ManageProduct = () => {
                   </CFormSelect>
                 </CCol>
                 <CCol xs="12" md="1" className="d-flex align-items-end">
-                  <CButton color="primary" onClick={() => setFilters({ category: '', subCategory: '', subSubCategory: '', status: '', search: '' })}>
+                  <CButton
+                    color="primary"
+                    onClick={() =>
+                      setFilters({
+                        category: '',
+                        subCategory: '',
+                        subSubCategory: '',
+                        status: '',
+                        search: '',
+                      })
+                    }
+                  >
                     Reset
                   </CButton>
                 </CCol>
@@ -853,23 +886,22 @@ const ManageProduct = () => {
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {filteredData.map(product => (
+                  {filteredData.map((product) => (
                     <CTableRow key={product._id}>
                       <CTableDataCell>{product.name}</CTableDataCell>
                       <CTableDataCell>{product.category_name}</CTableDataCell>
                       <CTableDataCell>{product.sub_category_name}</CTableDataCell>
                       <CTableDataCell>{product.sub_sub_category_name}</CTableDataCell>
                       <CTableDataCell>{product.status}</CTableDataCell>
-                      <CTableDataCell>
-                        <CTableDataCell>
-                          <span
-                            className="icon-clickable"
+                      <CTableDataCell className="d-flex flex-row gap-2">
+                        <CTableDataCell className="d-flex flex-row align-items-center">
+                          <FontAwesomeIcon
+                            icon={faEdit}
                             onClick={() => handleEditProduct(product)}
                             style={{ cursor: 'pointer', color: 'orange', marginRight: '8px' }}
                             title="Edit"
-                          >
-                            <FontAwesomeIcon icon={faEdit} />
-                          </span>
+                          />
+
                           <FontAwesomeIcon
                             icon={faTrash}
                             color="red"
@@ -885,7 +917,7 @@ const ManageProduct = () => {
                             title="Add Images"
                           />
                         </CTableDataCell>
-                        <CTableDataCell>
+                        {/* <CTableDataCell>
                           <FontAwesomeIcon
                             icon={faObjectGroup}
                             color="blue"
@@ -893,6 +925,25 @@ const ManageProduct = () => {
                             style={{ cursor: 'pointer' }}
                             title="Add Dimensions"
                           />
+                        </CTableDataCell> */}
+
+                        <CTableDataCell className="d-flex flex-row align-items-start gap-1">
+                          <CButton
+                            color="info"
+                            onClick={() => handleAddDimensionsProduct(product._id)}
+                            className="px-2 text-light"
+                            title="Add Window Dimensions"
+                          >
+                            Dimensions Windows
+                          </CButton>
+                          <CButton
+                            color="success"
+                            onClick={() => handleAddDimensionsProductDoors(product._id)}
+                            className="px-2 text-light"
+                            title="Add Door Dimensions"
+                          >
+                            Dimensions Doors
+                          </CButton>
                         </CTableDataCell>
                       </CTableDataCell>
                     </CTableRow>
@@ -916,7 +967,10 @@ const ManageProduct = () => {
             <CListGroup className="mt-3">
               {newImages && newImages.length > 0 ? (
                 newImages.map((image, index) => (
-                  <CListGroupItem key={index} className="d-flex justify-content-between align-items-center">
+                  <CListGroupItem
+                    key={index}
+                    className="d-flex justify-content-between align-items-center"
+                  >
                     <img src={image} alt={`Product Image ${index}`} width="50" height="50" />
                     <CButton
                       color="danger"
@@ -951,25 +1005,60 @@ const ManageProduct = () => {
         <CModalBody>
           <CForm>
             <CFormLabel htmlFor="name">Product Name</CFormLabel>
-            <CFormInput id="name" name="name" value={editProductData.name} onChange={handleEditFormChange} />
+            <CFormInput
+              id="name"
+              name="name"
+              value={editProductData.name}
+              onChange={handleEditFormChange}
+            />
             <CFormLabel htmlFor="category_name">Category</CFormLabel>
-            <CFormInput id="category_name" name="category_name" value={editProductData.category_name || ''} onChange={handleEditFormChange} />
+            <CFormInput
+              id="category_name"
+              name="category_name"
+              value={editProductData.category_name || ''}
+              onChange={handleEditFormChange}
+            />
             <CFormLabel htmlFor="sub_category_name">Subcategory</CFormLabel>
-            <CFormInput id="sub_category_name" name="sub_category_name" value={editProductData.sub_category_name || ''} onChange={handleEditFormChange} />
+            <CFormInput
+              id="sub_category_name"
+              name="sub_category_name"
+              value={editProductData.sub_category_name || ''}
+              onChange={handleEditFormChange}
+            />
             <CFormLabel htmlFor="sub_sub_category_name">Sub-subcategory</CFormLabel>
-            <CFormInput id="sub_sub_category_name" name="sub_sub_category_name" value={editProductData.sub_sub_category_name || ''} onChange={handleEditFormChange} />
+            <CFormInput
+              id="sub_sub_category_name"
+              name="sub_sub_category_name"
+              value={editProductData.sub_sub_category_name || ''}
+              onChange={handleEditFormChange}
+            />
             <CFormLabel htmlFor="productFormulaAdded">Product Formula Added</CFormLabel>
-            <CFormSelect id="productFormulaAdded" name="productFormulaAdded" value={editProductData.productFormulaAdded} onChange={handleEditFormChange}>
+            <CFormSelect
+              id="productFormulaAdded"
+              name="productFormulaAdded"
+              value={editProductData.productFormulaAdded}
+              onChange={handleEditFormChange}
+            >
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </CFormSelect>
             <CFormLabel htmlFor="status">Status</CFormLabel>
-            <CFormSelect id="status" name="status" value={editProductData.status} onChange={handleEditFormChange}>
+            <CFormSelect
+              id="status"
+              name="status"
+              value={editProductData.status}
+              onChange={handleEditFormChange}
+            >
               <option value="Active">Active</option>
               <option value="Blocked">Blocked</option>
             </CFormSelect>
             <CFormLabel htmlFor="price">Price</CFormLabel>
-            <CFormInput id="price" name="price" value={editProductData.price} onChange={handleEditFormChange} />
+            <CFormInput
+              id="price"
+              name="price"
+              value={editProductData.price}
+              onChange={handleEditFormChange}
+            />
           </CForm>
         </CModalBody>
         <CModalFooter>
@@ -982,8 +1071,7 @@ const ManageProduct = () => {
         </CModalFooter>
       </CModal>
     </CRow>
-  );
-};
+  )
+}
 
-export default ManageProduct;
-
+export default ManageProduct
