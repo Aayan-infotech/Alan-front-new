@@ -732,22 +732,21 @@ const ManageProduct = () => {
     axios
       .delete(`http://18.221.196.222:7878/api/products/DEL/${productId}`)
       .then(() => {
-        alert("Product deleted successfully");
-        setData((prev) => prev.filter((product) => product._id !== productId));
+        alert('Product deleted successfully')
+        setData((prev) => prev.filter((product) => product._id !== productId))
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {
           // Show popup if the product cannot be deleted
-          alert(error.response.data.message); 
+          alert(error.response.data.message)
         } else if (error.response && error.response.status === 404) {
-          alert("Product not found");
+          alert('Product not found')
         } else {
-          alert("Error deleting product. Please try again.");
+          alert('Error deleting product. Please try again.')
         }
-        console.error("Error deleting product:", error);
-      });
-  };
-  
+        console.error('Error deleting product:', error)
+      })
+  }
 
   const handleAddImages = (productId) => {
     setSelectedProductId(productId)
@@ -948,7 +947,7 @@ const ManageProduct = () => {
                         </CTableDataCell> */}
 
                         <CTableDataCell className="d-flex flex-row align-items-start gap-1">
-                          <CButton
+                          {/* <CButton
                             color="info"
                             onClick={() => handleAddDimensionsProduct(product._id)}
                             className="px-2 text-light"
@@ -963,7 +962,21 @@ const ManageProduct = () => {
                             title="Add Door Dimensions"
                           >
                             Dimensions Doors
-                          </CButton>
+                          </CButton> */}
+                          {product.productType === 'Doors' || product.productType === 'Windows' ? (
+                            <CButton
+                              color="info"
+                              onClick={() =>
+                                product.productType === 'Doors'
+                                  ? handleAddDimensionsProductDoors(product._id)
+                                  : handleAddDimensionsProduct(product._id)
+                              }
+                              className="px-2 text-light"
+                              title={`Add ${product.productType} Dimensions`}
+                            >
+                              Add Dimensions
+                            </CButton>
+                          ) : null}
                         </CTableDataCell>
                       </CTableDataCell>
                     </CTableRow>
