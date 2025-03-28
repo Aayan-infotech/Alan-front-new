@@ -87,7 +87,7 @@
 //     formData.append('ins_ip', '127.0.0.1');
 //     formData.append('ins_by', '');
 //     formData.append('productFormulaAdded',productFormulaAdded);
-   
+
 //     fetch('http://18.221.196.222:7878/api/products', {
 //       method: 'POST',
 //       body: formData,
@@ -217,7 +217,7 @@
 //               />
 //             </CCol>
 //           </CRow>
-          
+
 //           {/* productFormulaAdded  */}
 //           <CRow>
 //             <CCol md={6}>
@@ -257,18 +257,28 @@
 
 // export default AddProductForm;
 
-
-import React, { useState, useEffect } from 'react';
-import { CCard, CCardHeader, CCardBody, CForm, CFormLabel, CFormSelect, CFormInput, CButton, CRow, CCol } from '@coreui/react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import '../Categories_Management/CategoriesManagement.css';
+import React, { useState, useEffect } from 'react'
+import {
+  CCard,
+  CCardHeader,
+  CCardBody,
+  CForm,
+  CFormLabel,
+  CFormSelect,
+  CFormInput,
+  CButton,
+  CRow,
+  CCol,
+} from '@coreui/react'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import '../Categories_Management/CategoriesManagement.css'
 
 const AddProductForm = () => {
-  const [images, setImage] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
-  const [subSubCategories, setSubSubCategories] = useState([]);
+  const [images, setImage] = useState(null)
+  const [categories, setCategories] = useState([])
+  const [subCategories, setSubCategories] = useState([])
+  const [subSubCategories, setSubSubCategories] = useState([])
   const [productData, setProductData] = useState({
     category: '',
     subCategory: '',
@@ -276,102 +286,107 @@ const AddProductForm = () => {
     productName: '',
     productDescription: '',
     price: '',
-    productFormulaAdded:'',
-  });
+    productFormulaAdded: '',
+  })
 
   // Fetch data for categories, subcategories, and subsubcategories
   useEffect(() => {
     fetch('http://18.221.196.222:7878/api/categories')
       .then((response) => response.json())
       .then((data) => setCategories(data))
-      .catch((error) => console.error('Error fetching categories:', error));
-  }, []);
+      .catch((error) => console.error('Error fetching categories:', error))
+  }, [])
 
   // Handle category change
   const handleCategoryChange = (e) => {
-    const selectedCategory = e.target.value;
+    const selectedCategory = e.target.value
     setProductData({
       ...productData,
       category: selectedCategory,
       subCategory: '',
       subSubCategory: '',
-    });
-    setSubCategories([]);
-    setSubSubCategories([]);
+    })
+    setSubCategories([])
+    setSubSubCategories([])
 
     if (selectedCategory) {
       fetch(`http://18.221.196.222:7878/api/subcategory/categoryid/${selectedCategory}`)
         .then((response) => {
           if (!response.ok) {
-            throw new Error(`HTTP error ${response.status}`);
+            throw new Error(`HTTP error ${response.status}`)
           }
-          return response.json();
+          return response.json()
         })
         .then((data) => {
-          const subcategoriesArray = data.data ? data.data : (Array.isArray(data) ? data : []);
-          setSubCategories(subcategoriesArray);
+          const subcategoriesArray = data.data ? data.data : Array.isArray(data) ? data : []
+          setSubCategories(subcategoriesArray)
         })
-        .catch((error) =>
-          console.error('Error fetching subcategories for category:', error)
-        );
+        .catch((error) => console.error('Error fetching subcategories for category:', error))
     }
-  };
+  }
 
   const handleSubCategoryChange = (e) => {
-    const selectedSubCategory = e.target.value;
+    const selectedSubCategory = e.target.value
     setProductData({
       ...productData,
       subCategory: selectedSubCategory,
       subSubCategory: '',
-    });
-    setSubSubCategories([]);
+    })
+    setSubSubCategories([])
 
     if (selectedSubCategory) {
       fetch(`http://18.221.196.222:7878/api/subSubCategories/subcategoryid/${selectedSubCategory}`)
         .then((response) => {
           if (!response.ok) {
-            throw new Error(`HTTP error ${response.status}`);
+            throw new Error(`HTTP error ${response.status}`)
           }
-          return response.json();
+          return response.json()
         })
         .then((data) => {
-          const subsubcategoriesArray = data.data ? data.data : (Array.isArray(data) ? data : []);
-          setSubSubCategories(subsubcategoriesArray);
+          const subsubcategoriesArray = data.data ? data.data : Array.isArray(data) ? data : []
+          setSubSubCategories(subsubcategoriesArray)
         })
-        .catch((error) =>
-          console.error('Error fetching subsubcategories for subcategory:', error)
-        );
+        .catch((error) => console.error('Error fetching subsubcategories for subcategory:', error))
     }
-  };
+  }
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProductData({ ...productData, [name]: value });
-  };
+    const { name, value } = e.target
+    setProductData({ ...productData, [name]: value })
+  }
 
   const handleDescriptionChange = (value) => {
-    setProductData({ ...productData, productDescription: value });
-  };
+    setProductData({ ...productData, productDescription: value })
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const { productFormulaAdded,category, subCategory, subSubCategory, productName, productDescription, price, productType } = productData;
-    const formData = new FormData();
+    const {
+      productFormulaAdded,
+      category,
+      subCategory,
+      subSubCategory,
+      productName,
+      productDescription,
+      price,
+      productType,
+    } = productData
+    const formData = new FormData()
 
-    formData.append('images', images); // Ensure `images` is the correct file input
-    formData.append('category_id', category);
-    formData.append('sub_category_id', subCategory);
-    formData.append('sub_sub_category_id', subSubCategory);
-    formData.append('name', productName);
-    formData.append('Description', productDescription);
-    formData.append('price', price);
-    formData.append('ins_date', new Date().toISOString());
-    formData.append('ins_ip', '127.0.0.1');
-    formData.append('ins_by', '');
-    formData.append('productFormulaAdded',productFormulaAdded);
-    formData.append('productType', productType);
-   
+    formData.append('images', images) // Ensure `images` is the correct file input
+    formData.append('category_id', category)
+    formData.append('sub_category_id', subCategory)
+    formData.append('sub_sub_category_id', subSubCategory)
+    formData.append('name', productName)
+    formData.append('Description', productDescription)
+    formData.append('price', price)
+    formData.append('ins_date', new Date().toISOString())
+    formData.append('ins_ip', '127.0.0.1')
+    formData.append('ins_by', '')
+    formData.append('productFormulaAdded', productFormulaAdded)
+    formData.append('productType', productType)
+
     fetch('http://18.221.196.222:7878/api/products', {
       method: 'POST',
       body: formData,
@@ -379,7 +394,7 @@ const AddProductForm = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.message === 'Product created successfully') {
-          alert('Product added successfully!');
+          alert('Product added successfully!')
           setProductData({
             category: '',
             subCategory: '',
@@ -388,21 +403,21 @@ const AddProductForm = () => {
             productDescription: '',
             price: '',
             productType: '',
-          });
-          setImage(null);
+          })
+          setImage(null)
         } else {
-          alert('Error adding product');
+          alert('Error adding product')
         }
       })
       .catch((error) => {
-        console.error('Error:', error);
-        alert('Error occurred while adding product');
-      });
-  };
+        console.error('Error:', error)
+        alert('Error occurred while adding product')
+      })
+  }
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Get the selected file
-  };
+    setImage(e.target.files[0]) // Get the selected file
+  }
   return (
     <CCard>
       <CCardHeader>Add Product</CCardHeader>
@@ -479,12 +494,7 @@ const AddProductForm = () => {
           <CRow>
             <CCol md={12}>
               <CFormLabel htmlFor="images">Product Image</CFormLabel>
-              <CFormInput
-                type="file"
-                id="images"
-                name="images"
-                onChange={handleImageChange}
-              />
+              <CFormInput type="file" id="images" name="images" onChange={handleImageChange} />
             </CCol>
           </CRow>
 
@@ -502,7 +512,7 @@ const AddProductForm = () => {
               />
             </CCol>
           </CRow>
-          
+
           {/* productFormulaAdded  */}
           <CRow>
             <CCol md={6}>
@@ -519,26 +529,23 @@ const AddProductForm = () => {
             </CCol>
           </CRow>
 
-
           <CRow>
-  <CCol md={6}>
-    <CFormLabel htmlFor="productType">Product Type</CFormLabel>
-    <CFormSelect
-      id="productType"
-      name="productType"
-      value={productData.productType}
-      onChange={handleChange}
-      required
-    >
-      <option value="">Select Product Type</option>
-      <option value="Windows">Windows</option>
-      <option value="Doors">Doors</option>
-      <option value="Hardware">Hardware</option>
-    </CFormSelect>
-  </CCol>
-</CRow>
-
-
+            <CCol md={6}>
+              <CFormLabel htmlFor="productType">Product Type</CFormLabel>
+              <CFormSelect
+                id="productType"
+                name="productType"
+                value={productData.productType}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Product Type</option>
+                <option value="Windows">Windows</option>
+                <option value="Doors">Doors</option>
+                <option value="Hardware">Hardware</option>
+              </CFormSelect>
+            </CCol>
+          </CRow>
 
           {/* Product Description using ReactQuill */}
           <CRow>
@@ -558,8 +565,7 @@ const AddProductForm = () => {
         </CForm>
       </CCardBody>
     </CCard>
-  );
-};
+  )
+}
 
-export default AddProductForm;
-
+export default AddProductForm
