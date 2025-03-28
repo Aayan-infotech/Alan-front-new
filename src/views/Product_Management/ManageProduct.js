@@ -719,15 +719,35 @@ const ManageProduct = () => {
       .catch((error) => console.error('Error updating product:', error))
   }
 
+  // const handleDeleteProduct = (productId) => {
+  //   axios
+  //     .delete(`http://18.221.196.222:7878/api/products/DEL/${productId}`)
+  //     .then(() => {
+  //       alert('Product deleted successfully')
+  //       setData((prev) => prev.filter((product) => product._id !== productId))
+  //     })
+  //     .catch((error) => console.error('Error deleting product:', error))
+  // }
   const handleDeleteProduct = (productId) => {
     axios
       .delete(`http://18.221.196.222:7878/api/products/DEL/${productId}`)
       .then(() => {
-        alert('Product deleted successfully')
-        setData((prev) => prev.filter((product) => product._id !== productId))
+        alert("Product deleted successfully");
+        setData((prev) => prev.filter((product) => product._id !== productId));
       })
-      .catch((error) => console.error('Error deleting product:', error))
-  }
+      .catch((error) => {
+        if (error.response && error.response.status === 400) {
+          // Show popup if the product cannot be deleted
+          alert(error.response.data.message); 
+        } else if (error.response && error.response.status === 404) {
+          alert("Product not found");
+        } else {
+          alert("Error deleting product. Please try again.");
+        }
+        console.error("Error deleting product:", error);
+      });
+  };
+  
 
   const handleAddImages = (productId) => {
     setSelectedProductId(productId)
