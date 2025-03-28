@@ -356,7 +356,7 @@ const AddProductForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { productFormulaAdded,category, subCategory, subSubCategory, productName, productDescription, price } = productData;
+    const { productFormulaAdded,category, subCategory, subSubCategory, productName, productDescription, price, productType } = productData;
     const formData = new FormData();
 
     formData.append('images', images); // Ensure `images` is the correct file input
@@ -370,6 +370,7 @@ const AddProductForm = () => {
     formData.append('ins_ip', '127.0.0.1');
     formData.append('ins_by', '');
     formData.append('productFormulaAdded',productFormulaAdded);
+    formData.append('productType', productType);
    
     fetch('http://18.221.196.222:7878/api/products', {
       method: 'POST',
@@ -386,6 +387,7 @@ const AddProductForm = () => {
             productName: '',
             productDescription: '',
             price: '',
+            productType: '',
           });
           setImage(null);
         } else {
@@ -516,6 +518,27 @@ const AddProductForm = () => {
               </CFormSelect>
             </CCol>
           </CRow>
+
+
+          <CRow>
+  <CCol md={6}>
+    <CFormLabel htmlFor="productType">Product Type</CFormLabel>
+    <CFormSelect
+      id="productType"
+      name="productType"
+      value={productData.productType}
+      onChange={handleChange}
+      required
+    >
+      <option value="">Select Product Type</option>
+      <option value="Windows">Windows</option>
+      <option value="Doors">Doors</option>
+      <option value="Hardware">Hardware</option>
+    </CFormSelect>
+  </CCol>
+</CRow>
+
+
 
           {/* Product Description using ReactQuill */}
           <CRow>
