@@ -893,14 +893,14 @@ const ManageProduct = () => {
                 <CSpinner color="primary" />
               </CRow>
             ) : (
-              <CTable striped>
+              <CTable className='table-hover' striped>
                 <CTableHead>
                   <CTableRow>
                     <CTableHeaderCell>Product Name</CTableHeaderCell>
                     <CTableHeaderCell>Category</CTableHeaderCell>
                     <CTableHeaderCell>Subcategory</CTableHeaderCell>
                     <CTableHeaderCell>Sub-subcategory</CTableHeaderCell>
-                    <CTableHeaderCell>Status</CTableHeaderCell>
+                    {/* <CTableHeaderCell>Status</CTableHeaderCell> */}
                     <CTableHeaderCell>Actions</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
@@ -911,7 +911,7 @@ const ManageProduct = () => {
                       <CTableDataCell>{product.category_name}</CTableDataCell>
                       <CTableDataCell>{product.sub_category_name}</CTableDataCell>
                       <CTableDataCell>{product.sub_sub_category_name}</CTableDataCell>
-                      <CTableDataCell>{product.status}</CTableDataCell>
+                      {/* <CTableDataCell>{product.status}</CTableDataCell> */}
                       <CTableDataCell className="d-flex flex-row gap-2">
                         <CTableDataCell className="d-flex flex-row align-items-center">
                           <FontAwesomeIcon
@@ -946,7 +946,7 @@ const ManageProduct = () => {
                           />
                         </CTableDataCell> */}
 
-                        <CTableDataCell className="d-flex flex-row align-items-start gap-1">
+                        <CTableDataCell>
                           {/* <CButton
                             color="info"
                             onClick={() => handleAddDimensionsProduct(product._id)}
@@ -964,18 +964,19 @@ const ManageProduct = () => {
                             Dimensions Doors
                           </CButton> */}
                           {product.productType === 'Doors' || product.productType === 'Windows' ? (
-                            <CButton
-                              color="info"
-                              onClick={() =>
-                                product.productType === 'Doors'
-                                  ? handleAddDimensionsProductDoors(product._id)
-                                  : handleAddDimensionsProduct(product._id)
-                              }
-                              className="px-2 text-light"
-                              title={`Add ${product.productType} Dimensions`}
-                            >
-                              Add Dimensions
-                            </CButton>
+                            // <CButton color="info">
+                              <FontAwesomeIcon
+                                icon={faObjectGroup}
+                                onClick={() =>
+                                  product.productType === 'Doors'
+                                    ? handleAddDimensionsProductDoors(product._id)
+                                    : handleAddDimensionsProduct(product._id)
+                                }
+                                className="text-info"
+                                style={{cursor:"pointer"}}
+                                title={`Add ${product.productType} Dimensions`}
+                              />
+                            // </CButton>
                           ) : null}
                         </CTableDataCell>
                       </CTableDataCell>

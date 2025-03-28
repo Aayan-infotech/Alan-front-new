@@ -423,7 +423,7 @@ const AddProductForm = () => {
       <CCardHeader>Add Product</CCardHeader>
       <CCardBody>
         <CForm onSubmit={handleSubmit}>
-          <CRow>
+          <CRow className="gy-3">
             <CCol md={6}>
               <CFormLabel htmlFor="category">Category</CFormLabel>
               <CFormSelect
@@ -457,9 +457,6 @@ const AddProductForm = () => {
                 ))}
               </CFormSelect>
             </CCol>
-          </CRow>
-
-          <CRow>
             <CCol md={6}>
               <CFormLabel htmlFor="subSubCategory">Sub Sub Category</CFormLabel>
               <CFormSelect
@@ -476,10 +473,7 @@ const AddProductForm = () => {
                 ))}
               </CFormSelect>
             </CCol>
-          </CRow>
-
-          <CRow>
-            <CCol md={12}>
+            <CCol md={6}>
               <CFormLabel htmlFor="productName">Product Name</CFormLabel>
               <CFormInput
                 type="text"
@@ -490,16 +484,10 @@ const AddProductForm = () => {
                 placeholder="Enter product name"
               />
             </CCol>
-          </CRow>
-          <CRow>
-            <CCol md={12}>
+            <CCol md={6}>
               <CFormLabel htmlFor="images">Product Image</CFormLabel>
               <CFormInput type="file" id="images" name="images" onChange={handleImageChange} />
             </CCol>
-          </CRow>
-
-          {/* Price Field */}
-          <CRow>
             <CCol md={6}>
               <CFormLabel htmlFor="price">Price</CFormLabel>
               <CFormInput
@@ -509,12 +497,9 @@ const AddProductForm = () => {
                 value={productData.price}
                 onChange={handleChange}
                 placeholder="Enter product price"
+                required 
               />
             </CCol>
-          </CRow>
-
-          {/* productFormulaAdded  */}
-          <CRow>
             <CCol md={6}>
               <CFormLabel htmlFor="productFormulaAdded">Formula Apply</CFormLabel>
               <CFormSelect
@@ -527,9 +512,6 @@ const AddProductForm = () => {
                 <option value="Yes">Yes</option>
               </CFormSelect>
             </CCol>
-          </CRow>
-
-          <CRow>
             <CCol md={6}>
               <CFormLabel htmlFor="productType">Product Type</CFormLabel>
               <CFormSelect
@@ -545,10 +527,6 @@ const AddProductForm = () => {
                 <option value="Hardware">Hardware</option>
               </CFormSelect>
             </CCol>
-          </CRow>
-
-          {/* Product Description using ReactQuill */}
-          <CRow>
             <CCol md={12}>
               <CFormLabel htmlFor="productDescription">Product Description</CFormLabel>
               <ReactQuill
@@ -557,11 +535,12 @@ const AddProductForm = () => {
                 placeholder="Enter product description"
               />
             </CCol>
+            <CCol md={6} className="mx-auto">
+              <CButton type="submit" color="primary" className="mt-3 w-100">
+                Add Product
+              </CButton>
+            </CCol>
           </CRow>
-
-          <CButton type="submit" color="primary" className="mt-3">
-            Add Product
-          </CButton>
         </CForm>
       </CCardBody>
     </CCard>
