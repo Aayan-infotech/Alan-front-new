@@ -165,7 +165,7 @@ const DimensionsProduct = () => {
 
   const sectionOptions = {
     widthHeight: ['22*5', '4*6', '7*7', '7*5', '7*8', '3*7'],
-    Grid: ['No Grid', 'Flat grid Between the glass', '⅝” Flat Grid Between the Glass', '⅝” Flat Grid Between the Glass Prarie'],
+    Grid: ['No Grid', 'Flat grid Between the glass'],
     Fin: ['Dual Wall Integral Flush Fin', 'Nail Fin', 'No Fin'],
     Color: ['White', 'Almond','Bronze','Black','AC Black'],
     TemperingOption: ['Yes', 'No'],
