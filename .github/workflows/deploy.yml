@@ -3,7 +3,7 @@ name: Deploy React App
 on:
   push:
     branches:
-      - prod_alan_frontend_admin  # Trigger on push to the 
+      - prod_alan_frontend_admin  # Trigger on push to the production branch
 
 jobs:
   build_and_deploy:
@@ -41,8 +41,8 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > private_key.pem
         chmod 600 private_key.pem
         
-        # SCP to copy files to the server
-        scp -i private_key.pem -r ./build/* $USERNAME@$SERVER_IP:/var/www/html/panel/
+        # Use sudo to copy files to the server
+        sudo scp -i private_key.pem -r ./build/* $USERNAME@$SERVER_IP:/var/www/html/panel/
         
         # Clean up private key file
         rm private_key.pem
