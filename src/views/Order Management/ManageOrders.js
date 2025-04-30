@@ -188,10 +188,24 @@ const ManageOrders = () => {
                 </CTableRow>
                 <CTableRow>
                   <CTableHeaderCell style={{ color: 'red', height: '100px' }}>Product Details</CTableHeaderCell >
-                  <CTableDataCell colSpan={3} style={{ verticalAlign: 'top' }}>{selectedOrder.selectedOptions &&
+                  {/* <CTableDataCell colSpan={3} style={{ verticalAlign: 'top' }}>{selectedOrder.selectedOptions &&
                     Object.entries(selectedOrder.selectedOptions).map(([key, value]) => (
                       <li key={key}><strong>{key}:</strong> {value}</li>
-                    ))}</CTableDataCell>
+                    ))}</CTableDataCell> */}
+                    <CTableDataCell colSpan={3} style={{ verticalAlign: 'top' }}>
+                    <ul style={{ paddingLeft: '1rem' }}>
+                      {selectedOrder.selectedOptions &&
+                        Object.entries(selectedOrder.selectedOptions).map(([key, value]) => (
+                          <li key={key}><strong>{key}:</strong> {value}</li>
+                        ))}
+                      {selectedOrder.customDimensions && (
+                        <>
+                          <li><strong>Height:</strong> {selectedOrder.customDimensions.height}</li>
+                          <li><strong>Width:</strong> {selectedOrder.customDimensions.width}</li>
+                        </>
+                      )}
+                    </ul>
+                  </CTableDataCell>
                 </CTableRow>
                 <CTableRow>
                   <CTableHeaderCell style={{ color: 'red' }}>Product Value</CTableHeaderCell >
