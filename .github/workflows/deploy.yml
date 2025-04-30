@@ -18,9 +18,6 @@ jobs:
       with:
         node-version: '20'  # You can change this to match your project's Node.js version
     
-    - name: Verify current directory
-      run: pwd && ls -alh  # Debugging step to verify working directory
-
     - name: Install dependencies
       run: npm install
       working-directory: ./  # Correct working directory pointing to root
@@ -28,6 +25,12 @@ jobs:
     - name: Build the React app
       run: npm run build
       working-directory: ./  # Correct working directory pointing to root
+
+    - name: Add SSH Key to known hosts
+      run: |
+        # This will add your production server SSH key to known_hosts to avoid verification issues
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
     - name: Deploy to production server
       env:
