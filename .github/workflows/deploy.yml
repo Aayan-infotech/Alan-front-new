@@ -3,7 +3,7 @@ name: Deploy React App
 on:
   push:
     branches:
-      - prod_alan_frontend_admin  # Trigger on push to the prod_alan_frontend_admin branch
+      - prod_alan_frontend_admin  # Trigger on push to the main branch
 
 jobs:
   build_and_deploy:
@@ -18,32 +18,28 @@ jobs:
       with:
         node-version: '16'  # You can change this to match your project's Node.js version
     
+    - name: Verify current directory
+      run: pwd && ls -alh  # Debugging step to verify working directory
+
     - name: Install dependencies
       run: npm install
-      working-directory: ./Alan-front-new  # Point to your React app directory
+      working-directory: ./  # Correct working directory pointing to root
 
     - name: Build the React app
       run: npm run build
-      working-directory: ./Alan-front-new  # Point to your React app directory
-
-    - name: Add SSH key to known_hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-        chmod 644 ~/.ssh/known_hosts
+      working-directory: ./  # Correct working directory pointing to root
 
     - name: Deploy to production server
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SERVER_IP: ${{ secrets.SERVER_IP }}
-        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+        USERNAME: ${{ secrets.SERVER_USERNAME }}
       run: |
-        # Save the private key to a file
         echo "$SSH_PRIVATE_KEY" > private_key.pem
         chmod 600 private_key.pem
         
         # SCP to copy files to the server
-        scp -i private_key.pem -r ./Alan-front-new/build/* $SERVER_USERNAME@$SERVER_IP:/var/www/html/panel/
+        scp -i private_key.pem -r ./build/* $USERNAME@$SERVER_IP:/var/www/html/panel/
         
         # Clean up private key file
         rm private_key.pem
