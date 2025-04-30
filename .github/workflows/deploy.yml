@@ -3,7 +3,7 @@ name: Deploy React App
 on:
   push:
     branches:
-      - prod_alan_frontend_admin  # Trigger on push to the main 
+      - prod_alan_frontend_admin  # Trigger on push to the 
 
 jobs:
   build_and_deploy:
