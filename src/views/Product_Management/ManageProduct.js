@@ -73,7 +73,7 @@
 
 //   // Fetch Categories
 //   useEffect(() => {
-//     axios.get('http://18.221.196.222:7878/api/categories')
+//     axios.get('https://www.discountdoorandwindow.com/api/categories')
 //       .then((response) => {
 //         setCategories(response.data);
 //       })
@@ -85,7 +85,7 @@
 //   // Fetch Subcategories based on selected category
 //   useEffect(() => {
 //     if (filters.category) {
-//       axios.get(`http://18.221.196.222:7878/api/subcategory?category=${filters.category}`)
+//       axios.get(`https://www.discountdoorandwindow.com/api/subcategory?category=${filters.category}`)
 //         .then((response) => {
 //           setSubCategories(response.data);
 //         })
@@ -97,7 +97,7 @@
 
 //   useEffect(() => {
 //     if (filters.subCategory) {
-//       axios.get(`http://18.221.196.222:7878/api/subsubcategory?subcategory=${filters.subCategory}`)
+//       axios.get(`https://www.discountdoorandwindow.com/api/subsubcategory?subcategory=${filters.subCategory}`)
 //         .then((response) => {
 //           setSubSubCategories(response.data);
 //         })
@@ -109,7 +109,7 @@
 
 //   // Fetch product data
 //   useEffect(() => {
-//     axios.get('http://18.221.196.222:7878/api/products')
+//     axios.get('https://www.discountdoorandwindow.com/api/products')
 //       .then((response) => {
 //         setData(response.data);
 //       })
@@ -161,19 +161,19 @@
 //     setEditProductData({ ...editProductData, [name]: value });
 //   };
 //   const handleEditProductSubmit = () => {
-//     axios.put(`http://18.221.196.222:7878/api/products/${editProductData._id}`, editProductData)
+//     axios.put(`https://www.discountdoorandwindow.com/api/products/${editProductData._id}`, editProductData)
 
 //       .then(() => {
 //         alert('Product updated successfully');
 //         setShowEditModal(false);
-//         axios.get('http://18.221.196.222:7878/api/products').then((response) => setData(response.data));
+//         axios.get('https://www.discountdoorandwindow.com/api/products').then((response) => setData(response.data));
 //       })
 //       .catch((error) => {
 //         console.error('Error updating product:', error);
 //       });
 //   };
 //   const handleDeleteProduct = (productId) => {
-//     axios.delete(`http://18.221.196.222:7878/api/products/DEL/${productId}`)
+//     axios.delete(`https://www.discountdoorandwindow.com/api/products/DEL/${productId}`)
 //       .then(() => {
 //         alert('Product deleted successfully');
 //         setData(data.filter(product => product._id !== productId)); // Update the state to remove the deleted product
@@ -196,7 +196,7 @@
 //         formData.append('images', image);
 //       });
 
-//       axios.post('http://18.221.196.222:7878/api/ProductImg/product-images', formData)
+//       axios.post('https://www.discountdoorandwindow.com/api/ProductImg/product-images', formData)
 //         .then(() => {
 //           alert('Images uploaded successfully');
 //           setShowImagesModal(false);
@@ -210,7 +210,7 @@
 
 //   // Function to fetch images by Product ID
 //   const fetchImages = (productId) => {
-//     axios.get(`http://18.221.196.222:7878/api/ProductImg/product-images/${productId}`)
+//     axios.get(`https://www.discountdoorandwindow.com/api/ProductImg/product-images/${productId}`)
 //       .then((response) => {
 //         if (response.data.productImages) {
 //           // Flatten the images array from the response and update the state
@@ -596,7 +596,7 @@ const ManageProduct = () => {
   // Fetch Categories on mount
   useEffect(() => {
     axios
-      .get('http://18.221.196.222:7878/api/categories')
+      .get('https://www.discountdoorandwindow.com/api/categories')
       .then((response) => setCategories(response.data))
       .catch((error) => console.error('Error fetching categories:', error))
   }, [])
@@ -604,7 +604,7 @@ const ManageProduct = () => {
   useEffect(() => {
     if (filters.category) {
       axios
-        .get(`http://18.221.196.222:7878/api/subcategory/categoryid/${filters.category}`)
+        .get(`https://www.discountdoorandwindow.com/api/subcategory/categoryid/${filters.category}`)
         .then((response) => {
           setSubCategories(
             response.data.data || (Array.isArray(response.data) ? response.data : []),
@@ -622,7 +622,7 @@ const ManageProduct = () => {
   useEffect(() => {
     if (filters.subCategory) {
       axios
-        .get(`http://18.221.196.222:7878/api/subSubCategories/subcategoryid/${filters.subCategory}`)
+        .get(`https://www.discountdoorandwindow.com/api/subSubCategories/subcategoryid/${filters.subCategory}`)
         .then((response) => {
           setSubSubCategories(
             response.data.data || (Array.isArray(response.data) ? response.data : []),
@@ -638,7 +638,7 @@ const ManageProduct = () => {
   useEffect(() => {
     setLoading(true)
     axios
-      .get('http://18.221.196.222:7878/api/products')
+      .get('https://www.discountdoorandwindow.com/api/products')
       .then((response) => {
         setData(response.data)
         setLoading(false)
@@ -707,12 +707,12 @@ const ManageProduct = () => {
 
   const handleEditProductSubmit = () => {
     axios
-      .put(`http://18.221.196.222:7878/api/products/${editProductData._id}`, editProductData)
+      .put(`https://www.discountdoorandwindow.com/api/products/${editProductData._id}`, editProductData)
       .then(() => {
         alert('Product updated successfully')
         setShowEditModal(false)
         axios
-          .get('http://18.221.196.222:7878/api/products')
+          .get('https://www.discountdoorandwindow.com/api/products')
           .then((response) => setData(response.data))
           .catch((error) => console.error('Error refetching products:', error))
       })
@@ -721,7 +721,7 @@ const ManageProduct = () => {
 
   // const handleDeleteProduct = (productId) => {
   //   axios
-  //     .delete(`http://18.221.196.222:7878/api/products/DEL/${productId}`)
+  //     .delete(`https://www.discountdoorandwindow.com/api/products/DEL/${productId}`)
   //     .then(() => {
   //       alert('Product deleted successfully')
   //       setData((prev) => prev.filter((product) => product._id !== productId))
@@ -730,7 +730,7 @@ const ManageProduct = () => {
   // }
   const handleDeleteProduct = (productId) => {
     axios
-      .delete(`http://18.221.196.222:7878/api/products/DEL/${productId}`)
+      .delete(`https://www.discountdoorandwindow.com/api/products/DEL/${productId}`)
       .then(() => {
         alert('Product deleted successfully')
         setData((prev) => prev.filter((product) => product._id !== productId))
@@ -761,7 +761,7 @@ const ManageProduct = () => {
       newImages.forEach((image) => formData.append('images', image))
 
       axios
-        .post('http://18.221.196.222:7878/api/ProductImg/product-images', formData)
+        .post('https://www.discountdoorandwindow.com/api/ProductImg/product-images', formData)
         .then(() => {
           alert('Images uploaded successfully')
           setShowImagesModal(false)
@@ -773,7 +773,7 @@ const ManageProduct = () => {
 
   const fetchImages = (productId) => {
     axios
-      .get(`http://18.221.196.222:7878/api/ProductImg/product-images/${productId}`)
+      .get(`https://www.discountdoorandwindow.com/api/ProductImg/product-images/${productId}`)
       .then((response) => {
         if (response.data.productImages) {
           const images = response.data.productImages.flatMap((item) => item.images)

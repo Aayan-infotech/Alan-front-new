@@ -22,7 +22,7 @@ const SubCategory = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://18.221.196.222:7878/api/categories');
+        const response = await axios.get('https://www.discountdoorandwindow.com/api/categories');
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -36,7 +36,7 @@ const SubCategory = () => {
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
-        const response = await axios.get('http://18.221.196.222:7878/api/subcategory');
+        const response = await axios.get('https://www.discountdoorandwindow.com/api/subcategory');
         setSubCategories(response.data);
       } catch (error) {
         console.error('Error fetching sub-categories:', error);
@@ -58,7 +58,7 @@ const SubCategory = () => {
       formData.append('ins_ip', '127.0.0.1');
 
       try {
-        await axios.post('http://18.221.196.222:7878/api/subcategory', formData, {
+        await axios.post('https://www.discountdoorandwindow.com/api/subcategory', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
@@ -68,7 +68,7 @@ const SubCategory = () => {
         setVisible(false);
 
         // Fetch updated sub-categories
-        const response = await axios.get('http://18.221.196.222:7878/api/subcategory');
+        const response = await axios.get('https://www.discountdoorandwindow.com/api/subcategory');
         setSubCategories(response.data);
       } catch (error) {
         console.error('Error adding sub-category:', error);
@@ -90,7 +90,7 @@ const SubCategory = () => {
       formData.append('ins_ip', '127.0.0.1');
 
       try {
-        await axios.put(`http://18.221.196.222:7878/api/subcategory/${editSubCategory._id}`, formData, {
+        await axios.put(`https://www.discountdoorandwindow.com/api/subcategory/${editSubCategory._id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
@@ -101,7 +101,7 @@ const SubCategory = () => {
         setEditSubCategory(null);
 
         // Fetch updated sub-categories
-        const response = await axios.get('http://18.221.196.222:7878/api/subcategory');
+        const response = await axios.get('https://www.discountdoorandwindow.com/api/subcategory');
         setSubCategories(response.data);
       } catch (error) {
         console.error('Error updating sub-category:', error);
@@ -112,10 +112,10 @@ const SubCategory = () => {
   // Handle deleting a sub-category
   const handleDeleteSubCategory = async (subCategoryToDelete) => {
     try {
-      await axios.delete(`http://18.221.196.222:7878/api/subcategory/${subCategoryToDelete._id}`);
+      await axios.delete(`https://www.discountdoorandwindow.com/api/subcategory/${subCategoryToDelete._id}`);
 
       // Fetch updated sub-categories after successful deletion
-      const response = await axios.get('http://18.221.196.222:7878/api/subcategory');
+      const response = await axios.get('https://www.discountdoorandwindow.com/api/subcategory');
       setSubCategories(response.data);
     } catch (error) {
       console.error('Error deleting sub-category:', error);
@@ -130,10 +130,10 @@ const SubCategory = () => {
         status: subCategory.status === 1 ? 0 : 1
       };
 
-      await axios.put(`http://18.221.196.222:7878/api/subcategory/${subCategory._id}`, updatedSubCategory);
+      await axios.put(`https://www.discountdoorandwindow.com/api/subcategory/${subCategory._id}`, updatedSubCategory);
 
       // Fetch updated sub-categories after status change
-      const response = await axios.get('http://18.221.196.222:7878/api/subcategory');
+      const response = await axios.get('https://www.discountdoorandwindow.com/api/subcategory');
       setSubCategories(response.data);
     } catch (error) {
       console.error('Error toggling status:', error);

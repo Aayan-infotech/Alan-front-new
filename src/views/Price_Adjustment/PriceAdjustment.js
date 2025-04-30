@@ -33,7 +33,7 @@ const PriceAdjustment = () => {
 
   useEffect(() => {
     axios
-      .get('http://18.221.196.222:7878/api/categories')
+      .get('https://www.discountdoorandwindow.com/api/categories')
       .then((response) => setCategories(response.data || []))
       .catch((error) => console.error('Error fetching categories:', error))
   }, [])
@@ -41,7 +41,7 @@ const PriceAdjustment = () => {
   useEffect(() => {
     if (filters.category) {
       axios
-        .get(`http://18.221.196.222:7878/api/subcategory/categoryid/${filters.category}`)
+        .get(`https://www.discountdoorandwindow.com/api/subcategory/categoryid/${filters.category}`)
         .then((response) => setSubCategories(response.data.data || []))
         .catch((error) => console.error('Error fetching subcategories:', error))
     } else {
@@ -54,7 +54,7 @@ const PriceAdjustment = () => {
   useEffect(() => {
     if (filters.subCategory) {
       axios
-        .get(`http://18.221.196.222:7878/api/subSubCategories/subcategoryid/${filters.subCategory}`)
+        .get(`https://www.discountdoorandwindow.com/api/subSubCategories/subcategoryid/${filters.subCategory}`)
         .then((response) => setSubSubCategories(response.data.data || []))
         .catch((error) => console.error('Error fetching sub-subcategories:', error))
     } else {
@@ -73,7 +73,7 @@ const PriceAdjustment = () => {
 
   const applyPricing = async () => {
     try {
-      const response = await axios.post('http://18.221.196.222:7878/api/updatePrices/PriceAdjustmentIncrease', {
+      const response = await axios.post('https://www.discountdoorandwindow.com/api/updatePrices/PriceAdjustmentIncrease', {
         category_id: filters.category,
         sub_category_id: filters.subCategory || undefined,
         sub_sub_category_id: filters.subSubCategory || undefined,
@@ -90,7 +90,7 @@ const PriceAdjustment = () => {
 
   const applyPricingDecr = async () => {
     try {
-      const response = await axios.post('http://18.221.196.222:7878/api/updatePrices/PriceAdjustmentDecrease', {
+      const response = await axios.post('https://www.discountdoorandwindow.com/api/updatePrices/PriceAdjustmentDecrease', {
         category_id: filters.category,
         sub_category_id: filters.subCategory || undefined,
         sub_sub_category_id: filters.subSubCategory || undefined,

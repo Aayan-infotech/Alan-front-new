@@ -21,17 +21,17 @@
 
 //   // Fetch data for categories, subcategories, and subsubcategories
 //   useEffect(() => {
-//     fetch('http://18.221.196.222:7878/api/categories')
+//     fetch('https://www.discountdoorandwindow.com/api/categories')
 //       .then((response) => response.json())
 //       .then((data) => setCategories(data))
 //       .catch((error) => console.error('Error fetching categories:', error));
 
-//     fetch('http://18.221.196.222:7878/api/subcategory')
+//     fetch('https://www.discountdoorandwindow.com/api/subcategory')
 //       .then((response) => response.json())
 //       .then((data) => setSubCategories(data))
 //       .catch((error) => console.error('Error fetching subcategories:', error));
 
-//     fetch('http://18.221.196.222:7878/api/subSubCategories')
+//     fetch('https://www.discountdoorandwindow.com/api/subSubCategories')
 //       .then((response) => response.json())
 //       .then((data) => setSubSubCategories(data))
 //       .catch((error) => console.error('Error fetching subsubcategories:', error));
@@ -42,7 +42,7 @@
 //     const selectedCategory = e.target.value;
 //     setProductData({ ...productData, category: selectedCategory, subCategory: '', subSubCategory: '' });
 
-//     fetch(`http://18.221.196.222:7878/api/subcategory?category=${selectedCategory}`)
+//     fetch(`https://www.discountdoorandwindow.com/api/subcategory?category=${selectedCategory}`)
 //       .then((response) => response.json())
 //       .then((data) => setSubCategories(data))
 //       .catch((error) => console.error('Error fetching subcategories for category:', error));
@@ -53,7 +53,7 @@
 //     const selectedSubCategory = e.target.value;
 //     setProductData({ ...productData, subCategory: selectedSubCategory, subSubCategory: '' });
 
-//     fetch(`http://18.221.196.222:7878/api/subSubCategories?subcategory=${selectedSubCategory}`)
+//     fetch(`https://www.discountdoorandwindow.com/api/subSubCategories?subcategory=${selectedSubCategory}`)
 //       .then((response) => response.json())
 //       .then((data) => setSubSubCategories(data))
 //       .catch((error) => console.error('Error fetching subsubcategories for subcategory:', error));
@@ -88,7 +88,7 @@
 //     formData.append('ins_by', '');
 //     formData.append('productFormulaAdded',productFormulaAdded);
 
-//     fetch('http://18.221.196.222:7878/api/products', {
+//     fetch('https://www.discountdoorandwindow.com/api/products', {
 //       method: 'POST',
 //       body: formData,
 //     })
@@ -291,7 +291,7 @@ const AddProductForm = () => {
 
   // Fetch data for categories, subcategories, and subsubcategories
   useEffect(() => {
-    fetch('http://18.221.196.222:7878/api/categories')
+    fetch('https://www.discountdoorandwindow.com/api/categories')
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error('Error fetching categories:', error))
@@ -310,7 +310,7 @@ const AddProductForm = () => {
     setSubSubCategories([])
 
     if (selectedCategory) {
-      fetch(`http://18.221.196.222:7878/api/subcategory/categoryid/${selectedCategory}`)
+      fetch(`https://www.discountdoorandwindow.com/api/subcategory/categoryid/${selectedCategory}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`)
@@ -335,7 +335,7 @@ const AddProductForm = () => {
     setSubSubCategories([])
 
     if (selectedSubCategory) {
-      fetch(`http://18.221.196.222:7878/api/subSubCategories/subcategoryid/${selectedSubCategory}`)
+      fetch(`https://www.discountdoorandwindow.com/api/subSubCategories/subcategoryid/${selectedSubCategory}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`)
@@ -387,7 +387,7 @@ const AddProductForm = () => {
     formData.append('productFormulaAdded', productFormulaAdded)
     formData.append('productType', productType)
 
-    fetch('http://18.221.196.222:7878/api/products', {
+    fetch('https://www.discountdoorandwindow.com/api/products', {
       method: 'POST',
       body: formData,
     })

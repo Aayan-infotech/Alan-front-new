@@ -19,7 +19,7 @@ const CategoriesManagement = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://18.221.196.222:7878/api/categories');
+        const response = await axios.get('https://www.discountdoorandwindow.com/api/categories');
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -48,7 +48,7 @@ const CategoriesManagement = () => {
       formData.append('ins_ip', userIp);
       formData.append('status', 1);
 
-      const response = await axios.post('http://18.221.196.222:7878/api/categories', formData);
+      const response = await axios.post('https://www.discountdoorandwindow.com/api/categories', formData);
       setCategories([...categories, response.data.newCategory]);
       resetForm();
     } catch (error) {
@@ -63,7 +63,7 @@ const CategoriesManagement = () => {
       formData.append('name', categoryName);
       if (categoryImage) formData.append('images', categoryImage);
       formData.append('update_ip', userIp);
-      const response = await axios.put(`http://18.221.196.222:7878/api/categories/${editCategory._id}`, formData);
+      const response = await axios.put(`https://www.discountdoorandwindow.com/api/categories/${editCategory._id}`, formData);
       setCategories(categories.map(category =>
         category._id === editCategory._id ? response.data.updatedCategory : category
       ));
@@ -89,7 +89,7 @@ const CategoriesManagement = () => {
 
   const handleDeleteCategory = async (categoryToDelete) => {
     try {
-      await axios.delete(`http://18.221.196.222:7878/api/categories/${categoryToDelete._id}`);
+      await axios.delete(`https://www.discountdoorandwindow.com/api/categories/${categoryToDelete._id}`);
       setCategories(categories.filter(category => category._id !== categoryToDelete._id));
     } catch (error) {
       console.error('Error deleting category:', error);
@@ -99,7 +99,7 @@ const CategoriesManagement = () => {
   const handleToggleStatus = async (category) => {
     try {
       const updatedStatus = category.status === 1 ? 0 : 1;
-      const response = await axios.put(`http://18.221.196.222:7878/api/categories/updateStatus/${category._id}`, {
+      const response = await axios.put(`https://www.discountdoorandwindow.com/api/categories/updateStatus/${category._id}`, {
         status: updatedStatus,
       });
   
