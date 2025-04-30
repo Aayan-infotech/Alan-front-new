@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16'  # You can change this to match your project's Node.js version
+        node-version: '20'  # You can change this to match your project's Node.js version
     
     - name: Verify current directory
       run: pwd && ls -alh  # Debugging step to verify working directory
