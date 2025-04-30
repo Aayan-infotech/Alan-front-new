@@ -20,11 +20,11 @@ jobs:
     
     - name: Install dependencies
       run: npm install
-      working-directory: ./Alan-front-new  # Point to your React app directory
+      working-directory: ./Alan-front-new  # Ensure this path is correct, or just use `.` for the root directory
 
     - name: Build the React app
       run: npm run build
-      working-directory: ./Alan-front-new  # Point to your React app directory
+      working-directory: ./Alan-front-new  # Same as above
 
     - name: Deploy to production server
       env:
