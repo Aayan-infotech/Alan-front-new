@@ -3,7 +3,7 @@ name: Deploy React App
 on:
   push:
     branches:
-      - prod_alan_frontend_admin  # Trigger on push to the main branch
+      - prod_alan_frontend_admin  # Trigger on push to the prod_alan_frontend_admin branch
 
 jobs:
   build_and_deploy:
@@ -20,11 +20,11 @@ jobs:
     
     - name: Install dependencies
       run: npm install
-      working-directory: ./Alan-front-new  # Ensure this path is correct, or just use `.` for the root directory
+      working-directory: ./  # Change this to the root directory where your `package.json` is located
 
     - name: Build the React app
       run: npm run build
-      working-directory: ./Alan-front-new  # Same as above
+      working-directory: ./  # Again, set this to the root directory of your project
 
     - name: Deploy to production server
       env:
@@ -37,7 +37,7 @@ jobs:
         chmod 600 private_key.pem
         
         # SCP to copy files to the server
-        scp -i private_key.pem -r ./Alan-front-new/build/* $USERNAME@$SERVER_IP:/var/www/html/panel/
+        scp -i private_key.pem -r ./build/* $USERNAME@$SERVER_IP:/var/www/html/panel/
         
         # Clean up private key file
         rm private_key.pem
