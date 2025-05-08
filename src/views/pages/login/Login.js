@@ -27,7 +27,7 @@ const Login = () => {
       
         // Check for both valid sets of credentials
         if (
-          (email === 'admin@gmail.com' && password === 'admin') ||
+          (email === 'contact@discountdw.com' && password === 'Alan4691!') ||
           (email === 'aayaninfotech@gmail.com' && password === 'aayaninfotech')
         ) {
           console.log('Login successful');
