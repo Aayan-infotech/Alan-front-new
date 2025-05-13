@@ -39,16 +39,42 @@ const CategoriesManagement = () => {
     }
   };
 
-  const handleAddCategory = async () => {
+  // const handleAddCategory = async () => {
+  //   try {
+  //     const userIp = await fetchUserIp();
+  //     const formData = new FormData();
+  //     formData.append('name', categoryName);
+  //     if (categoryImage) formData.append('images', categoryImage);
+  //     formData.append('ins_ip', userIp);
+  //     formData.append('status', 1);
+
+  //     const response = await axios.post('https://www.discountdoorandwindow.com/api/categories', formData);
+  //     setCategories([...categories, response.data.newCategory]);
+  //     resetForm();
+  //   } catch (error) {
+  //     console.error('Error adding category:', error);
+  //   }
+  // };
+
+    const handleAddCategory = async () => {
     try {
       const userIp = await fetchUserIp();
+      const token = localStorage.getItem('token');
       const formData = new FormData();
       formData.append('name', categoryName);
       if (categoryImage) formData.append('images', categoryImage);
       formData.append('ins_ip', userIp);
       formData.append('status', 1);
 
-      const response = await axios.post('https://www.discountdoorandwindow.com/api/categories', formData);
+      const response = await axios.post(
+      'https://www.discountdoorandwindow.com/api/categories',
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      }
+    );
       setCategories([...categories, response.data.newCategory]);
       resetForm();
     } catch (error) {

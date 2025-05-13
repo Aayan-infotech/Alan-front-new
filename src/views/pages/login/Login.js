@@ -22,26 +22,54 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-        e.preventDefault();
+  // const handleSubmit = (e) => {
+  //       e.preventDefault();
       
-        // Check for both valid sets of credentials
-        if (
-          (email === 'contact@discountdw.com' && password === 'Alan4691!') ||
-          (email === 'AiOfficial@gmail.com' && password === 'AiOfficial')
-        ) {
-          console.log('Login successful');
+  //       // Check for both valid sets of credentials
+  //       if (
+  //         (email === 'contact@discountdw.com' && password === 'Alan4691!') ||
+  //         (email === 'AiOfficial@gmail.com' && password === 'AiOfficial')
+  //       ) {
+  //         console.log('Login successful');
           
-          // Simulate token storage
-          const token = 'mockToken123456'; // Mock token
-          localStorage.setItem('token', token); // Store mock token
+  //         // Simulate token storage
+  //         const token = 'mockToken123456'; // Mock token
+  //         localStorage.setItem('token', token); // Store mock token
           
-          navigate('/dashboard'); // Navigate to the dashboard (make sure this route exists)
-        } else {
-          console.error('Login Error: Invalid credentials');
-          setError('Failed to login. Please check your credentials.');
-        }
-      };
+  //         navigate('/dashboard'); // Navigate to the dashboard (make sure this route exists)
+  //       } else {
+  //         console.error('Login Error: Invalid credentials');
+  //         setError('Failed to login. Please check your credentials.');
+  //       }
+  //     };
+
+    const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {    
+    const response = await fetch('https://www.discountdoorandwindow.com/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Invalid credentials');
+    }
+
+    const data = await response.json();
+
+    localStorage.setItem('token', data.token); 
+    localStorage.setItem('loginTime', new Date().toISOString()); 
+
+    navigate('/dashboard');
+  } catch (error) {
+    setError('Failed to login. Please check your credentials.');
+    console.error('Login error:', error);
+  }
+};
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
