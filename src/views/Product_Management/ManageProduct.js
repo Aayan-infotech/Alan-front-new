@@ -545,6 +545,7 @@ import {
 } from '@coreui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faImage, faObjectGroup } from '@fortawesome/free-solid-svg-icons'
+import ReactQuill from 'react-quill'
 
 const ManageProduct = () => {
   const navigate = useNavigate()
@@ -622,7 +623,9 @@ const ManageProduct = () => {
   useEffect(() => {
     if (filters.subCategory) {
       axios
-        .get(`https://www.discountdoorandwindow.com/api/subSubCategories/subcategoryid/${filters.subCategory}`)
+        .get(
+          `https://www.discountdoorandwindow.com/api/subSubCategories/subcategoryid/${filters.subCategory}`,
+        )
         .then((response) => {
           setSubSubCategories(
             response.data.data || (Array.isArray(response.data) ? response.data : []),
@@ -690,6 +693,7 @@ const ManageProduct = () => {
     setEditProductData({
       _id: product._id || '',
       name: product.name || '',
+      description: product.description || '',
       category_name: product.category_name || '',
       sub_category_name: product.sub_category_name || '',
       sub_sub_category_name: product.sub_sub_category_name || '',
@@ -706,8 +710,14 @@ const ManageProduct = () => {
   }
 
   const handleEditProductSubmit = () => {
+    const payload = {
+      ...editProductData,
+      Description: editProductData.description,
+    }
+    delete payload.description
+
     axios
-      .put(`https://www.discountdoorandwindow.com/api/products/${editProductData._id}`, editProductData)
+      .put(`https://www.discountdoorandwindow.com/api/products/${editProductData._id}`, payload)
       .then(() => {
         alert('Product updated successfully')
         setShowEditModal(false)
@@ -893,7 +903,7 @@ const ManageProduct = () => {
                 <CSpinner color="primary" />
               </CRow>
             ) : (
-              <CTable className='table-hover' striped>
+              <CTable className="table-hover" striped>
                 <CTableHead>
                   <CTableRow>
                     <CTableHeaderCell>Product Name</CTableHeaderCell>
@@ -965,19 +975,19 @@ const ManageProduct = () => {
                           </CButton> */}
                           {product.productType === 'Doors' || product.productType === 'Windows' ? (
                             // <CButton color="info">
-                              <FontAwesomeIcon
-                                icon={faObjectGroup}
-                                onClick={() =>
-                                  product.productType === 'Doors'
-                                    ? handleAddDimensionsProductDoors(product._id)
-                                    : handleAddDimensionsProduct(product._id)
-                                }
-                                className="text-info"
-                                style={{cursor:"pointer"}}
-                                title={`Add ${product.productType} Dimensions`}
-                              />
-                            // </CButton>
-                          ) : null}
+                            <FontAwesomeIcon
+                              icon={faObjectGroup}
+                              onClick={() =>
+                                product.productType === 'Doors'
+                                  ? handleAddDimensionsProductDoors(product._id)
+                                  : handleAddDimensionsProduct(product._id)
+                              }
+                              className="text-info"
+                              style={{ cursor: 'pointer' }}
+                              title={`Add ${product.productType} Dimensions`}
+                            />
+                          ) : // </CButton>
+                          null}
                         </CTableDataCell>
                       </CTableDataCell>
                     </CTableRow>
@@ -1045,6 +1055,17 @@ const ManageProduct = () => {
               value={editProductData.name}
               onChange={handleEditFormChange}
             />
+
+            <CFormLabel htmlFor="description">Description</CFormLabel>
+            <textarea
+              id="description"
+              name="description"
+              value={editProductData.description || ''}
+              onChange={handleEditFormChange}
+              rows={5}
+              className="form-control"
+            />
+
             <CFormLabel htmlFor="category_name">Category</CFormLabel>
             <CFormInput
               id="category_name"
