@@ -15,7 +15,10 @@ import {
   cilUser,
   cilWindow ,
   cilRoom,
-  cilGift
+  cilGift,
+  cilContact,
+   cilNoteAdd,
+  cilPhone 
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle, } from '@coreui/react'
 
@@ -28,6 +31,16 @@ const _nav = [
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilChartLine } customClassName="nav-icon" style={{ color: 'blue' }} />,
+    badge: {
+      color: 'info',
+    },
+  },
+
+  {
+    component: CNavItem,
+    name: 'Contacts us',
+    to: '/contact',
+    icon: <CIcon icon={cilPhone} customClassName="nav-icon" style={{ color: 'blue' }} />,
     badge: {
       color: 'info',
     },
@@ -158,6 +171,16 @@ const _nav = [
     name: 'Mass Price Adjustment',
     to: '/PriceAdjustment',
     icon: <CIcon icon={cilStorage} customClassName="nav-icon" />,
+    badge: {
+      color: 'info',
+    },
+  },
+
+    {
+    component: CNavItem,
+    name: 'Review Management',
+    to: '/rating',
+    icon: <CIcon icon={cilNoteAdd} customClassName="nav-icon" style={{ color: 'blue' }} />,
     badge: {
       color: 'info',
     },
