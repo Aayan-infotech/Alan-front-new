@@ -551,6 +551,30 @@ import 'react-quill/dist/quill.snow.css'
 const ManageProduct = () => {
   const navigate = useNavigate()
 
+  const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ color: [] }, { background: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ indent: '-1' }, { indent: '+1' }],
+    [{ align: [] }],
+    ['blockquote', 'code-block'],
+    ['link', 'image', 'video'],
+    ['clean'],
+  ],
+}
+
+const formats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'color', 'background',
+  'list', 'bullet', 'indent',
+  'align',
+  'blockquote', 'code-block',
+  'link', 'image', 'video',
+]
+
   // Handle "Add Dimensions" based on category name.
   // const handleAddDimensions = (productId, categoryName) => {
   //   if (categoryName === 'Windows') {
@@ -1062,6 +1086,9 @@ const ManageProduct = () => {
               theme="snow"
               value={editProductData.description}
               onChange={(value) => setEditProductData((prev) => ({ ...prev, description: value }))}
+              modules={modules}
+                formats={formats}
+                style={{ height: '300px', marginBottom: '50px' }}
             />
 
             <CFormLabel htmlFor="category_name">Category</CFormLabel>
