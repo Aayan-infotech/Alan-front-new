@@ -546,6 +546,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faImage, faObjectGroup } from '@fortawesome/free-solid-svg-icons'
 import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 
 const ManageProduct = () => {
   const navigate = useNavigate()
@@ -1042,7 +1043,7 @@ const ManageProduct = () => {
       </CModal>
 
       {/* Edit Product Modal */}
-      <CModal visible={showEditModal} onClose={() => setShowEditModal(false)}>
+      <CModal visible={showEditModal} onClose={() => setShowEditModal(false)} size="lg">
         <CModalHeader>
           <CModalTitle>Edit Product</CModalTitle>
         </CModalHeader>
@@ -1057,13 +1058,10 @@ const ManageProduct = () => {
             />
 
             <CFormLabel htmlFor="description">Description</CFormLabel>
-            <textarea
-              id="description"
-              name="description"
-              value={editProductData.description || ''}
-              onChange={handleEditFormChange}
-              rows={5}
-              className="form-control"
+            <ReactQuill
+              theme="snow"
+              value={editProductData.description}
+              onChange={(value) => setEditProductData((prev) => ({ ...prev, description: value }))}
             />
 
             <CFormLabel htmlFor="category_name">Category</CFormLabel>

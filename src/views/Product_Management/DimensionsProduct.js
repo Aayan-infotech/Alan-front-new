@@ -17,6 +17,130 @@ import { faTrash, faPlus, faCheckCircle } from '@fortawesome/free-solid-svg-icon
 import { useLocation } from 'react-router-dom';
 import './DimensionsProduct.css';
 
+// const DimensionFormSection = ({
+//   sectionName,
+//   options,
+//   displayData,
+//   handleInputChange,
+//   handleAddData,
+//   handleDeleteData,
+//   addSuccessMessage,
+//   formData,
+// }) => (
+
+//   <CCard className="mb-4 shadow-sm custom-card">
+//     <CCardHeader className="custom-card-header">
+//       <h5 className="text-primary">Add {sectionName}</h5>
+//     </CCardHeader>
+//     <CCardBody>
+//       <CForm>
+//         <CFormLabel className="custom-label">{sectionName}</CFormLabel>
+//         <CFormSelect
+//           onChange={(e) => handleInputChange(e, sectionName)}
+//           value={formData[sectionName] || ''}
+//           className="custom-select"
+//         >
+//           <option value="">Select {sectionName}</option>
+//           {options.map((opt, index) => (
+//             <option key={index} value={opt}>
+//               {opt}
+//             </option>
+//           ))}
+//         </CFormSelect>
+
+//         {/* Show Amount for widthHeight   only */}
+//         {sectionName === 'widthHeight' && (
+//           <>
+//             <CFormLabel className="custom-label">Amount</CFormLabel>
+//             <CFormInput
+//               type="number"
+//               onChange={(e) => handleInputChange(e, 'amount')}
+//               value={formData.amount || ''}
+//               className="custom-input"
+//             />
+//           </>
+//         )}
+
+//         {/* Show Entry % for other sections */}
+//         {sectionName !== 'widthHeight' && (
+//           <>
+//             <CFormLabel className="custom-label">Entry %</CFormLabel>
+//             <CFormInput
+//               type="number"
+//               onChange={(e) => handleInputChange(e, `${sectionName}Percentage`)}
+//               value={formData[`${sectionName}Percentage`] || ''}
+//               className="custom-input"
+//             />
+//           </>
+//         )}
+
+//         <div className="text-center">
+//           <CButton
+//             color="primary"
+//             className="btn-add mt-3"
+//             onClick={() => handleAddData(sectionName)}
+//             disabled={
+//               !formData[sectionName] || (sectionName !== 'widthHeight' && !formData[`${sectionName}Percentage`]) || (sectionName === 'widthHeight' && !formData.amount)
+//             }
+//           >
+//             <FontAwesomeIcon icon={faPlus} className="mr-2" /> Add
+//           </CButton>
+//         </div>
+
+//         {addSuccessMessage && (
+//           <div className="mt-3 text-center text-success">
+//             <FontAwesomeIcon icon={faCheckCircle} className="mr-2" /> Data added successfully!
+//           </div>
+//         )}
+
+//         <div className="mt-4">
+//           {displayData.length === 0 ? (
+//             <p className="text-muted text-center">No data added yet.</p>
+//           ) : (
+//             displayData.map((data, index) => (
+//               <CRow key={index} className="align-items-center custom-row">
+//                 <CCol>
+//                   {/* For widthHeight, show Amount if value is null */}
+//                   {sectionName === 'widthHeight' ? (
+//                     <>
+//                       <strong>{data.widthHeight}</strong> -{' '}
+//                       {data.value === null || data.value === '' ? (
+//                         // Show amount if value is null or empty
+//                         <span><strong>Amount:</strong> {data.amount}</span>
+//                       ) : (
+//                         // Otherwise show value
+//                         <span><strong>Value:</strong> {data.value}</span>
+//                       )}
+//                     </>
+//                   ) : (
+//                     // For other sections, show the regular data
+//                     <>
+//                       {data[sectionName]} - {data.value}
+//                     </>
+//                   )}
+//                 </CCol>
+//                 <CCol>
+//                   {/* Optional: you can add a badge or any other metadata here */}
+//                 </CCol>
+//                 <CCol>
+//                   <CButton
+//                     color="danger"
+//                     className="btn-delete"
+//                     onClick={() => handleDeleteData(sectionName, data._id, index)}
+//                   >
+//                     <FontAwesomeIcon icon={faTrash} />
+//                   </CButton>
+//                 </CCol>
+//               </CRow>
+//             ))
+//           )}
+//         </div>
+//       </CForm>
+//     </CCardBody>
+//   </CCard>
+
+// );
+
 const DimensionFormSection = ({
   sectionName,
   options,
@@ -27,7 +151,6 @@ const DimensionFormSection = ({
   addSuccessMessage,
   formData,
 }) => (
-
   <CCard className="mb-4 shadow-sm custom-card">
     <CCardHeader className="custom-card-header">
       <h5 className="text-primary">Add {sectionName}</h5>
@@ -35,20 +158,15 @@ const DimensionFormSection = ({
     <CCardBody>
       <CForm>
         <CFormLabel className="custom-label">{sectionName}</CFormLabel>
-        <CFormSelect
+        <CFormInput
+          type="text"
           onChange={(e) => handleInputChange(e, sectionName)}
           value={formData[sectionName] || ''}
-          className="custom-select"
-        >
-          <option value="">Select {sectionName}</option>
-          {options.map((opt, index) => (
-            <option key={index} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </CFormSelect>
+          placeholder={`Enter ${sectionName}`}
+          className="custom-input"
+        />
 
-        {/* Show Amount for widthHeight   only */}
+        {/* Show Amount for widthHeight only */}
         {sectionName === 'widthHeight' && (
           <>
             <CFormLabel className="custom-label">Amount</CFormLabel>
@@ -80,7 +198,9 @@ const DimensionFormSection = ({
             className="btn-add mt-3"
             onClick={() => handleAddData(sectionName)}
             disabled={
-              !formData[sectionName] || (sectionName !== 'widthHeight' && !formData[`${sectionName}Percentage`]) || (sectionName === 'widthHeight' && !formData.amount)
+              !formData[sectionName] ||
+              (sectionName !== 'widthHeight' && !formData[`${sectionName}Percentage`]) ||
+              (sectionName === 'widthHeight' && !formData.amount)
             }
           >
             <FontAwesomeIcon icon={faPlus} className="mr-2" /> Add
@@ -100,28 +220,22 @@ const DimensionFormSection = ({
             displayData.map((data, index) => (
               <CRow key={index} className="align-items-center custom-row">
                 <CCol>
-                  {/* For widthHeight, show Amount if value is null */}
                   {sectionName === 'widthHeight' ? (
                     <>
                       <strong>{data.widthHeight}</strong> -{' '}
                       {data.value === null || data.value === '' ? (
-                        // Show amount if value is null or empty
                         <span><strong>Amount:</strong> {data.amount}</span>
                       ) : (
-                        // Otherwise show value
                         <span><strong>Value:</strong> {data.value}</span>
                       )}
                     </>
                   ) : (
-                    // For other sections, show the regular data
                     <>
                       {data[sectionName]} - {data.value}
                     </>
                   )}
                 </CCol>
-                <CCol>
-                  {/* Optional: you can add a badge or any other metadata here */}
-                </CCol>
+                <CCol />
                 <CCol>
                   <CButton
                     color="danger"
@@ -138,8 +252,8 @@ const DimensionFormSection = ({
       </CForm>
     </CCardBody>
   </CCard>
-
 );
+
 
 const DimensionsProduct = () => {
   const location = useLocation();
