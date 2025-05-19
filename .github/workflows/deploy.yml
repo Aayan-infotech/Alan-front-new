@@ -29,18 +29,31 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            set -e
+
+            echo "📁 Changing to project directory..."
             cd /home/ubuntu/Alan-front-new
 
-            echo "✅ Installing dependencies..."
+            echo "🔧 Installing Node.js via NVM..."
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+            nvm install 20
+            nvm use 20
+
+            echo "📦 Installing dependencies..."
             npm install
 
             echo "⚙️ Building project..."
             npm run build
 
-            echo "🧹 Cleaning old /var/www/html content..."
+            echo "🧹 Cleaning old /var/www/html/web content..."
             sudo rm -rf /var/www/html/panel/*
 
-            echo "📦 Copying new build to /var/www/html..."
+            echo "📦 Copying new build to /var/www/html/web..."
             sudo cp -r build/* /var/www/html/panel/
 
             echo "🔄 Restarting NGINX..."
