@@ -289,6 +289,32 @@ const AddProductForm = () => {
     productFormulaAdded: '',
   })
 
+  
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ color: [] }, { background: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ indent: '-1' }, { indent: '+1' }],
+    [{ align: [] }],
+    ['blockquote', 'code-block'],
+    ['link', 'image', 'video'],
+    ['clean'],
+  ],
+}
+
+const formats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike',
+  'color', 'background',
+  'list', 'bullet', 'indent',
+  'align',
+  'blockquote', 'code-block',
+  'link', 'image', 'video',
+]
+
+
   // Fetch data for categories, subcategories, and subsubcategories
   useEffect(() => {
     fetch('https://www.discountdoorandwindow.com/api/categories')
@@ -530,11 +556,16 @@ const AddProductForm = () => {
             <CCol md={12}>
               <CFormLabel htmlFor="productDescription">Product Description</CFormLabel>
               <ReactQuill
+                theme="snow"
                 value={productData.productDescription}
                 onChange={handleDescriptionChange}
                 placeholder="Enter product description"
+                modules={modules}
+                formats={formats}
+                style={{ height: '300px', marginBottom: '50px' }}
               />
             </CCol>
+
             <CCol md={6} className="mx-auto">
               <CButton type="submit" color="primary" className="mt-3 w-100">
                 Add Product

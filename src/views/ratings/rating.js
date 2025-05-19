@@ -106,7 +106,7 @@ const fetchRatings = async () => {
         <CCardBody>
           <CForm className="row g-3 mb-3">
             <div className="col-md-3">
-              <CFormLabel>Name</CFormLabel>
+              <CFormLabel>Product Name</CFormLabel>
               <CFormInput
                 type="text"
                 name="name"
@@ -158,7 +158,7 @@ const fetchRatings = async () => {
           <CTable bordered hover>
             <CTableHead>
               <CTableRow>
-                <CTableHeaderCell>Name</CTableHeaderCell>
+                <CTableHeaderCell>Product Name</CTableHeaderCell>
                 <CTableHeaderCell>Product Type</CTableHeaderCell>
                 <CTableHeaderCell>Rating</CTableHeaderCell>
                 <CTableHeaderCell>Review</CTableHeaderCell>
@@ -196,7 +196,7 @@ const fetchRatings = async () => {
         </CModalHeader>
         <CModalBody>
           <CForm>
-            <CFormLabel>Name</CFormLabel>
+            <CFormLabel>Product Name</CFormLabel>
             <CFormInput name="name" value={selectedRating?.name || ''} onChange={handleEditChange} />
             <CFormLabel className="mt-2">Product Type</CFormLabel>
             <CFormSelect name="productType" value={selectedRating?.productType || ''} onChange={handleEditChange}>
