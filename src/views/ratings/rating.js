@@ -106,6 +106,7 @@ const fetchRatings = async () => {
         <CCardBody>
           <CForm className="row g-3 mb-3">
             <div className="col-md-3">
+
               <CFormLabel>Product Name</CFormLabel>
               <CFormInput
                 type="text"
@@ -158,7 +159,9 @@ const fetchRatings = async () => {
           <CTable bordered hover>
             <CTableHead>
               <CTableRow>
+
                 <CTableHeaderCell>Product Name</CTableHeaderCell>
+
                 <CTableHeaderCell>Product Type</CTableHeaderCell>
                 <CTableHeaderCell>Rating</CTableHeaderCell>
                 <CTableHeaderCell>Review</CTableHeaderCell>
