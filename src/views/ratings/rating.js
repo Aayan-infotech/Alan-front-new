@@ -36,39 +36,37 @@ const Rating = () => {
   })
 
   const [page, setPage] = useState(1)
-const [limit, setLimit] = useState(10) // or any number you want per page
-const [totalPages, setTotalPages] = useState(1)
+  const [limit, setLimit] = useState(10) // or any number you want per page
+  const [totalPages, setTotalPages] = useState(1)
 
-const fetchRatings = async () => {
-  try {
-    const queryFilters = { ...filters }
+  const fetchRatings = async () => {
+    try {
+      const queryFilters = {
+        name: filters.name,
+        rating: filters.rating,
+        productType: filters.productType,
+      }
 
-    if (queryFilters.adminApproved !== '') {
-      queryFilters.adminApproved = queryFilters.adminApproved
-    } else {
-      delete queryFilters.adminApproved
+      if (filters.adminApproved !== '') {
+        queryFilters.isApproved = filters.adminApproved // ✅ Fix: Use correct param name
+      }
+
+      queryFilters.page = page
+      queryFilters.limit = limit
+
+      const query = new URLSearchParams(queryFilters).toString()
+      const res = await axios.get(`https://www.discountdoorandwindow.com/api/ratings?${query}`)
+
+      setRatings(res.data.data)
+      setTotalPages(res.data.totalPages || 1)
+    } catch (err) {
+      console.error('Error fetching ratings:', err)
     }
-
-    // Add pagination
-    queryFilters.page = page
-    queryFilters.limit = limit
-
-    const query = new URLSearchParams(queryFilters).toString()
-    const res = await axios.get(`https://www.discountdoorandwindow.com/api/ratings?${query}`)
-
-    setRatings(res.data.data)
-    setTotalPages(res.data.totalPages || 1) // assuming your API returns totalPages
-  } catch (err) {
-    console.error('Error fetching ratings:', err)
   }
-}
-
-
-
 
   useEffect(() => {
     fetchRatings()
-  }, [filters,page,limit])
+  }, [filters, page, limit])
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this rating?')) {
@@ -78,7 +76,12 @@ const fetchRatings = async () => {
   }
 
   const openEditModal = (rating) => {
-    setSelectedRating({ ...rating })
+    setSelectedRating({
+      ...rating,
+      name: rating.productId?.name || '',
+      productType: rating.productId?.productType || '',
+      adminApproved: rating.isApproved,
+    })
     setEditModalVisible(true)
   }
 
@@ -89,7 +92,14 @@ const fetchRatings = async () => {
 
   const updateRating = async () => {
     try {
-      await axios.put(`https://www.discountdoorandwindow.com/api/ratings/${selectedRating._id}`, selectedRating)
+      const payload = {
+        ...selectedRating,
+        isApproved: selectedRating.adminApproved,
+      }
+
+      delete payload.adminApproved // Remove the alias before sending
+
+      await axios.put(`https://www.discountdoorandwindow.com/api/ratings/${selectedRating._id}`, payload)
       setEditModalVisible(false)
       fetchRatings()
     } catch (err) {
@@ -106,7 +116,6 @@ const fetchRatings = async () => {
         <CCardBody>
           <CForm className="row g-3 mb-3">
             <div className="col-md-3">
-
               <CFormLabel>Product Name</CFormLabel>
               <CFormInput
                 type="text"
@@ -150,7 +159,12 @@ const fetchRatings = async () => {
               </CFormSelect>
             </div>
             <div className="col-md-2 d-flex align-items-end">
-              <CButton color="secondary" onClick={() => setFilters({ name: '', rating: '', productType: '', adminApproved: '' })}>
+              <CButton
+                color="secondary"
+                onClick={() =>
+                  setFilters({ name: '', rating: '', productType: '', adminApproved: '' })
+                }
+              >
                 Reset
               </CButton>
             </div>
@@ -159,9 +173,9 @@ const fetchRatings = async () => {
           <CTable bordered hover>
             <CTableHead>
               <CTableRow>
-
+                <CTableHeaderCell>User Name</CTableHeaderCell>
+                <CTableHeaderCell>Email</CTableHeaderCell>
                 <CTableHeaderCell>Product Name</CTableHeaderCell>
-
                 <CTableHeaderCell>Product Type</CTableHeaderCell>
                 <CTableHeaderCell>Rating</CTableHeaderCell>
                 <CTableHeaderCell>Review</CTableHeaderCell>
@@ -169,16 +183,24 @@ const fetchRatings = async () => {
                 <CTableHeaderCell>Actions</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
+
             <CTableBody>
               {ratings.map((item) => (
                 <CTableRow key={item._id}>
-                  <CTableDataCell>{item.name}</CTableDataCell>
-                  <CTableDataCell>{item.productType}</CTableDataCell>
+                  <CTableDataCell>{item.userId?.name || '-'}</CTableDataCell>
+                  <CTableDataCell>{item.userId?.email || '-'}</CTableDataCell>
+                  <CTableDataCell>{item.productId?.name || '-'}</CTableDataCell>
+                  <CTableDataCell>{item.productId?.productType || '-'}</CTableDataCell>
                   <CTableDataCell>{item.rating}</CTableDataCell>
                   <CTableDataCell>{item.review}</CTableDataCell>
-                  <CTableDataCell>{item.adminApproved ? 'Yes' : 'No'}</CTableDataCell>
+                  <CTableDataCell>{item.isApproved ? 'Yes' : 'No'}</CTableDataCell>
                   <CTableDataCell>
-                    <CButton size="sm" color="info" onClick={() => openEditModal(item)} className="me-2">
+                    <CButton
+                      size="sm"
+                      color="info"
+                      onClick={() => openEditModal(item)}
+                      className="me-2"
+                    >
                       <CIcon icon={cilPencil} />
                     </CButton>
                     <CButton size="sm" color="danger" onClick={() => handleDelete(item._id)}>
@@ -200,13 +222,9 @@ const fetchRatings = async () => {
         <CModalBody>
           <CForm>
             <CFormLabel>Product Name</CFormLabel>
-            <CFormInput name="name" value={selectedRating?.name || ''} onChange={handleEditChange} />
+            <CFormInput value={selectedRating?.productId?.name || ''} disabled />
             <CFormLabel className="mt-2">Product Type</CFormLabel>
-            <CFormSelect name="productType" value={selectedRating?.productType || ''} onChange={handleEditChange}>
-              <option value="Windows">Windows</option>
-              <option value="Doors">Doors</option>
-              <option value="Hardware">Hardware</option>
-            </CFormSelect>
+            <CFormInput value={selectedRating?.productId?.productType || ''} disabled />
             <CFormLabel className="mt-2">Rating</CFormLabel>
             <CFormInput
               type="number"
@@ -217,11 +235,19 @@ const fetchRatings = async () => {
               onChange={handleEditChange}
             />
             <CFormLabel className="mt-2">Review</CFormLabel>
-            <CFormInput name="review" value={selectedRating?.review || ''} onChange={handleEditChange} />
+            <CFormInput
+              name="review"
+              value={selectedRating?.review || ''}
+              onChange={handleEditChange}
+            />
             <CFormLabel className="mt-2">Admin Approved</CFormLabel>
-            <CFormSelect name="adminApproved" value={selectedRating?.adminApproved ? 'true' : 'false'} onChange={(e) => {
-              setSelectedRating({ ...selectedRating, adminApproved: e.target.value === 'true' })
-            }}>
+            <CFormSelect
+              name="adminApproved"
+              value={selectedRating?.adminApproved ? 'true' : 'false'}
+              onChange={(e) => {
+                setSelectedRating({ ...selectedRating, adminApproved: e.target.value === 'true' })
+              }}
+            >
               <option value="true">Yes</option>
               <option value="false">No</option>
             </CFormSelect>
@@ -237,28 +263,27 @@ const fetchRatings = async () => {
         </CModalFooter>
       </CModal>
       <div className="d-flex justify-content-between align-items-center mt-3">
-  <div>
-    Page {page} of {totalPages}
-  </div>
-  <div>
-    <CButton
-      size="sm"
-      disabled={page === 1}
-      onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-      className="me-2"
-    >
-      Previous
-    </CButton>
-    <CButton
-      size="sm"
-      disabled={page === totalPages}
-      onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-    >
-      Next
-    </CButton>
-  </div>
-</div>
-
+        <div>
+          Page {page} of {totalPages}
+        </div>
+        <div>
+          <CButton
+            size="sm"
+            disabled={page === 1}
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            className="me-2"
+          >
+            Previous
+          </CButton>
+          <CButton
+            size="sm"
+            disabled={page === totalPages}
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+          >
+            Next
+          </CButton>
+        </div>
+      </div>
     </>
   )
 }
