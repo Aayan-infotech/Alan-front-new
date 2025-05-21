@@ -39,31 +39,30 @@ const Rating = () => {
   const [limit, setLimit] = useState(10) // or any number you want per page
   const [totalPages, setTotalPages] = useState(1)
 
-const fetchRatings = async () => {
-  try {
-    const queryFilters = {
-      name: filters.name,
-      rating: filters.rating,
-      productType: filters.productType,
+  const fetchRatings = async () => {
+    try {
+      const queryFilters = {
+        name: filters.name,
+        rating: filters.rating,
+        productType: filters.productType,
+      }
+
+      if (filters.adminApproved !== '') {
+        queryFilters.isApproved = filters.adminApproved // ✅ Fix: Use correct param name
+      }
+
+      queryFilters.page = page
+      queryFilters.limit = limit
+
+      const query = new URLSearchParams(queryFilters).toString()
+      const res = await axios.get(`https://www.discountdoorandwindow.com/api/ratings?${query}`)
+
+      setRatings(res.data.data)
+      setTotalPages(res.data.totalPages || 1)
+    } catch (err) {
+      console.error('Error fetching ratings:', err)
     }
-
-    if (filters.adminApproved !== '') {
-      queryFilters.isApproved = filters.adminApproved // ✅ Fix: Use correct param name
-    }
-
-    queryFilters.page = page
-    queryFilters.limit = limit
-
-    const query = new URLSearchParams(queryFilters).toString()
-    const res = await axios.get(`http://localhost:7878/api/ratings?${query}`)
-
-    setRatings(res.data.data)
-    setTotalPages(res.data.totalPages || 1)
-  } catch (err) {
-    console.error('Error fetching ratings:', err)
   }
-}
-
 
   useEffect(() => {
     fetchRatings()
@@ -71,7 +70,7 @@ const fetchRatings = async () => {
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this rating?')) {
-      await axios.delete(`http://localhost:7878/api/ratings/${id}`)
+      await axios.delete(`https://www.discountdoorandwindow.com/api/ratings/${id}`)
       fetchRatings()
     }
   }
@@ -91,23 +90,22 @@ const fetchRatings = async () => {
     setSelectedRating({ ...selectedRating, [name]: value })
   }
 
- const updateRating = async () => {
-  try {
-    const payload = {
-      ...selectedRating,
-      isApproved: selectedRating.adminApproved,
+  const updateRating = async () => {
+    try {
+      const payload = {
+        ...selectedRating,
+        isApproved: selectedRating.adminApproved,
+      }
+
+      delete payload.adminApproved // Remove the alias before sending
+
+      await axios.put(`https://www.discountdoorandwindow.com/api/ratings/${selectedRating._id}`, payload)
+      setEditModalVisible(false)
+      fetchRatings()
+    } catch (err) {
+      console.error(err)
     }
-
-    delete payload.adminApproved // Remove the alias before sending
-
-    await axios.put(`http://localhost:7878/api/ratings/${selectedRating._id}`, payload)
-    setEditModalVisible(false)
-    fetchRatings()
-  } catch (err) {
-    console.error(err)
   }
-}
-
 
   return (
     <>
@@ -224,21 +222,9 @@ const fetchRatings = async () => {
         <CModalBody>
           <CForm>
             <CFormLabel>Product Name</CFormLabel>
-            <CFormInput
-              name="name"
-              value={selectedRating?.name || ''}
-              onChange={handleEditChange}
-            />
+            <CFormInput value={selectedRating?.productId?.name || ''} disabled />
             <CFormLabel className="mt-2">Product Type</CFormLabel>
-            <CFormSelect
-              name="productType"
-              value={selectedRating?.productType || ''}
-              onChange={handleEditChange}
-            >
-              <option value="Windows">Windows</option>
-              <option value="Doors">Doors</option>
-              <option value="Hardware">Hardware</option>
-            </CFormSelect>
+            <CFormInput value={selectedRating?.productId?.productType || ''} disabled />
             <CFormLabel className="mt-2">Rating</CFormLabel>
             <CFormInput
               type="number"
