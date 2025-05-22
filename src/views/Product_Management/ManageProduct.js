@@ -552,28 +552,37 @@ const ManageProduct = () => {
   const navigate = useNavigate()
 
   const modules = {
-  toolbar: [
-    [{ header: [1, 2, 3, false] }],
-    ['bold', 'italic', 'underline', 'strike'],
-    [{ color: [] }, { background: [] }],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ indent: '-1' }, { indent: '+1' }],
-    [{ align: [] }],
-    ['blockquote', 'code-block'],
-    ['link', 'image', 'video'],
-    ['clean'],
-  ],
-}
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ color: [] }, { background: [] }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ indent: '-1' }, { indent: '+1' }],
+      [{ align: [] }],
+      ['blockquote', 'code-block'],
+      ['link', 'image', 'video'],
+      ['clean'],
+    ],
+  }
 
-const formats = [
-  'header',
-  'bold', 'italic', 'underline', 'strike',
-  'color', 'background',
-  'list', 'bullet', 'indent',
-  'align',
-  'blockquote', 'code-block',
-  'link', 'image', 'video',
-]
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'color',
+    'background',
+    'list',
+    'bullet',
+    'indent',
+    'align',
+    'blockquote',
+    'code-block',
+    'link',
+    'image',
+    'video',
+  ]
 
   // Handle "Add Dimensions" based on category name.
   // const handleAddDimensions = (productId, categoryName) => {
@@ -793,32 +802,72 @@ const formats = [
     if (newImages.length > 0 && selectedProductId) {
       const formData = new FormData()
       formData.append('Product_id', selectedProductId)
-      newImages.forEach((image) => formData.append('images', image))
+
+      // Filter out images that are files (not already uploaded)
+      newImages.forEach((img) => {
+        if (img instanceof File || img.lastModified) {
+          formData.append('images', img)
+        }
+      })
 
       axios
         .post('https://www.discountdoorandwindow.com/api/ProductImg/product-images', formData)
         .then(() => {
           alert('Images uploaded successfully')
-          setShowImagesModal(false)
+          fetchImages(selectedProductId)
           setNewImages([])
+          setShowImagesModal(false)
         })
         .catch((error) => console.error('Error uploading images:', error))
     }
   }
-
   const fetchImages = (productId) => {
     axios
       .get(`https://www.discountdoorandwindow.com/api/ProductImg/product-images/${productId}`)
       .then((response) => {
-        if (response.data.productImages) {
-          const images = response.data.productImages.flatMap((item) => item.images)
-          setNewImages(images)
+        if (response.data.productImages && response.data.productImages.length > 0) {
+          const formatted = response.data.productImages.flatMap((doc) =>
+            doc.images.map((img) => ({
+              url: img.url,
+              imageId: img._id,
+              docId: doc._id,
+            })),
+          )
+
+          setNewImages(formatted)
         } else {
-          console.error('No product images found')
+          setNewImages([])
         }
       })
       .catch((error) => console.error('Error fetching images:', error))
   }
+  const deleteImage = (docId, imageId) => {
+    axios
+      .delete(
+        `https://www.discountdoorandwindow.com/api/ProductImg/product-images/${docId}/image/${imageId}`,
+      )
+      .then(() => {
+        alert('Image deleted successfully')
+        fetchImages(selectedProductId)
+      })
+      .catch((error) => {
+        console.error('Error deleting image:', error)
+        alert('Failed to delete image.')
+      })
+  }
+
+  // const deleteAllImages = (docId) => {
+  //   axios
+  //     .delete(`https://www.discountdoorandwindow.com/api/ProductImg/product-images/${docId}`)
+  //     .then(() => {
+  //       alert('All product images deleted')
+  //       setNewImages([])
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error deleting all images:', error)
+  //       alert('Failed to delete all images.')
+  //     })
+  // }
 
   return (
     <CRow>
@@ -1034,17 +1083,17 @@ const formats = [
             <CFormLabel htmlFor="productImages">Upload Images</CFormLabel>
             <CFormInput type="file" id="productImages" multiple onChange={handleImageUpload} />
             <CListGroup className="mt-3">
-              {newImages && newImages.length > 0 ? (
+              {newImages.length > 0 ? (
                 newImages.map((image, index) => (
                   <CListGroupItem
-                    key={index}
+                    key={image.imageId}
                     className="d-flex justify-content-between align-items-center"
                   >
-                    <img src={image} alt={`Product Image ${index}`} width="50" height="50" />
+                    <img src={image.url} alt={`Product Image ${index}`} width="50" height="50" />
                     <CButton
                       color="danger"
                       size="sm"
-                      onClick={() => deleteImage(selectedProductId, image)}
+                      onClick={() => deleteImage(image.docId, image.imageId)}
                     >
                       <FontAwesomeIcon icon={faTrash} />
                     </CButton>
@@ -1057,6 +1106,12 @@ const formats = [
           </CForm>
         </CModalBody>
         <CModalFooter>
+          {/* <CButton
+          color="danger"
+          onClick={() => deleteAllImages(selectedProductId)}
+        >
+          Delete All Images
+        </CButton> */}
           <CButton color="secondary" onClick={() => setShowImagesModal(false)}>
             Close
           </CButton>
@@ -1087,8 +1142,8 @@ const formats = [
               value={editProductData.description}
               onChange={(value) => setEditProductData((prev) => ({ ...prev, description: value }))}
               modules={modules}
-                formats={formats}
-                style={{ height: '300px', marginBottom: '50px' }}
+              formats={formats}
+              style={{ height: '300px', marginBottom: '50px' }}
             />
 
             <CFormLabel htmlFor="category_name">Category</CFormLabel>
