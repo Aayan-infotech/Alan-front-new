@@ -20,7 +20,7 @@ import {
   CFormSelect,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilTrash } from '@coreui/icons'
+import { cilTrash,cilEnvelopeClosed  } from '@coreui/icons'
 
 const ContactsUs = () => {
   const [contacts, setContacts] = useState([])
@@ -116,6 +116,24 @@ const ContactsUs = () => {
                 <CTableDataCell>{contact.type}</CTableDataCell>
                 <CTableDataCell>{contact.message}</CTableDataCell>
                 <CTableDataCell>
+                {/* <a
+                  href={`mailto:${contact.email}?subject=Regarding your ${contact.type} message&body=Hi ${contact.name},%0D%0A%0D%0ARegarding your message: "${contact.message}"`}
+                  title="Send Email"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <CButton color="info" size="sm">
+                    <CIcon icon={cilEnvelopeClosed} />
+                  </CButton>
+                </a> */}
+                <a
+                  href={`mailto:${contact.email}`}
+                  title="Send Email"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <CButton color="info" size="sm">
+                    <CIcon icon={cilEnvelopeClosed} />
+                  </CButton>
+                </a>
                   <CButton color="danger" size="sm" onClick={() => handleDelete(contact._id)}>
                     <CIcon icon={cilTrash} />
                   </CButton>

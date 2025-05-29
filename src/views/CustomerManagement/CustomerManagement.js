@@ -41,7 +41,13 @@ const CustomerManagement = () => {
     address: '',
   });
   const [loading, setLoading] = useState(true);
+  const [searchName, setSearchName] = useState('');
+  const [searchEmail, setSearchEmail] = useState('');
 
+  const filteredCustomers = customers.filter((customer) =>
+    customer.name.toLowerCase().includes(searchName.toLowerCase()) &&
+    customer.email.toLowerCase().includes(searchEmail.toLowerCase())
+  );
   const fetchCustomers = async () => {
     try {
       setLoading(true);
@@ -111,24 +117,40 @@ const CustomerManagement = () => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <CTable hover responsive>
-              <CTableHead color="dark">
-                <CTableRow>
-                  <CTableHeaderCell>ID</CTableHeaderCell>
-                  <CTableHeaderCell>Name</CTableHeaderCell>
-                  <CTableHeaderCell>Email</CTableHeaderCell>
-                  <CTableHeaderCell>Mobile</CTableHeaderCell>
-                  <CTableHeaderCell>Actions</CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody>
-                {customers.map((customer) => (
-                  <CTableRow key={customer._id}>
-                    <CTableDataCell>{customer._id}</CTableDataCell>
-                    <CTableDataCell>{customer.name}</CTableDataCell>
-                    <CTableDataCell>{customer.email}</CTableDataCell>
-                    <CTableDataCell>{customer.mobile || 'N/A'}</CTableDataCell>
-                    {/* <CTableDataCell>
+            <>
+              <div className="d-flex gap-3 mb-3">
+                <CFormInput
+                  type="text"
+                  placeholder="Search by Name"
+                  value={searchName}
+                  onChange={(e) => setSearchName(e.target.value)}
+                />
+                <CFormInput
+                  type="text"
+                  placeholder="Search by Email"
+                  value={searchEmail}
+                  onChange={(e) => setSearchEmail(e.target.value)}
+                />
+              </div>
+
+              <CTable hover responsive>
+                <CTableHead color="dark">
+                  <CTableRow>
+                    <CTableHeaderCell>ID</CTableHeaderCell>
+                    <CTableHeaderCell>Name</CTableHeaderCell>
+                    <CTableHeaderCell>Email</CTableHeaderCell>
+                    <CTableHeaderCell>Mobile</CTableHeaderCell>
+                    <CTableHeaderCell>Actions</CTableHeaderCell>
+                  </CTableRow>
+                </CTableHead>
+                <CTableBody>
+                  {filteredCustomers.map((customer) => (
+                    <CTableRow key={customer._id}>
+                      <CTableDataCell>{customer._id}</CTableDataCell>
+                      <CTableDataCell>{customer.name}</CTableDataCell>
+                      <CTableDataCell>{customer.email}</CTableDataCell>
+                      <CTableDataCell>{customer.mobile || 'N/A'}</CTableDataCell>
+                      {/* <CTableDataCell>
                       <CButton color="info" size="sm" onClick={() => handleViewCustomer(customer)} className="me-2">
                         <CIcon icon={cilInfo} /> 
                       </CButton>
@@ -139,15 +161,16 @@ const CustomerManagement = () => {
                         <CIcon icon={cilTrash} /> 
                       </CButton>
                     </CTableDataCell> */}
-                    <CTableDataCell>
-                      <CIcon icon={cilInfo} size="lg" className="me-2" onClick={() => handleViewCustomer(customer)} />
-                      <CIcon icon={cilPencil} size="lg" className="me-2" onClick={() => handleEditCustomer(customer)} />
-                      <CIcon icon={cilTrash} size="lg" onClick={() => setDeleteCustomerId(customer._id)} />
-                    </CTableDataCell>
-                  </CTableRow>
-                ))}
-              </CTableBody>
-            </CTable>
+                      <CTableDataCell>
+                        <CIcon icon={cilInfo} size="lg" className="me-2" onClick={() => handleViewCustomer(customer)} />
+                        <CIcon icon={cilPencil} size="lg" className="me-2" onClick={() => handleEditCustomer(customer)} />
+                        <CIcon icon={cilTrash} size="lg" onClick={() => setDeleteCustomerId(customer._id)} />
+                      </CTableDataCell>
+                    </CTableRow>
+                  ))}
+                </CTableBody>
+              </CTable>
+            </>
           )}
         </CCardBody>
       </CCard>
