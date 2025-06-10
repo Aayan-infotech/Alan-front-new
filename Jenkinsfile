@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "docker.io/aayanindia/alan-admin-frontend"
-        CONTAINER_PORT = "2698"
+        CONTAINER_PORT = "7879"
         HOST_PORT = "2698"
         DOCKER_HUB_USERNAME = credentials('docker-hub-username')
         DOCKER_HUB_PASSWORD = credentials('docker-hub-password')
