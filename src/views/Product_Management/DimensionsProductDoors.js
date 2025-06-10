@@ -196,7 +196,7 @@ const DimensionsProductDoors = () => {
   const fetchEntries = async () => {
     setLoadingDimensions(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorWidthHeight/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorWidthHeight/${productIdfordet}`)
       setEntries(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Dimensions Error:', err)
@@ -212,7 +212,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingDimensions(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorWidthHeight', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorWidthHeight', {
         DoorWidthHeight: dimensionValue,
         amount: parseFloat(dimensionAmount),
         productId: productIdfordet,
@@ -229,7 +229,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteDimension = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorWidthHeight/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorWidthHeight/${id}`)
       setEntries(entries.filter(entry => entry._id !== id))
     } catch (err) {
       console.error('Delete Dimension Error:', err)
@@ -241,7 +241,7 @@ const DimensionsProductDoors = () => {
   const fetchPreHungOptions = async () => {
     setLoadingPreHung(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorPreHungOptions/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorPreHungOptions/${productIdfordet}`)
       setPreHungOptions(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Pre Hung Error:', err)
@@ -257,7 +257,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingPreHung(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorPreHungOptions', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorPreHungOptions', {
         DoorPreHungOptions: preHungValue,
         amount: parseFloat(preHungAmount),
         productId: productIdfordet,
@@ -274,7 +274,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeletePreHungOption = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorPreHungOptions/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorPreHungOptions/${id}`)
       setPreHungOptions(preHungOptions.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Pre Hung Error:', err)
@@ -286,7 +286,7 @@ const DimensionsProductDoors = () => {
   const fetchPreFinishingOptions = async () => {
     setLoadingPreFinishing(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorPreFinishingOptions/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorPreFinishingOptions/${productIdfordet}`)
       setPreFinishingOptions(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Pre-finishing Error:', err)
@@ -302,7 +302,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingPreFinishing(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorPreFinishingOptions', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorPreFinishingOptions', {
         DoorPreFinishingOptions: preFinishingValue,
         amount: parseFloat(preFinishingAmount),
         productId: productIdfordet,
@@ -319,7 +319,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteFinishingOption = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorPreFinishingOptions/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorPreFinishingOptions/${id}`)
       setPreFinishingOptions(preFinishingOptions.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Pre-finishing Error:', err)
@@ -331,7 +331,7 @@ const DimensionsProductDoors = () => {
   const fetchFrameOptions = async () => {
     setLoadingFrameOptions(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorFrameOptions/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorFrameOptions/${productIdfordet}`)
       setFrameOptions(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Frame Options Error:', err)
@@ -347,7 +347,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingFrameOptions(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorFrameOptions', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorFrameOptions', {
         DoorFrameOptions: frameOptionValue,
         amount: parseFloat(frameOptionAmount),
         productId: productIdfordet,
@@ -364,7 +364,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteFrameOption = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorFrameOptions/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorFrameOptions/${id}`)
       setFrameOptions(frameOptions.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Frame Options Error:', err)
@@ -376,7 +376,7 @@ const DimensionsProductDoors = () => {
   const fetchSwingDirection = async () => {
     setLoadingSwingDirection(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorSwingDirection/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorSwingDirection/${productIdfordet}`)
       setSwingDirection(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Swing Direction Error:', err)
@@ -392,7 +392,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingSwingDirection(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorSwingDirection', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorSwingDirection', {
         DoorSwingDirection: swingDirectionValue,
         amount: parseFloat(swingDirectionAmount),
         productId: productIdfordet,
@@ -409,7 +409,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteSwingDirection = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorSwingDirection/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorSwingDirection/${id}`)
       setSwingDirection(swingDirection.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Swing Direction Error:', err)
@@ -421,7 +421,7 @@ const DimensionsProductDoors = () => {
   const fetchPeepView = async () => {
     setLoadingPeepView(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorPeepView/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorPeepView/${productIdfordet}`)
       setPeepView(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Peep View Error:', err)
@@ -437,7 +437,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingPeepView(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorPeepView', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorPeepView', {
         DoorPeepView: peepViewValue,
         amount: parseFloat(peepViewAmount),
         productId: productIdfordet,
@@ -454,7 +454,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeletePeepView = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorPeepView/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorPeepView/${id}`)
       setPeepView(peepView.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Peep View Error:', err)
@@ -466,7 +466,7 @@ const DimensionsProductDoors = () => {
   const fetchHingeColor = async () => {
     setLoadingHingeColor(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorHingeColor/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorHingeColor/${productIdfordet}`)
       setHingeColor(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Hinge Color Error:', err)
@@ -482,7 +482,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingHingeColor(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorHingeColor', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorHingeColor', {
         DoorHingeColor: hingeColorValue,
         amount: parseFloat(hingeColorAmount),
         productId: productIdfordet,
@@ -499,7 +499,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteHingeColor = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorHingeColor/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorHingeColor/${id}`)
       setHingeColor(hingeColor.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Hinge Color Error:', err)
@@ -511,7 +511,7 @@ const DimensionsProductDoors = () => {
   const fetchSillOptions = async () => {
     setLoadingSill(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorSill/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorSill/${productIdfordet}`)
       setSillOptions(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Sill Error:', err)
@@ -527,7 +527,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingSill(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorSill', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorSill', {
         DoorSill: sillValue,
         amount: parseFloat(sillAmount),
         productId: productIdfordet,
@@ -544,7 +544,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteSill = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorSill/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorSill/${id}`)
       setSillOptions(sillOptions.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Sill Error:', err)
@@ -556,7 +556,7 @@ const DimensionsProductDoors = () => {
   const fetchWeatherStripColor = async () => {
     setLoadingWeatherStripColor(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorWeatherStripColor/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorWeatherStripColor/${productIdfordet}`)
       setWeatherStripColor(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Weather Strip Color Error:', err)
@@ -572,7 +572,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingWeatherStripColor(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorWeatherStripColor', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorWeatherStripColor', {
         DoorWeatherStripColor: weatherStripColorValue,
         amount: parseFloat(weatherStripColorAmount),
         productId: productIdfordet,
@@ -589,7 +589,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteWeatherStripColor = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorWeatherStripColor/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorWeatherStripColor/${id}`)
       setWeatherStripColor(weatherStripColor.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Weather Strip Color Error:', err)
@@ -601,7 +601,7 @@ const DimensionsProductDoors = () => {
   const fetchGridOptions = async () => {
     setLoadingGridOptions(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorGridOptions/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorGridOptions/${productIdfordet}`)
       setGridOptions(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Grid Options Error:', err)
@@ -617,7 +617,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingGridOptions(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorGridOptions', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorGridOptions', {
         DoorGridOptions: gridOptionValue,
         amount: parseFloat(gridOptionAmount),
         productId: productIdfordet,
@@ -634,7 +634,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteGridOptions = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorGridOptions/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorGridOptions/${id}`)
       setGridOptions(gridOptions.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Grid Options Error:', err)
@@ -646,7 +646,7 @@ const DimensionsProductDoors = () => {
   const fetchFrameExtrusion = async () => {
     setLoadingFrameExtrusion(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorFrameExtrusion/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorFrameExtrusion/${productIdfordet}`)
       setFrameExtrusion(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Frame Extrusion Error:', err)
@@ -662,7 +662,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingFrameExtrusion(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorFrameExtrusion', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorFrameExtrusion', {
         DoorFrameExtrusion: frameExtrusionValue,
         amount: parseFloat(frameExtrusionAmount),
         productId: productIdfordet,
@@ -679,7 +679,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteFrameExtrusion = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorFrameExtrusion/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorFrameExtrusion/${id}`)
       setFrameExtrusion(frameExtrusion.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Frame Extrusion Error:', err)
@@ -691,7 +691,7 @@ const DimensionsProductDoors = () => {
   const fetchLockOption = async () => {
     setLoadingLockOption(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorLockOption/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorLockOption/${productIdfordet}`)
       setLockOption(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Lock Option Error:', err)
@@ -707,7 +707,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingLockOption(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorLockOption', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorLockOption', {
         DoorLockOption: lockOptionValue,
         amount: parseFloat(lockOptionAmount),
         productId: productIdfordet,
@@ -724,7 +724,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteLockOption = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorLockOption/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorLockOption/${id}`)
       setLockOption(lockOption.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Lock Option Error:', err)
@@ -736,7 +736,7 @@ const DimensionsProductDoors = () => {
   const fetchDoorColor = async () => {
     setLoadingDoorColor(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorColor/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorColor/${productIdfordet}`)
       setDoorColor(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Door Color Error:', err)
@@ -752,7 +752,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingDoorColor(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorColor', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorColor', {
         DoorColor: doorColorValue,
         amount: parseFloat(doorColorAmount),
         productId: productIdfordet,
@@ -769,7 +769,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteDoorColor = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorColor/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorColor/${id}`)
       setDoorColor(doorColor.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Door Color Error:', err)
@@ -781,7 +781,7 @@ const DimensionsProductDoors = () => {
   const fetchWidthFrame = async () => {
     setLoadingWidthFrame(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorWidthFrame/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorWidthFrame/${productIdfordet}`)
       setWidthFrame(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Width Frame Error:', err)
@@ -797,7 +797,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingWidthFrame(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorWidthFrame', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorWidthFrame', {
         DoorWidthFrame: widthFrameValue,
         amount: parseFloat(widthFrameAmount),
         productId: productIdfordet,
@@ -814,7 +814,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteWidthFrame = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorWidthFrame/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorWidthFrame/${id}`)
       setWidthFrame(widthFrame.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Width Frame Error:', err)
@@ -826,7 +826,7 @@ const DimensionsProductDoors = () => {
   const fetchJambSize = async () => {
     setLoadingJambSize(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorJambSize/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorJambSize/${productIdfordet}`)
       setJambSize(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Jamb Size Error:', err)
@@ -842,7 +842,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingJambSize(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorJambSize', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorJambSize', {
         DoorJambSize: jambSizeValue,
         amount: parseFloat(jambSizeAmount),
         productId: productIdfordet,
@@ -859,7 +859,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteJambSize = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorJambSize/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorJambSize/${id}`)
       setJambSize(jambSize.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Jamb Size Error:', err)
@@ -871,7 +871,7 @@ const DimensionsProductDoors = () => {
   const fetchDoorShoe = async () => {
     setLoadingDoorShoe(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorShoe/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorShoe/${productIdfordet}`)
       setDoorShoe(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Door Shoe Error:', err)
@@ -887,7 +887,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingDoorShoe(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorShoe', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorShoe', {
         DoorShoe: doorShoeValue,
         amount: parseFloat(doorShoeAmount),
         productId: productIdfordet,
@@ -904,7 +904,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteDoorShoe = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorShoe/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorShoe/${id}`)
       setDoorShoe(doorShoe.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Door Shoe Error:', err)
@@ -916,7 +916,7 @@ const DimensionsProductDoors = () => {
   const fetchDoorWeatherstrip = async () => {
     setLoadingDoorWeatherstrip(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorWeatherstrip/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorWeatherstrip/${productIdfordet}`)
       setDoorWeatherstrip(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Door Weatherstrip Error:', err)
@@ -932,7 +932,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingDoorWeatherstrip(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorWeatherstrip', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorWeatherstrip', {
         DoorWeatherstrip: doorWeatherstripValue,
         amount: parseFloat(doorWeatherstripAmount),
         productId: productIdfordet,
@@ -949,7 +949,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteDoorWeatherstrip = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorWeatherstrip/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorWeatherstrip/${id}`)
       setDoorWeatherstrip(doorWeatherstrip.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Door Weatherstrip Error:', err)
@@ -961,7 +961,7 @@ const DimensionsProductDoors = () => {
   const fetchDoorHinges = async () => {
     setLoadingDoorHinges(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorHinges/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorHinges/${productIdfordet}`)
       setDoorHinges(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Door Hinges Error:', err)
@@ -977,7 +977,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingDoorHinges(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorHinges', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorHinges', {
         DoorHinges: doorHingesValue,
         amount: parseFloat(doorHingesAmount),
         productId: productIdfordet,
@@ -994,7 +994,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteDoorHinges = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorHinges/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorHinges/${id}`)
       setDoorHinges(doorHinges.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Door Hinges Error:', err)
@@ -1006,7 +1006,7 @@ const DimensionsProductDoors = () => {
   const fetchBoreOptions = async () => {
     setLoadingBoreOptions(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorBoreOptions/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorBoreOptions/${productIdfordet}`)
       setBoreOptions(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Bore Options Error:', err)
@@ -1022,7 +1022,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingBoreOptions(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorBoreOptions', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorBoreOptions', {
         DoorBoreOptions: boreOptionValue,
         amount: parseFloat(boreOptionAmount),
         productId: productIdfordet,
@@ -1039,7 +1039,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteBoreOptions = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorBoreOptions/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorBoreOptions/${id}`)
       setBoreOptions(boreOptions.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Bore Options Error:', err)
@@ -1051,7 +1051,7 @@ const DimensionsProductDoors = () => {
   const fetchInstallationAvailability = async () => {
     setLoadingInstallationAvailability(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorInstallationAvailability/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorInstallationAvailability/${productIdfordet}`)
       setInstallationAvailability(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Installation Availability Error:', err)
@@ -1067,7 +1067,7 @@ const DimensionsProductDoors = () => {
     }
     setLoadingInstallationAvailability(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorInstallationAvailability', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorInstallationAvailability', {
         DoorInstallationAvailability: installationAvailabilityValue,
         amount: parseFloat(installationAvailabilityAmount),
         productId: productIdfordet,
@@ -1084,7 +1084,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteInstallationAvailability = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorInstallationAvailability/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorInstallationAvailability/${id}`)
       setInstallationAvailability(installationAvailability.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Installation Availability Error:', err)
@@ -1096,7 +1096,7 @@ const DimensionsProductDoors = () => {
   const fetchSideWindowOpens = async () => {
     setLoadingSideWindowOpens(true)
     try {
-      const response = await axios.get(`https://www.discountdoorandwindow.com/api/DimDoor/DoorSideWindowOpens/${productIdfordet}`)
+      const response = await axios.get(`http://18.209.91.97:7778/api/DimDoor/DoorSideWindowOpens/${productIdfordet}`)
       setSideWindowOpens(Array.isArray(response.data) ? response.data : [])
     } catch (err) {
       console.error('Fetch Side Window Opens Error:', err)
@@ -1112,7 +1112,7 @@ const DimensionsProductDoors = () => {
     }  
     setLoadingSideWindowOpens(true)
     try {
-      await axios.post('https://www.discountdoorandwindow.com/api/DimDoor/DoorSideWindowOpens', {
+      await axios.post('http://18.209.91.97:7778/api/DimDoor/DoorSideWindowOpens', {
         DoorSideWindowOpens: sideWindowOpensValue,
         amount: parseFloat(sideWindowOpensAmount),
         productId: productIdfordet,
@@ -1129,7 +1129,7 @@ const DimensionsProductDoors = () => {
   }
   const handleDeleteSideWindowOpens = async (id) => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/DimDoor/DoorSideWindowOpens/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/DimDoor/DoorSideWindowOpens/${id}`)
       setSideWindowOpens(sideWindowOpens.filter(option => option._id !== id))
     } catch (err) {
       console.error('Delete Side Window Opens Error:', err)

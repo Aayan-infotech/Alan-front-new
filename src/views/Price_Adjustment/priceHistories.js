@@ -20,7 +20,7 @@ const PriceHistories = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://www.discountdoorandwindow.com/api/updatePrices/getAllPriceAdjustments');
+        const response = await axios.get('http://18.209.91.97:7778/api/updatePrices/getAllPriceAdjustments');
         setPriceAdjustments(response.data);
       } catch (err) {
         setError(err.response?.data?.message || 'Error fetching data');

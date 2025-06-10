@@ -17,7 +17,7 @@ const CancelledOrders = () => {
  //fetch all and filter cancelled 
 
   useEffect(() => {
-    axios.get('https://www.discountdoorandwindow.com/api/FnalCustData/getAllCustData')
+    axios.get('http://18.209.91.97:7778/api/FnalCustData/getAllCustData')
       .then(response => {
         const cancelled = response.data.filter(order => order.orderStatus === 'Cancelled');
         setOrders(cancelled);

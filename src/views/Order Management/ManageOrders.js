@@ -16,7 +16,7 @@ const ManageOrders = () => {
   const [showPaymentDetailsModal, setShowPaymentDetailsModal] = useState(false);
 
   useEffect(() => {
-    axios.get('https://www.discountdoorandwindow.com/api/FnalCustData/getAllCustData')
+    axios.get('http://18.209.91.97:7778/api/FnalCustData/getAllCustData')
       .then(response => {
         setOrders(response.data);
       })
@@ -46,7 +46,7 @@ const ManageOrders = () => {
   const handleUpdateOrderStatus = async () => {
     if (!selectedOrder) return;
     try {
-      await axios.put(`https://www.discountdoorandwindow.com/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
+      await axios.put(`http://18.209.91.97:7778/api/FnalCustData/editFinalOrder/${selectedOrder.id}`, {
         orderStatus: selectedOrder.orderStatus,
       });
       setOrders((prevOrders) => prevOrders.map((order) =>
@@ -65,7 +65,7 @@ const ManageOrders = () => {
     }
     try {
       const response = await axios.put(
-        `https://www.discountdoorandwindow.com/api/FnalCustData/editFinalOrder/${selectedOrder.id}`,
+        `http://18.209.91.97:7778/api/FnalCustData/editFinalOrder/${selectedOrder.id}`,
         {
           trackId: selectedOrder.trackId || "",
           trackPartner: selectedOrder.trackPartner || "",

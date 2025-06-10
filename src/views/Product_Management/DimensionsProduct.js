@@ -313,7 +313,7 @@ const DimensionsProduct = () => {
       for (const [section, api] of Object.entries(apiEndpoints)) {
         try {
           // Fetch data for each section
-          const res = await fetch(`https://www.discountdoorandwindow.com/api/dims/type/${section}/ProductID/${Product_id}`);
+          const res = await fetch(`http://18.209.91.97:7778/api/dims/type/${section}/ProductID/${Product_id}`);
 
           // Check if response is ok (status 200-299)
           if (!res.ok) {
@@ -361,7 +361,7 @@ const DimensionsProduct = () => {
     console.log(payload); // Log the payload
 
     try {
-      const res = await fetch(`https://www.discountdoorandwindow.com/api/${apiEndpoints[section]}`, {
+      const res = await fetch(`http://18.209.91.97:7778/api/${apiEndpoints[section]}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -383,7 +383,7 @@ const DimensionsProduct = () => {
 
   const handleDeleteData = async (section, id, index) => {
     try {
-      await fetch(`https://www.discountdoorandwindow.com/api/${apiEndpoints[section]}/${id}`, { method: 'DELETE' });
+      await fetch(`http://18.209.91.97:7778/api/${apiEndpoints[section]}/${id}`, { method: 'DELETE' });
 
       const updatedData = (displayData[section] || []).filter((_, i) => i !== index);
       setDisplayData({ ...displayData, [section]: updatedData });
@@ -401,7 +401,7 @@ const DimensionsProduct = () => {
 
     for (const [section, api] of Object.entries(apiEndpoints)) {
       try {
-        const res = await fetch(`https://www.discountdoorandwindow.com/api/${api}`);
+        const res = await fetch(`http://18.209.91.97:7778/api/${api}`);
         const data = await res.json();
 
         // Special handling for widthHeight   if value is not included

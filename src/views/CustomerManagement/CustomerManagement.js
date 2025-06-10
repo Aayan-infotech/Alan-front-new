@@ -23,7 +23,7 @@ import {
 import { cilPencil, cilInfo, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
-const API_URL = 'https://www.discountdoorandwindow.com/api/CustMng/customers';
+const API_URL = 'http://18.209.91.97:7778/api/CustMng/customers';
 
 const CustomerManagement = () => {
   const [customers, setCustomers] = useState([]);
@@ -82,7 +82,7 @@ const CustomerManagement = () => {
 
   const handleSaveCustomer = async () => {
     try {
-      await axios.put(`https://www.discountdoorandwindow.com/api/CustMng/customers/${currentCustomer.id}`, {
+      await axios.put(`http://18.209.91.97:7778/api/CustMng/customers/${currentCustomer.id}`, {
         name: currentCustomer.name,
         mobile: currentCustomer.mobile,
         state: currentCustomer.state,
@@ -99,7 +99,7 @@ const CustomerManagement = () => {
 
   const confirmDeleteCustomer = async () => {
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/CustMng/delete/${deleteCustomerId}`);
+      await axios.delete(`http://18.209.91.97:7778/api/CustMng/delete/${deleteCustomerId}`);
       fetchCustomers();
       setDeleteCustomerId(null);
     } catch (error) {

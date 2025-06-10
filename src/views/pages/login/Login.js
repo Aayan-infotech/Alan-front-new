@@ -47,7 +47,7 @@ const Login = () => {
   e.preventDefault();
 
   try {    
-    const response = await fetch('https://www.discountdoorandwindow.com/api/auth/login', {
+    const response = await fetch('http://18.209.91.97:7778/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ export default Login;
 
 //     try {
 //       // API call for user authentication
-//       const response = await fetch('https://www.discountdoorandwindow.com/api/AdminUsers');
+//       const response = await fetch('http://18.209.91.97:7778/api/AdminUsers');
       
 //       if (!response.ok) {
 //         throw new Error('Network response was not ok');

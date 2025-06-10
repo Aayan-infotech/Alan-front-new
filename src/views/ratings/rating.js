@@ -55,7 +55,7 @@ const Rating = () => {
       queryFilters.limit = limit
 
       const query = new URLSearchParams(queryFilters).toString()
-      const res = await axios.get(`https://www.discountdoorandwindow.com/api/ratings?${query}`)
+      const res = await axios.get(`http://18.209.91.97:7778/api/ratings?${query}`)
 
       setRatings(res.data.data)
       setTotalPages(res.data.totalPages || 1)
@@ -70,7 +70,7 @@ const Rating = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this rating?')) {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/ratings/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/ratings/${id}`)
       fetchRatings()
     }
   }
@@ -99,7 +99,7 @@ const Rating = () => {
 
       delete payload.adminApproved // Remove the alias before sending
 
-      await axios.put(`https://www.discountdoorandwindow.com/api/ratings/${selectedRating._id}`, payload)
+      await axios.put(`http://18.209.91.97:7778/api/ratings/${selectedRating._id}`, payload)
       setEditModalVisible(false)
       fetchRatings()
     } catch (err) {

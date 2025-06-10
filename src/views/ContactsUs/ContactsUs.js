@@ -32,7 +32,7 @@ const ContactsUs = () => {
   const fetchContacts = async () => {
     try {
       const params = { ...filters, page, limit }
-      const res = await axios.get('https://www.discountdoorandwindow.com/api/contacts', { params })
+      const res = await axios.get('http://18.209.91.97:7778/api/contacts', { params })
       if (res.data.success) {
         setContacts(res.data.data)
         setTotalPages(Math.ceil(res.data.total / limit))
@@ -49,7 +49,7 @@ const ContactsUs = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this contact?')) return
     try {
-      await axios.delete(`https://www.discountdoorandwindow.com/api/contacts/${id}`)
+      await axios.delete(`http://18.209.91.97:7778/api/contacts/${id}`)
       fetchContacts()
     } catch (err) {
       console.error('Failed to delete contact:', err)

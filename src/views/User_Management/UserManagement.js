@@ -23,7 +23,7 @@ import {
 import { cilTrash, cilPencil, cilLockUnlocked, cilLockLocked } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
-const API_URL = 'https://www.discountdoorandwindow.com/api/AdminUsers';
+const API_URL = 'http://18.209.91.97:7778/api/AdminUsers';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);

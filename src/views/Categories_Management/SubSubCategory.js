@@ -23,7 +23,7 @@ const SubSubCategory = () => {
   // Fetch categories when the modal is shown
   const fetchCategories = async () => {
     try {
-      const { data } = await axios.get('https://www.discountdoorandwindow.com/api/categories');
+      const { data } = await axios.get('http://18.209.91.97:7778/api/categories');
       setCategories(data.map((cat) => ({ id: cat._id, name: cat.name })));
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -33,7 +33,7 @@ const SubSubCategory = () => {
   // Fetch Sub-Categories based on the selected category
   const fetchSubCategories = (categoryId) => {
     axios
-      .get(`https://www.discountdoorandwindow.com/api/subcategory?category_id=${categoryId}`)
+      .get(`http://18.209.91.97:7778/api/subcategory?category_id=${categoryId}`)
       .then((response) => {
         setSubCategories(response.data.map((subCat) => ({ id: subCat._id, name: subCat.name })));
       })
@@ -48,7 +48,7 @@ const SubSubCategory = () => {
   }, []);
 
   const fetchAllSubcategoriesData = async () => {
-    axios.get('https://www.discountdoorandwindow.com/api/subSubCategories')
+    axios.get('http://18.209.91.97:7778/api/subSubCategories')
       .then(response => {
         setSubSubCategories(response.data);
       })
@@ -77,7 +77,7 @@ const SubSubCategory = () => {
     formData.append('ins_ip', '127.0.0.1'); 
 
     axios
-      .post('https://www.discountdoorandwindow.com/api/subSubCategories', formData, {
+      .post('http://18.209.91.97:7778/api/subSubCategories', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -118,7 +118,7 @@ const SubSubCategory = () => {
 
     const subSubCategoryId = editSubSubCategory._id;
     if (subSubCategoryId) {
-      axios.put(`https://www.discountdoorandwindow.com/api/subSubCategories/${subSubCategoryId}`, payload)
+      axios.put(`http://18.209.91.97:7778/api/subSubCategories/${subSubCategoryId}`, payload)
         .then(() => {
           setSubSubCategories(subSubCategories.map(subSubCategory =>
             subSubCategory._id === subSubCategoryId
@@ -139,7 +139,7 @@ const SubSubCategory = () => {
   const handleDeleteSubSubCategory = (subSubCategoryToDelete) => {
     const subSubCategoryId = subSubCategoryToDelete._id;
     if (subSubCategoryId) {
-      axios.delete(`https://www.discountdoorandwindow.com/api/subSubCategories/${subSubCategoryId}`)
+      axios.delete(`http://18.209.91.97:7778/api/subSubCategories/${subSubCategoryId}`)
         .then(() => {
           setSubSubCategories(subSubCategories.filter(subSubCategory => subSubCategory._id !== subSubCategoryId));
         })
@@ -157,7 +157,7 @@ const SubSubCategory = () => {
 
     const payload = { status: newStatus };
 
-    axios.put(`https://www.discountdoorandwindow.com/api/subSubCategories/${subSubCategoryId}`, payload)
+    axios.put(`http://18.209.91.97:7778/api/subSubCategories/${subSubCategoryId}`, payload)
       .then(() => {
         setSubSubCategories(subSubCategories.map(subSubCategory =>
           subSubCategory._id === subSubCategoryId

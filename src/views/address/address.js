@@ -46,7 +46,7 @@ const Address = () => {
   const fetchAddresses = async () => {
     setLoading(true)
     try {
-      const res = await axios.get('https://www.discountdoorandwindow.com/api/address')
+      const res = await axios.get('http://18.209.91.97:7778/api/address')
       setAddresses(res.data.data || [])
     } catch (error) {
       console.error(error)
@@ -66,7 +66,7 @@ const Address = () => {
       const payload = { ...form }
       if (payload.id === '') delete payload.id // remove id if empty to create new
 
-      const res = await axios.post('https://www.discountdoorandwindow.com/api/address', payload)
+      const res = await axios.post('http://18.209.91.97:7778/api/address', payload)
       setMessage(res.data.message || 'Success')
       setForm({
         id: '',

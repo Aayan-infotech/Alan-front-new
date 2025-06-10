@@ -21,17 +21,17 @@
 
 //   // Fetch data for categories, subcategories, and subsubcategories
 //   useEffect(() => {
-//     fetch('https://www.discountdoorandwindow.com/api/categories')
+//     fetch('http://18.209.91.97:7778/api/categories')
 //       .then((response) => response.json())
 //       .then((data) => setCategories(data))
 //       .catch((error) => console.error('Error fetching categories:', error));
 
-//     fetch('https://www.discountdoorandwindow.com/api/subcategory')
+//     fetch('http://18.209.91.97:7778/api/subcategory')
 //       .then((response) => response.json())
 //       .then((data) => setSubCategories(data))
 //       .catch((error) => console.error('Error fetching subcategories:', error));
 
-//     fetch('https://www.discountdoorandwindow.com/api/subSubCategories')
+//     fetch('http://18.209.91.97:7778/api/subSubCategories')
 //       .then((response) => response.json())
 //       .then((data) => setSubSubCategories(data))
 //       .catch((error) => console.error('Error fetching subsubcategories:', error));
@@ -42,7 +42,7 @@
 //     const selectedCategory = e.target.value;
 //     setProductData({ ...productData, category: selectedCategory, subCategory: '', subSubCategory: '' });
 
-//     fetch(`https://www.discountdoorandwindow.com/api/subcategory?category=${selectedCategory}`)
+//     fetch(`http://18.209.91.97:7778/api/subcategory?category=${selectedCategory}`)
 //       .then((response) => response.json())
 //       .then((data) => setSubCategories(data))
 //       .catch((error) => console.error('Error fetching subcategories for category:', error));
@@ -53,7 +53,7 @@
 //     const selectedSubCategory = e.target.value;
 //     setProductData({ ...productData, subCategory: selectedSubCategory, subSubCategory: '' });
 
-//     fetch(`https://www.discountdoorandwindow.com/api/subSubCategories?subcategory=${selectedSubCategory}`)
+//     fetch(`http://18.209.91.97:7778/api/subSubCategories?subcategory=${selectedSubCategory}`)
 //       .then((response) => response.json())
 //       .then((data) => setSubSubCategories(data))
 //       .catch((error) => console.error('Error fetching subsubcategories for subcategory:', error));
@@ -88,7 +88,7 @@
 //     formData.append('ins_by', '');
 //     formData.append('productFormulaAdded',productFormulaAdded);
 
-//     fetch('https://www.discountdoorandwindow.com/api/products', {
+//     fetch('http://18.209.91.97:7778/api/products', {
 //       method: 'POST',
 //       body: formData,
 //     })
@@ -317,7 +317,7 @@ const formats = [
 
   // Fetch data for categories, subcategories, and subsubcategories
   useEffect(() => {
-    fetch('https://www.discountdoorandwindow.com/api/categories')
+    fetch('http://18.209.91.97:7778/api/categories')
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error('Error fetching categories:', error))
@@ -336,7 +336,7 @@ const formats = [
     setSubSubCategories([])
 
     if (selectedCategory) {
-      fetch(`https://www.discountdoorandwindow.com/api/subcategory/categoryid/${selectedCategory}`)
+      fetch(`http://18.209.91.97:7778/api/subcategory/categoryid/${selectedCategory}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`)
@@ -361,7 +361,7 @@ const formats = [
     setSubSubCategories([])
 
     if (selectedSubCategory) {
-      fetch(`https://www.discountdoorandwindow.com/api/subSubCategories/subcategoryid/${selectedSubCategory}`)
+      fetch(`http://18.209.91.97:7778/api/subSubCategories/subcategoryid/${selectedSubCategory}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`)
@@ -413,7 +413,7 @@ const formats = [
     formData.append('productFormulaAdded', productFormulaAdded)
     formData.append('productType', productType)
 
-    fetch('https://www.discountdoorandwindow.com/api/products', {
+    fetch('http://18.209.91.97:7778/api/products', {
       method: 'POST',
       body: formData,
     })
