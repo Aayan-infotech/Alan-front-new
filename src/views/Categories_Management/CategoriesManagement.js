@@ -29,6 +29,38 @@ const CategoriesManagement = () => {
     fetchCategories();
   }, []);
 
+const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];
+
+const isDuplicateName = (name) => {
+  const lowerName = name.trim().toLowerCase();
+  return categories.some(cat => cat.name.trim().toLowerCase() === lowerName && (!editCategory || cat._id !== editCategory._id));
+};
+
+const validateForm = () => {
+  if (!categoryName.trim()) {
+    alert('Category Name is required.');
+    return false;
+  }
+
+  if (!editCategory && !categoryImage) {
+    alert('Category Image is required.');
+    return false;
+  }
+
+  if (categoryImage && !allowedImageTypes.includes(categoryImage.type)) {
+    alert('Only JPEG, PNG, GIF, and SVG image formats are allowed.');
+    return false;
+  }
+
+  if (isDuplicateName(categoryName)) {
+    alert('Category name already exists. Please use a different name.');
+    return false;
+  }
+
+  return true;
+};
+
+
   const fetchUserIp = async () => {
     try {
       const response = await axios.get('https://api.ipify.org?format=json');
@@ -57,6 +89,7 @@ const CategoriesManagement = () => {
   // };
 
     const handleAddCategory = async () => {
+       if (!validateForm()) return;
     try {
       const userIp = await fetchUserIp();
       const token = localStorage.getItem('token');
@@ -83,6 +116,7 @@ const CategoriesManagement = () => {
   };
 
   const handleUpdateCategory = async () => {
+     if (!validateForm()) return;
     try {
       const userIp = await fetchUserIp();
       const formData = new FormData();
@@ -225,9 +259,22 @@ const CategoriesManagement = () => {
               className="category-input"
             />
             <CFormLabel>Category Image</CFormLabel>
-            <CFormInput
+            {/* <CFormInput
               type="file"
               onChange={(e) => setCategoryImage(e.target.files[0])}
+            /> */}
+            <CFormInput
+              type="file"
+              accept=".jpg,.jpeg,.png,.gif,.svg"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file && !allowedImageTypes.includes(file.type)) {
+                  alert('Only JPEG, PNG, GIF, and SVG image formats are allowed.');
+                  e.target.value = null;
+                  return;
+                }
+                setCategoryImage(file)
+              }}
             />
             {categoryImage && (
               <div className="image-preview">
