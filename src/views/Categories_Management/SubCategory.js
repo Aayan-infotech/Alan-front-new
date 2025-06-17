@@ -27,7 +27,7 @@ const SubCategory = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:7878/api/categories');
+        const response = await axios.get('http://18.209.91.97:7778/api/categories');
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -41,7 +41,7 @@ const SubCategory = () => {
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:7878/api/subcategory');
+        const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
         setSubCategories(response.data);
       } catch (error) {
         console.error('Error fetching sub-categories:', error);
@@ -97,7 +97,7 @@ const SubCategory = () => {
 
     try {
       setLoading(true);
-      await axios.post('http://localhost:7878/api/subcategory', formData, {
+      await axios.post('http://18.209.91.97:7778/api/subcategory', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -108,7 +108,7 @@ const SubCategory = () => {
       setVisible(false);
       setImagePreview(null);
 
-      const response = await axios.get('http://localhost:7878/api/subcategory');
+      const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
       setSubCategories(response.data);
     } catch (error) {
       console.error('Error adding sub-category:', error);
@@ -133,7 +133,7 @@ const SubCategory = () => {
 
     try {
       setLoading(true);
-      await axios.put(`http://localhost:7878/api/subcategory/${editSubCategory._id}`, formData, {
+      await axios.put(`http://18.209.91.97:7778/api/subcategory/${editSubCategory._id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -145,7 +145,7 @@ const SubCategory = () => {
       setEditSubCategory(null);
       setImagePreview(null);
 
-      const response = await axios.get('http://localhost:7878/api/subcategory');
+      const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
       setSubCategories(response.data);
     } catch (error) {
       console.error('Error updating sub-category:', error);
@@ -158,10 +158,10 @@ const SubCategory = () => {
   // Handle deleting a sub-category
   const handleDeleteSubCategory = async (subCategoryToDelete) => {
     try {
-      await axios.delete(`http://localhost:7878/api/subcategory/${subCategoryToDelete._id}`);
+      await axios.delete(`http://18.209.91.97:7778/api/subcategory/${subCategoryToDelete._id}`);
 
       // Fetch updated sub-categories after successful deletion
-      const response = await axios.get('http://localhost:7878/api/subcategory');
+      const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
       setSubCategories(response.data);
     } catch (error) {
       console.error('Error deleting sub-category:', error);
@@ -176,10 +176,10 @@ const SubCategory = () => {
         status: subCategory.status === 1 ? 0 : 1
       };
 
-      await axios.put(`http://localhost:7878/api/subcategory/${subCategory._id}`, updatedSubCategory);
+      await axios.put(`http://18.209.91.97:7778/api/subcategory/${subCategory._id}`, updatedSubCategory);
 
       // Fetch updated sub-categories after status change
-      const response = await axios.get('http://localhost:7878/api/subcategory');
+      const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
       setSubCategories(response.data);
     } catch (error) {
       console.error('Error toggling status:', error);
