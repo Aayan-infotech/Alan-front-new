@@ -8,6 +8,7 @@ import {
 import { faEdit, faTrash, faPlus, faLock, faUnlock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './CategoriesManagement.css';
+import { useRef } from 'react';
 
 const SubCategory = () => {
   const [subCategories, setSubCategories] = useState([]);
@@ -17,12 +18,16 @@ const SubCategory = () => {
   const [visible, setVisible] = useState(false);
   const [editSubCategory, setEditSubCategory] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
+  const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];
+  const fileInputRef = useRef(null);
 
   // Fetch categories from API when the component is mounted
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://18.209.91.97:7778/api/categories');
+        const response = await axios.get('http://localhost:7878/api/categories');
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -36,7 +41,7 @@ const SubCategory = () => {
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
-        const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
+        const response = await axios.get('http://localhost:7878/api/subcategory');
         setSubCategories(response.data);
       } catch (error) {
         console.error('Error fetching sub-categories:', error);
@@ -46,76 +51,117 @@ const SubCategory = () => {
     fetchSubCategories();
   }, []);
 
+  const resetForm = () => {
+  setSubCategoryName('');
+  setSelectedCategory('');
+  setSelectedImage(null);
+  setImagePreview(null);
+  setEditSubCategory(null);
+
+  if (fileInputRef.current) {
+    fileInputRef.current.value = ''; // resets file input
+  }
+};
+
+  // Validation Function
+  const validateForm = () => {
+    if (!subCategoryName || !selectedCategory) {
+      alert('Please enter sub-category name and select a category.');
+      return false;
+    }
+
+    if (!editSubCategory && !selectedImage) {
+      alert('Please select an image.');
+      return false;
+    }
+
+    if (selectedImage && !allowedImageTypes.includes(selectedImage.type)) {
+      alert('Only JPEG, PNG, GIF, and SVG image formats are allowed.');
+      return false;
+    }
+
+    return true;
+  };
+
   // Handle adding new sub-category
   const handleAddSubCategory = async () => {
-    if (subCategoryName && selectedCategory && selectedImage) {
-      const formData = new FormData();
-      formData.append('name', subCategoryName);
-      formData.append('category_id', selectedCategory);
-      formData.append('images', selectedImage);
-      formData.append('status', '1');
-      formData.append('ins_date', new Date().toISOString());
-      formData.append('ins_ip', '127.0.0.1');
+    if (!validateForm()) return;
 
-      try {
-        await axios.post('http://18.209.91.97:7778/api/subcategory', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+    const formData = new FormData();
+    formData.append('name', subCategoryName);
+    formData.append('category_id', selectedCategory);
+    formData.append('images', selectedImage);
+    formData.append('status', '1');
+    formData.append('ins_date', new Date().toISOString());
+    formData.append('ins_ip', '127.0.0.1');
 
-        setSubCategoryName('');
-        setSelectedCategory('');
-        setSelectedImage(null);
-        setVisible(false);
+    try {
+      setLoading(true);
+      await axios.post('http://localhost:7878/api/subcategory', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
 
-        // Fetch updated sub-categories
-        const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
-        setSubCategories(response.data);
-      } catch (error) {
-        console.error('Error adding sub-category:', error);
-      }
+      setSubCategoryName('');
+      setSelectedCategory('');
+      setSelectedImage(null);
+      resetForm();
+      setVisible(false);
+      setImagePreview(null);
+
+      const response = await axios.get('http://localhost:7878/api/subcategory');
+      setSubCategories(response.data);
+    } catch (error) {
+      console.error('Error adding sub-category:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   // Handle updating existing sub-category
   const handleUpdateSubCategory = async () => {
-    if (editSubCategory) {
-      const formData = new FormData();
-      formData.append('name', subCategoryName);
-      formData.append('category_id', selectedCategory);
-      if (selectedImage instanceof File) {
-        formData.append('images', selectedImage);
-      }
-      formData.append('status', '1');
-      formData.append('ins_date', new Date().toISOString());
-      formData.append('ins_ip', '127.0.0.1');
+    if (!validateForm()) return;
 
-      try {
-        await axios.put(`http://18.209.91.97:7778/api/subcategory/${editSubCategory._id}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+    const formData = new FormData();
+    formData.append('name', subCategoryName);
+    formData.append('category_id', selectedCategory);
+    if (selectedImage instanceof File) {
+      formData.append('images', selectedImage);
+    }
+    formData.append('status', '1');
+    formData.append('ins_date', new Date().toISOString());
+    formData.append('ins_ip', '127.0.0.1');
 
-        setSubCategoryName('');
-        setSelectedCategory('');
-        setSelectedImage(null);
-        setVisible(false);
-        setEditSubCategory(null);
+    try {
+      setLoading(true);
+      await axios.put(`http://localhost:7878/api/subcategory/${editSubCategory._id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
 
-        // Fetch updated sub-categories
-        const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
-        setSubCategories(response.data);
-      } catch (error) {
-        console.error('Error updating sub-category:', error);
-      }
+      setSubCategoryName('');
+      setSelectedCategory('');
+      setSelectedImage(null);
+      resetForm();
+      setVisible(false);
+      setEditSubCategory(null);
+      setImagePreview(null);
+
+      const response = await axios.get('http://localhost:7878/api/subcategory');
+      setSubCategories(response.data);
+    } catch (error) {
+      console.error('Error updating sub-category:', error);
+    } finally {
+      setLoading(false);
     }
   };
+
 
   // Handle deleting a sub-category
   const handleDeleteSubCategory = async (subCategoryToDelete) => {
     try {
-      await axios.delete(`http://18.209.91.97:7778/api/subcategory/${subCategoryToDelete._id}`);
+      await axios.delete(`http://localhost:7878/api/subcategory/${subCategoryToDelete._id}`);
 
       // Fetch updated sub-categories after successful deletion
-      const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
+      const response = await axios.get('http://localhost:7878/api/subcategory');
       setSubCategories(response.data);
     } catch (error) {
       console.error('Error deleting sub-category:', error);
@@ -130,10 +176,10 @@ const SubCategory = () => {
         status: subCategory.status === 1 ? 0 : 1
       };
 
-      await axios.put(`http://18.209.91.97:7778/api/subcategory/${subCategory._id}`, updatedSubCategory);
+      await axios.put(`http://localhost:7878/api/subcategory/${subCategory._id}`, updatedSubCategory);
 
       // Fetch updated sub-categories after status change
-      const response = await axios.get('http://18.209.91.97:7778/api/subcategory');
+      const response = await axios.get('http://localhost:7878/api/subcategory');
       setSubCategories(response.data);
     } catch (error) {
       console.error('Error toggling status:', error);
@@ -145,6 +191,7 @@ const SubCategory = () => {
     const file = e.target.files[0];
     if (file) {
       setSelectedImage(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -214,6 +261,8 @@ const SubCategory = () => {
                           setEditSubCategory(subCategory);
                           setSubCategoryName(subCategory.name);
                           setSelectedCategory(subCategory.category_id);
+                          setImagePreview(subCategory.images && subCategory.images[0]); 
+
                         }}
                         style={{ cursor: 'pointer', margin: '0 8px' }}
                       />
@@ -231,7 +280,8 @@ const SubCategory = () => {
         </CCardBody>
       </CCard>
 
-      <CModal visible={visible} onClose={() => setVisible(false)}>
+        <CModal visible={visible} onClose={() => { resetForm(); setVisible(false); }}>
+
         <CModalHeader>
           <CModalTitle>{editSubCategory ? 'Edit' : 'Add'} Sub-Category</CModalTitle>
         </CModalHeader>
@@ -268,6 +318,16 @@ const SubCategory = () => {
               accept="image/*"
             />
           </CForm>
+          {imagePreview && (
+            <div className="my-2">
+              <img
+                src={imagePreview}
+                alt="Preview"
+                style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #ccc' }}
+              />
+            </div>
+          )}
+
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={() => setVisible(false)}>
@@ -276,8 +336,9 @@ const SubCategory = () => {
           <CButton
             color="primary"
             onClick={editSubCategory ? handleUpdateSubCategory : handleAddSubCategory}
+            disabled={loading}
           >
-            {editSubCategory ? 'Update' : 'Add'} Sub-Category
+            {loading ? 'Please wait...' : editSubCategory ? 'Update' : 'Add'} Sub-Category
           </CButton>
         </CModalFooter>
       </CModal>
