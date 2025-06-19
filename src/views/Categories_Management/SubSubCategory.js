@@ -19,6 +19,31 @@ const SubSubCategory = () => {
   const [images, setImage] = useState(null);
   const [visible, setVisible] = useState(false);
   const [editSubSubCategory, setEditSubSubCategory] = useState(null);
+  const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml',];
+  const [isSubmitting, setIsSubmitting] = useState(false);      // NEW
+  const [preview, setPreview] = useState(null);
+
+  //VALIDATION 
+  const validateForm = () => {
+    if (!category || !subCategory) {
+      alert('Please select a category and sub‑category.');
+      return false;
+    }
+    if (!subSubCategoryName.trim()) {
+      alert('Please enter a sub‑sub‑category name.');
+      return false;
+    }
+    if (!images) {
+      alert('Please select an image.');
+      return false;
+    }
+    if (!allowedImageTypes.includes(images.type)) {
+      alert('Only JPEG, PNG, GIF, and SVG formats are allowed.');
+      return false;
+    }
+    return true;
+  };
+
 
   // Fetch categories when the modal is shown
   const fetchCategories = async () => {
@@ -58,6 +83,8 @@ const SubSubCategory = () => {
   }
 
   const handleAddSubSubCategory = () => {
+    if (!validateForm()) return;
+    setIsSubmitting(true);
     const selectedCategory = categories.find((cat) => cat.name === category);
     const selectedSubCategory = subCategories.find((subCat) => subCat.name === subCategory);
 
@@ -68,13 +95,13 @@ const SubSubCategory = () => {
 
     const formData = new FormData();
 
-    formData.append('images', images); 
+    formData.append('images', images);
     formData.append('category_id', selectedCategory.id);
     formData.append('sub_category_id', selectedSubCategory.id);
-    formData.append('name', subSubCategoryName); 
-    formData.append('status', 1); 
-    formData.append('ins_date', new Date().toISOString()); 
-    formData.append('ins_ip', '127.0.0.1'); 
+    formData.append('name', subSubCategoryName);
+    formData.append('status', 1);
+    formData.append('ins_date', new Date().toISOString());
+    formData.append('ins_ip', '127.0.0.1');
 
     axios
       .post('https://www.discountdoorandwindow.com/api/subSubCategories', formData, {
@@ -87,52 +114,96 @@ const SubSubCategory = () => {
         setVisible(false);
         resetForm();
       })
-      .catch((error) => {
-        console.error('Error adding sub-sub-category:', error);
-      });
+      .catch((error) => { console.error('Error adding sub-sub-category:', error); })
+      .finally(() => { setIsSubmitting(false); resetForm(); });
   };
 
-  const handleEditSubSubCategory = (subSubCategory) => {
+  const handleEditSubSubCategory = async (subSubCategory) => {
     setEditSubSubCategory(subSubCategory);
-    setCategory(subSubCategory.category); // Set selected category
-    setSubCategory(subSubCategory.subCategory); // Set selected subcategory
-    setSubSubCategoryName(subSubCategory.name); 
-    setImage(subSubCategory.images);
+
+    // Step 1: Set category and fetch sub-categories
+    setCategory(subSubCategory.category); // Or use ID if needed
+
+    await fetchSubCategories(subSubCategory.category); // fetch by category ID
+
+    // Step 2: Set sub-category after sub-categories are fetched
+    setSubCategory(subSubCategory.sub_category_name); // Use name if you're comparing by name
+
+    // Step 3: Set remaining fields
+    setSubSubCategoryName(subSubCategory.name);
+    setCategory(subSubCategory.category_name);
+    setPreview(subSubCategory.images)
+    setImage(null);
+    setPreview(subSubCategory.images || null);
     setVisible(true);
 
-    // Fetch categories and subcategories when edit modal opens
+    // Fetch categories too (optional if already fetched globally)
     fetchCategories();
   };
 
-  const handleUpdateSubSubCategory = () => {
-    const payload = {
-      images,
-      category_id: categories.find((cat) => cat.name === category)?.id,
-      sub_category_id: subCategories.find((subCat) => subCat.name === subCategory)?.id,
-      name: subSubCategoryName,
-      status: editSubSubCategory.status,
-      ins_date: editSubSubCategory.ins_date,
-      ins_ip: "127.0.0.1",
-      ins_by: null,
-    };
+  const handleUpdateSubSubCategory = async () => {
+    
+    setIsSubmitting(true);
+
+    const selectedCategory = categories.find((cat) => cat.name === category);
+    const selectedSubCategory = subCategories.find((subCat) => subCat.name === subCategory);
+
+    if (!selectedCategory || !selectedSubCategory) {
+      alert('Please select valid category and sub-category');
+      setIsSubmitting(false);
+      return;
+    }
 
     const subSubCategoryId = editSubSubCategory._id;
-    if (subSubCategoryId) {
-      axios.put(`https://www.discountdoorandwindow.com/api/subSubCategories/${subSubCategoryId}`, payload)
-        .then(() => {
-          setSubSubCategories(subSubCategories.map(subSubCategory =>
-            subSubCategory._id === subSubCategoryId
-              ? { ...subSubCategory, ...payload }
-              : subSubCategory
-          ));
-          setVisible(false);
-          resetForm();
-        })
-        .catch(error => {
-          console.error('Error updating sub-sub-category:', error);
-        });
-    } else {
+    if (!subSubCategoryId) {
       console.error('Invalid ID for update:', editSubSubCategory);
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Fetch user IP (default to 0.0.0.0 if fails)
+    let userIp = '0.0.0.0';
+    try {
+      const response = await axios.get('https://api.ipify.org?format=json');
+      userIp = response.data.ip || '0.0.0.0';
+    } catch (error) {
+      console.warn('Could not fetch IP, using default 0.0.0.0');
+    }
+
+    const formData = new FormData();
+    formData.append('name', subSubCategoryName);
+    formData.append('category_id', selectedCategory.id);
+    formData.append('sub_category_id', selectedSubCategory.id);
+    formData.append('status', editSubSubCategory.status || 1);
+    formData.append('update_by', '60f6a1df1a2b3c001f0b1e90'); 
+    formData.append('update_ip', userIp);
+
+    if (images) {
+      formData.append('images', images);
+    }
+
+    try {
+      const response = await axios.put(
+        `https://www.discountdoorandwindow.com/api/subSubCategories/${subSubCategoryId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      const updated = response.data.data;
+      setSubSubCategories(subSubCategories.map((item) =>
+        item._id === subSubCategoryId ? updated : item
+      ));
+      await fetchAllSubcategoriesData()
+      setVisible(false);
+      resetForm();
+    } catch (error) {
+      console.error('Error updating sub-sub-category:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -172,9 +243,12 @@ const SubSubCategory = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setImage(file);
+    if (file && !allowedImageTypes.includes(file.type)) {
+      alert('Only JPEG, PNG, GIF, and SVG formats are allowed.');
+      return;
     }
+    setImage(file);
+    setPreview(file ? URL.createObjectURL(file) : null);
   };
 
   // Reset form state for the modal
@@ -185,6 +259,7 @@ const SubSubCategory = () => {
     setImage(null);
     setEditSubSubCategory(null);
     setSubCategories([]);
+    setPreview(null);
   };
 
   return (
@@ -305,13 +380,26 @@ const SubSubCategory = () => {
             />
 
             <CFormLabel>Image</CFormLabel>
-            <CFormInput type="file" onChange={handleImageChange} />
+            <CFormInput
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/gif,image/svg+xml"   // NEW
+              onChange={handleImageChange}
+            />
+            {preview && (                                               /* NEW – live preview */
+              <div className="mt-2">
+                <img src={preview} alt="preview" width="100" height="100" style={{ objectFit: 'cover' }} />
+              </div>
+            )}
           </CForm>
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={() => { setVisible(false); resetForm(); }}>Cancel</CButton>
-          <CButton color="primary" onClick={editSubSubCategory ? handleUpdateSubSubCategory : handleAddSubSubCategory}>
-            {editSubSubCategory ? 'Update' : 'Add'}
+          <CButton
+            color="primary"
+            disabled={isSubmitting}                                     // NEW
+            onClick={editSubSubCategory ? handleUpdateSubSubCategory : handleAddSubSubCategory}
+          >
+            {isSubmitting ? 'Please wait…' : editSubSubCategory ? 'Update' : 'Add'}
           </CButton>
         </CModalFooter>
       </CModal>

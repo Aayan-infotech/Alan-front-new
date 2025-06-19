@@ -15,6 +15,8 @@ const CategoriesManagement = () => {
   const [categoryImage, setCategoryImage] = useState(null);
   const [visible, setVisible] = useState(false);
   const [editCategory, setEditCategory] = useState(null);
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -28,6 +30,37 @@ const CategoriesManagement = () => {
 
     fetchCategories();
   }, []);
+
+  const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];
+
+  const isDuplicateName = (name) => {
+    const lowerName = name.trim().toLowerCase();
+    return categories.some(cat => cat.name.trim().toLowerCase() === lowerName && (!editCategory || cat._id !== editCategory._id));
+  };
+
+  const validateForm = () => {
+    if (!categoryName.trim()) {
+      alert('Category Name is required.');
+      return false;
+    }
+
+    if (!editCategory && !categoryImage) {
+      alert('Category Image is required.');
+      return false;
+    }
+
+    if (categoryImage && !allowedImageTypes.includes(categoryImage.type)) {
+      alert('Only JPEG, PNG, GIF, and SVG image formats are allowed.');
+      return false;
+    }
+
+    if (isDuplicateName(categoryName)) {
+      alert('Category name already exists. Please use a different name.');
+      return false;
+    }
+
+    return true;
+  };
 
   const fetchUserIp = async () => {
     try {
@@ -56,7 +89,9 @@ const CategoriesManagement = () => {
   //   }
   // };
 
-    const handleAddCategory = async () => {
+  const handleAddCategory = async () => {
+    if (!validateForm()) return;
+    setLoading(true);
     try {
       const userIp = await fetchUserIp();
       const token = localStorage.getItem('token');
@@ -67,14 +102,14 @@ const CategoriesManagement = () => {
       formData.append('status', 1);
 
       const response = await axios.post(
-      'https://www.discountdoorandwindow.com/api/categories',
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-        },
-      }
-    );
+        'https://www.discountdoorandwindow.com/api/categories',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setCategories([...categories, response.data.newCategory]);
       resetForm();
     } catch (error) {
@@ -83,6 +118,8 @@ const CategoriesManagement = () => {
   };
 
   const handleUpdateCategory = async () => {
+    if (!validateForm()) return;
+    setLoading(true);
     try {
       const userIp = await fetchUserIp();
       const formData = new FormData();
@@ -104,9 +141,11 @@ const CategoriesManagement = () => {
     setCategoryName('');
     setCategoryImage(null);
     setVisible(false);
+    setLoading(false);
   };
 
   const handleEditCategory = (category) => {
+    setLoading(false);
     setEditCategory(category);
     setCategoryName(category.name);
     setCategoryImage(null);
@@ -128,7 +167,7 @@ const CategoriesManagement = () => {
       const response = await axios.put(`https://www.discountdoorandwindow.com/api/categories/updateStatus/${category._id}`, {
         status: updatedStatus,
       });
-  
+
       if (response.data && response.data.category) { // Ensure the response is valid
         setCategories(prevCategories =>
           prevCategories.map(c =>
@@ -142,7 +181,6 @@ const CategoriesManagement = () => {
       console.error('Error toggling category status:', error);
     }
   };
-  
 
   return (
     <>
@@ -225,15 +263,32 @@ const CategoriesManagement = () => {
               className="category-input"
             />
             <CFormLabel>Category Image</CFormLabel>
-            <CFormInput
+            {/* <CFormInput
               type="file"
               onChange={(e) => setCategoryImage(e.target.files[0])}
+            /> */}
+            <CFormInput
+              type="file"
+              accept=".jpg,.jpeg,.png,.gif,.svg"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file && !allowedImageTypes.includes(file.type)) {
+                  alert('Only JPEG, PNG, GIF, and SVG image formats are allowed.');
+                  e.target.value = null;
+                  return;
+                }
+                setCategoryImage(file)
+              }}
             />
-            {categoryImage && (
+            {categoryImage ? (
               <div className="image-preview">
                 <img src={URL.createObjectURL(categoryImage)} alt="Preview" style={{ width: '100px', height: '100px' }} />
               </div>
-            )}
+            ) : editCategory && editCategory.images && editCategory.images.length > 0 ? (
+              <div className="image-preview">
+                <img src={editCategory.images[0]} alt="Preview" style={{ width: '100px', height: '100px' }} />
+              </div>
+            ) : null}
           </CForm>
         </CModalBody>
         <CModalFooter>
@@ -241,8 +296,9 @@ const CategoriesManagement = () => {
           <CButton
             color="primary"
             onClick={editCategory ? handleUpdateCategory : handleAddCategory}
+            disabled={loading}
           >
-            {editCategory ? 'Save Changes' : 'Add Category'}
+            {loading ? 'Please wait...' : (editCategory ? 'Save Changes' : 'Add Category')}
           </CButton>
         </CModalFooter>
       </CModal>
