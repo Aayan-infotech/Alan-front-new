@@ -208,7 +208,7 @@ const SubSubCategory = () => {
                 <CTableHeaderCell>Sub-Category</CTableHeaderCell>
                 <CTableHeaderCell>Sub-Sub-Category</CTableHeaderCell>
                 <CTableHeaderCell>Image</CTableHeaderCell>
-                <CTableHeaderCell>Status</CTableHeaderCell>
+                <CTableHeaderCell>Status</CTableHeaderCell> 
                 <CTableHeaderCell>Actions</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
