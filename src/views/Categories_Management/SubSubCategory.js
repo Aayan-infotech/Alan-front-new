@@ -101,7 +101,7 @@ const SubSubCategory = () => {
     setVisible(true);
 
     // Fetch categories and subcategories when edit modal opens
-    fetchCategories();
+    fetchCategories();  
   };
 
   const handleUpdateSubSubCategory = () => {
