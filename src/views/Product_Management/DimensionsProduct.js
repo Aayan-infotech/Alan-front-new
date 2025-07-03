@@ -150,109 +150,125 @@ const DimensionFormSection = ({
   handleDeleteData,
   addSuccessMessage,
   formData,
-}) => (
-  <CCard className="mb-4 shadow-sm custom-card">
-    <CCardHeader className="custom-card-header">
-      <h5 className="text-primary">Add {sectionName}</h5>
-    </CCardHeader>
-    <CCardBody>
-      <CForm>
-        <CFormLabel className="custom-label">{sectionName}</CFormLabel>
-        <CFormInput
-          type="text"
-          onChange={(e) => handleInputChange(e, sectionName)}
-          value={formData[sectionName] || ''}
-          placeholder={`Enter ${sectionName}`}
-          className="custom-input"
-        />
+}) => {
+  // Function to format section names for display
+  const formatSectionName = (name) => {
+    if (name === 'widthHeight') return 'Width X Height Y';
+    return name;
+  };
 
-        {/* Show Amount for widthHeight only */}
-        {sectionName === 'widthHeight' && (
-          <>
-            <CFormLabel className="custom-label">Amount</CFormLabel>
-            <CFormInput
-              type="number"
-              onChange={(e) => handleInputChange(e, 'amount')}
-              value={formData.amount || ''}
-              className="custom-input"
-            />
-          </>
-        )}
+  // Format value for display (replace * with X for widthHeight)
+  const formatValue = (value) => {
+    if (sectionName === 'widthHeight' && value) {
+      return value.split('*').join(' X ');
+    }
+    return value;
+  };
 
-        {/* Show Entry % for other sections */}
-        {sectionName !== 'widthHeight' && (
-          <>
-            <CFormLabel className="custom-label">Entry %</CFormLabel>
-            <CFormInput
-              type="number"
-              onChange={(e) => handleInputChange(e, `${sectionName}Percentage`)}
-              value={formData[`${sectionName}Percentage`] || ''}
-              className="custom-input"
-            />
-          </>
-        )}
+  return (
+    <CCard className="mb-4 shadow-sm custom-card">
+      <CCardHeader className="custom-card-header">
+        <h5 className="text-primary">Add {formatSectionName(sectionName)}</h5>
+      </CCardHeader>
+      <CCardBody>
+        <CForm>
+          <CFormLabel className="custom-label">{formatSectionName(sectionName)}</CFormLabel>
+          <CFormInput
+            type="text"
+            onChange={(e) => handleInputChange(e, sectionName)}
+            value={formData[sectionName] || ''}
+            placeholder={`Enter ${formatSectionName(sectionName)}`}
+            className="custom-input"
+          />
 
-        <div className="text-center">
-          <CButton
-            color="primary"
-            className="btn-add mt-3"
-            onClick={() => handleAddData(sectionName)}
-            disabled={
-              !formData[sectionName] ||
-              (sectionName !== 'widthHeight' && !formData[`${sectionName}Percentage`]) ||
-              (sectionName === 'widthHeight' && !formData.amount)
-            }
-          >
-            <FontAwesomeIcon icon={faPlus} className="mr-2" /> Add
-          </CButton>
-        </div>
-
-        {addSuccessMessage && (
-          <div className="mt-3 text-center text-success">
-            <FontAwesomeIcon icon={faCheckCircle} className="mr-2" /> Data added successfully!
-          </div>
-        )}
-
-        <div className="mt-4">
-          {displayData.length === 0 ? (
-            <p className="text-muted text-center">No data added yet.</p>
-          ) : (
-            displayData.map((data, index) => (
-              <CRow key={index} className="align-items-center custom-row">
-                <CCol>
-                  {sectionName === 'widthHeight' ? (
-                    <>
-                      <strong>{data.widthHeight}</strong> -{' '}
-                      {data.value === null || data.value === '' ? (
-                        <span><strong>Amount:</strong> {data.amount}</span>
-                      ) : (
-                        <span><strong>Value:</strong> {data.value}</span>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {data[sectionName]} - {data.value}
-                    </>
-                  )}
-                </CCol>
-                <CCol />
-                <CCol>
-                  <CButton
-                    color="danger"
-                    className="btn-delete"
-                    onClick={() => handleDeleteData(sectionName, data._id, index)}
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </CButton>
-                </CCol>
-              </CRow>
-            ))
+          {/* Show Amount for widthHeight only */}
+          {sectionName === 'widthHeight' && (
+            <>
+              <CFormLabel className="custom-label">Amount</CFormLabel>
+              <CFormInput
+                type="number"
+                onChange={(e) => handleInputChange(e, 'amount')}
+                value={formData.amount || ''}
+                className="custom-input"
+              />
+            </>
           )}
-        </div>
-      </CForm>
-    </CCardBody>
-  </CCard>
-);
+
+          {/* Show Entry % for other sections */}
+          {sectionName !== 'widthHeight' && (
+            <>
+              <CFormLabel className="custom-label">Entry %</CFormLabel>
+              <CFormInput
+                type="number"
+                onChange={(e) => handleInputChange(e, `${sectionName}Percentage`)}
+                value={formData[`${sectionName}Percentage`] || ''}
+                className="custom-input"
+              />
+            </>
+          )}
+
+          <div className="text-center">
+            <CButton
+              color="primary"
+              className="btn-add mt-3"
+              onClick={() => handleAddData(sectionName)}
+              disabled={
+                !formData[sectionName] ||
+                (sectionName !== 'widthHeight' && !formData[`${sectionName}Percentage`]) ||
+                (sectionName === 'widthHeight' && !formData.amount)
+              }
+            >
+              <FontAwesomeIcon icon={faPlus} className="mr-2" /> Add
+            </CButton>
+          </div>
+
+          {addSuccessMessage && (
+            <div className="mt-3 text-center text-success">
+              <FontAwesomeIcon icon={faCheckCircle} className="mr-2" /> Data added successfully!
+            </div>
+          )}
+
+          <div className="mt-4">
+            {displayData.length === 0 ? (
+              <p className="text-muted text-center">No data added yet.</p>
+            ) : (
+              displayData.map((data, index) => (
+                <CRow key={index} className="align-items-center custom-row">
+                  <CCol>
+                    {sectionName === 'widthHeight' ? (
+                      <>
+                        <strong>{formatValue(data.widthHeight)}</strong> -{' '}
+                        {data.value === null || data.value === '' ? (
+                          <span><strong>Amount:</strong> {data.amount}</span>
+                        ) : (
+                          <span><strong>Value:</strong> {data.value}</span>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {data[sectionName]} - {data.value}
+                      </>
+                    )}
+                  </CCol>
+                  <CCol />
+                  <CCol>
+                    <CButton
+                      color="danger"
+                      className="btn-delete"
+                      onClick={() => handleDeleteData(sectionName, data._id, index)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </CButton>
+                  </CCol>
+                </CRow>
+              ))
+            )}
+          </div>
+        </CForm>
+      </CCardBody>
+    </CCard>
+  );
+};
 
 
 const DimensionsProduct = () => {
