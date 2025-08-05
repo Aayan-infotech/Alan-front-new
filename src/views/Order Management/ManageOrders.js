@@ -364,31 +364,82 @@ const ManageOrders = () => {
               <CButton color="success" onClick={handleTrackInfoSubmit}>Submit Tracking Info</CButton>
             </div>
 
-            <div className="form-group mt-3">
-              <label>Billing Address</label>
-              <div className="card">
-                <div className="card-body">
-                  <ul className="list-unstyled">
-                    <li><strong>Name:</strong> {selectedOrder.customerName}</li>
-                    <li><strong>Email:</strong> {selectedOrder.customerEmail}</li>
-                    <li><strong>Mobile:</strong> {selectedOrder.customerMobile}</li>
-                    <li><strong>Address:</strong> {selectedOrder.customerAddress}</li>
-                    <li><strong>State:</strong> {selectedOrder.customerState}</li>
-                    <li><strong>Zip Code:</strong> {selectedOrder.customerZipCode}</li>
-                    <li><strong>Country:</strong> {selectedOrder.customerCountry}</li>
-                  </ul>
+            <div className="row align-items-stretch justify-content-between">
+              <div className="col-md-6 d-flex">
+                <div className="form-group mt-3 w-100">
+                  <label>Billing Address</label>
+                  <div className="card h-100">
+                    <div className="card-body">
+                      <ul className="list-unstyled">
+                        <li>
+                          <strong>Name:</strong> {selectedOrder.customerName}
+                        </li>
+                        <li>
+                          <strong>Email:</strong> {selectedOrder.customerEmail}
+                        </li>
+                        <li>
+                          <strong>Mobile:</strong> {selectedOrder.customerMobile}
+                        </li>
+                        <li>
+                          <strong>Address:</strong> {selectedOrder.customerAddress}
+                        </li>
+                        <li>
+                          <strong>State:</strong> {selectedOrder.customerState}
+                        </li>
+                        <li>
+                          <strong>Zip Code:</strong> {selectedOrder.customerZipCode}
+                        </li>
+                        <li>
+                          <strong>Country:</strong> {selectedOrder.customerCountry}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="form-group mt-3">
-              <label>Shipping Details</label>
-              <CFormTextarea rows={6} readOnly
-                value={
-                  `Window Pick Up\n - Green World Windows and Doors\n - 3810 Wabash Drive\n - Mira Loma, CA 91752\n\n` +
-                  `Door Pickup\n - A.A.W. Doors\n - 13900 S Broadway\n - Los Angeles, CA 90061\n\n` +
-                  `Both Door and Window Pick Up\n - Discount Door and Window\n - 5450 Complex St.\n - Unit 301\n - San Diego, CA 92123`
-                }
-              />
+ 
+              <div className="col-md-6 d-flex">
+                <div className="form-group mt-3 w-100">
+                  <label>Shipping Details</label>
+                  <div className="card h-100">
+                    <div className="card-body">
+                      <ul className="list-unstyled">
+                        <li>
+                          <strong>Address:</strong>{' '}
+                          {selectedOrder.shippingAddress
+                            ? `${selectedOrder.shippingAddress.locality}, ${selectedOrder.shippingAddress.city}`
+                            : selectedOrder.customerAddress}
+                        </li>
+                        <li>
+                          <strong>State:</strong>{' '}
+                          {selectedOrder.shippingAddress
+                            ? selectedOrder.shippingAddress.state
+                            : selectedOrder.customerState}
+                        </li>
+                        <li>
+                          <strong>Zip Code:</strong>{' '}
+                          {selectedOrder.shippingAddress
+                            ? selectedOrder.shippingAddress.zip
+                            : selectedOrder.customerZipCode}
+                        </li>
+                        <li>
+                          <strong>Country:</strong>{' '}
+                          {selectedOrder.shippingAddress
+                            ? selectedOrder.shippingAddress.country
+                            : selectedOrder.customerCountry}
+                        </li>
+                        {
+                          selectedOrder.shippingAddress&&<li>
+                          <strong>Contact No:</strong>{' '}
+                          {selectedOrder.shippingAddress.phone}
+                        </li>
+                        }
+                       
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </CModalBody>
           <CModalFooter>

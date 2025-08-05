@@ -743,25 +743,42 @@ const ManageProduct = () => {
     setEditProductData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleEditProductSubmit = () => {
-    const payload = {
-      ...editProductData,
-      Description: editProductData.description,
-    }
-    delete payload.description
+ const handleEditProductSubmit = () => {
+  const formData = new FormData();
 
-    axios
-      .put(`https://www.discountdoorandwindow.com/api/products/${editProductData._id}`, payload)
-      .then(() => {
-        alert('Product updated successfully')
-        setShowEditModal(false)
-        axios
-          .get('https://www.discountdoorandwindow.com/api/products')
-          .then((response) => setData(response.data))
-          .catch((error) => console.error('Error refetching products:', error))
-      })
-      .catch((error) => console.error('Error updating product:', error))
+  formData.append('name', editProductData.name);
+  formData.append('Description', editProductData.description); // send as 'Description'
+  formData.append('price', editProductData.price);
+  formData.append('productFormulaAdded', editProductData.productFormulaAdded);
+  formData.append('category_name', editProductData.category_name);
+  formData.append('sub_category_name', editProductData.sub_category_name);
+  formData.append('sub_sub_category_name', editProductData.sub_sub_category_name);
+  formData.append('status', editProductData.status);
+
+  // Append image(s)
+  if (editProductData.images && editProductData.images.length > 0) {
+    for (let i = 0; i < editProductData.images.length; i++) {
+      formData.append('images', editProductData.images[i]);
+    }
   }
+
+  axios
+    .put(`https://www.discountdoorandwindow.com/api/products/${editProductData._id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then(() => {
+      alert('Product updated successfully');
+      setShowEditModal(false);
+      axios
+        .get('https://www.discountdoorandwindow.com/api/products')
+        .then((response) => setData(response.data))
+        .catch((error) => console.error('Error refetching products:', error));
+    })
+    .catch((error) => console.error('Error updating product:', error));
+};
+
 
   // const handleDeleteProduct = (productId) => {
   //   axios
@@ -1194,6 +1211,19 @@ const ManageProduct = () => {
               value={editProductData.price}
               onChange={handleEditFormChange}
             />
+            <label>Product Images</label>
+            <input
+              type="file"
+              name="images"
+              multiple
+              onChange={(e) =>
+                setEditProductData((prev) => ({
+                  ...prev,
+                  images: Array.from(e.target.files), // convert FileList to array
+                }))
+              }
+            />
+
           </CForm>
         </CModalBody>
         <CModalFooter>
