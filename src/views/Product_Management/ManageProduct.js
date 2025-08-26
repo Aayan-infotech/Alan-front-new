@@ -778,6 +778,15 @@ const ManageProduct = () => {
     })
     .catch((error) => console.error('Error updating product:', error));
 };
+const nonEditableNames = [
+  "XO_Slider",
+  "XOX_Slider",
+  "Awning_Window",
+  "Single_Hung_Windows",
+  "Double_Hung_Windows",
+  "Picture_Window",
+  "Casement_Window"
+];
 
 
   // const handleDeleteProduct = (productId) => {
@@ -1151,6 +1160,7 @@ const ManageProduct = () => {
               name="name"
               value={editProductData.name}
               onChange={handleEditFormChange}
+              disabled={nonEditableNames.includes(editProductData.name)}
             />
 
             <CFormLabel htmlFor="description">Description</CFormLabel>
