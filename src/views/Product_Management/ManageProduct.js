@@ -831,7 +831,7 @@ const ManageProduct = () => {
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize] = useState(20) // or allow user to select
-  const [totalPages, setTotalPages] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)  
 
   // Fetch Categories on mount
   useEffect(() => {
