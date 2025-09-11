@@ -19,6 +19,7 @@ const priceHistories = React.lazy(() => import('./views/Price_Adjustment/priceHi
 const contact = React.lazy(() => import('./views/ContactsUs/ContactsUs'))
 const rating = React.lazy(() => import('./views/ratings/rating'))
 const address = React.lazy(() => import('./views/address/address'))
+const FormulaManage = React.lazy(() => import('./views/FormulaManage/FormulaManage'))
 
 
 
@@ -45,6 +46,8 @@ const routes = [
   { path: '/contact', name: 'contact', element: contact },
   { path: '/rating', name: 'Review Management', element: rating },
   { path: '/address', name: 'Address', element: address },
+  { path: '/FormulaManage', name: 'FormulaManage', element: FormulaManage },
+
 
 
 

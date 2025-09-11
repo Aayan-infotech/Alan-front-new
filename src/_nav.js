@@ -194,6 +194,15 @@ const _nav = [
       color: 'info',
     },
   },
+  //  {
+  //   component: CNavItem,
+  //   name: 'Formula Management',
+  //   to: '/FormulaManage',
+  //   icon: <CIcon icon={cilNoteAdd} customClassName="nav-icon" style={{ color: 'blue' }} />,
+  //   badge: {
+  //     color: 'info',
+  //   },
+  // },
 ]
 
 export default _nav
