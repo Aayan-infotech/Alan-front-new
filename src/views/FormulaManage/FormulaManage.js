@@ -31,7 +31,7 @@ const FormulaManage = () => {
   const [dimensions, setDimensions] = useState({})
   const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
-  const [editType, setEditType] = useState('formula')
+  const [editType, setEditType] = useState('formula') // 'formula' or 'dimension'
   const [currentProduct, setCurrentProduct] = useState(null)
   const [formulaInput, setFormulaInput] = useState('')
   const [minInput, setMinInput] = useState([0, 0])
@@ -44,7 +44,9 @@ const FormulaManage = () => {
     async function fetchData() {
       try {
         setLoading(true)
-        const productRes = await axios.get(`${API_BASE}/products`, { withCredentials: true })
+        const productRes = await axios.get(`${API_BASE}/products`, {
+          withCredentials: true,
+        })
         const products = productRes.data
         if (!isMounted) return
         setProducts(products)
@@ -55,6 +57,7 @@ const FormulaManage = () => {
             .then((res) => ({ id: p._id, formula: res.data.formula }))
             .catch(() => ({ id: p._id, formula: null })),
         )
+
         const dimensionPromises = products.map((p) =>
           axios
             .get(`${API_BASE}/dimension-limit/${p._id}`, { withCredentials: true })
@@ -80,7 +83,8 @@ const FormulaManage = () => {
         setFormulas(formulasMap)
         setDimensions(dimensionsMap)
       } catch (error) {
-        if (isMounted) setAlert({ color: 'danger', message: 'Failed to load data.' })
+        if (isMounted)
+          setAlert({ color: 'danger', message: 'Failed to load data from server.' })
       } finally {
         if (isMounted) setLoading(false)
       }
