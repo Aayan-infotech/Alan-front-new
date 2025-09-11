@@ -23,7 +23,7 @@ import {
   CAlert,
 } from '@coreui/react'
 
-const API_BASE = 'http://localhost:7878/api/formula-config'
+const API_BASE = 'https://www.discountdoorandwindow.com/api/formula-config'
 
 const FormulaManage = () => {
   const [products, setProducts] = useState([])
