@@ -6,31 +6,31 @@ import {
   cilChartPie,
   cilCursor,
   cilDescription,
-  cilAlignCenter ,
+  cilAlignCenter,
   cilPuzzle,
   cilSpeedometer,
-  cilChartLine ,
-  cilStorage ,
+  cilChartLine,
+  cilStorage,
   cilStar,
   cilUser,
-  cilWindow ,
+  cilWindow,
   cilRoom,
   cilGift,
   cilContact,
-   cilNoteAdd,
-  cilPhone 
+  cilNoteAdd,
+  cilPhone,
+  cilList,
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle, } from '@coreui/react'
+import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
-
   // Dashboard
 
   {
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon icon={cilChartLine } customClassName="nav-icon" style={{ color: 'blue' }} />,
+    icon: <CIcon icon={cilChartLine} customClassName="nav-icon" style={{ color: 'blue' }} />,
     badge: {
       color: 'info',
     },
@@ -90,7 +90,6 @@ const _nav = [
         name: 'Sub-Sub-Category',
         to: '/SubSubCategory',
       },
-      
     ],
   },
 
@@ -104,7 +103,6 @@ const _nav = [
   //     color: 'info',
   //   },
   // },
-
 
   // Product
 
@@ -128,8 +126,7 @@ const _nav = [
       //   component: CNavItem,
       //   name: 'Dimensions ProductDoors',
       //   to: '/DimensionsProductDoors',
-      // },      
-      
+      // },
     ],
   },
 
@@ -151,7 +148,6 @@ const _nav = [
         name: 'Cancelled Orders',
         to: '/CancelledOrders',
       },
-      
     ],
   },
 
@@ -176,7 +172,7 @@ const _nav = [
     },
   },
 
-    {
+  {
     component: CNavItem,
     name: 'Review Management',
     to: '/rating',
@@ -194,11 +190,15 @@ const _nav = [
       color: 'info',
     },
   },
-  //  {
+  // {
   //   component: CNavItem,
   //   name: 'Formula Management',
   //   to: '/FormulaManage',
-  //   icon: <CIcon icon={cilNoteAdd} customClassName="nav-icon" style={{ color: 'blue' }} />,
+  //   icon: (
+  //     <div style={{ display: 'flex', gap: '0.25rem' }}>
+  //       <CIcon icon={cilList} customClassName="nav-icon" style={{ color: 'green' }} />
+  //     </div>
+  //   ),
   //   badge: {
   //     color: 'info',
   //   },
