@@ -23,8 +23,6 @@ import {
   CAlert,
 } from '@coreui/react'
 
-const API_BASE = 'https://www.discountdoorandwindow.com/api/formula-config'
-
 const FormulaManage = () => {
   const [products, setProducts] = useState([])
   const [formulas, setFormulas] = useState({})
@@ -44,25 +42,30 @@ const FormulaManage = () => {
     async function fetchData() {
       try {
         setLoading(true)
-        const productRes = await axios.get(`${API_BASE}/products`, {
-          withCredentials: true,
-        })
+        const productRes = await axios.get(
+          `http://localhost:7878/api/formula-config/products`,
+          // { withCredentials: true }
+        )
         const products = productRes.data
         if (!isMounted) return
         setProducts(products)
 
         const formulaPromises = products.map((p) =>
           axios
-            .get(`${API_BASE}/formula/${p._id}`, { withCredentials: true })
+            .get(`http://localhost:7878/api/formula-config/formula/${p._id}`, {
+              // withCredentials: true,
+            })
             .then((res) => ({ id: p._id, formula: res.data.formula }))
-            .catch(() => ({ id: p._id, formula: null })),
+            .catch(() => ({ id: p._id, formula: null }))
         )
 
         const dimensionPromises = products.map((p) =>
           axios
-            .get(`${API_BASE}/dimension-limit/${p._id}`, { withCredentials: true })
+            .get(`http://localhost:7878/api/formula-config/dimension-limit/${p._id}`, {
+              // withCredentials: true,
+            })
             .then((res) => ({ id: p._id, dims: res.data }))
-            .catch(() => ({ id: p._id, dims: null })),
+            .catch(() => ({ id: p._id, dims: null }))
         )
 
         const formulasResult = await Promise.all(formulaPromises)
@@ -83,15 +86,15 @@ const FormulaManage = () => {
         setFormulas(formulasMap)
         setDimensions(dimensionsMap)
       } catch (error) {
-        if (isMounted)
+        if (isMounted) {
           setAlert({ color: 'danger', message: 'Failed to load data from server.' })
+        }
       } finally {
         if (isMounted) setLoading(false)
       }
     }
 
     fetchData()
-
     return () => {
       isMounted = false
     }
@@ -118,9 +121,9 @@ const FormulaManage = () => {
     }
     try {
       await axios.post(
-        `${API_BASE}/formula`,
+        `http://localhost:7878/api/formula-config/formula`,
         { productId: currentProduct._id, formula: formulaInput },
-        { withCredentials: true },
+        // { withCredentials: true }
       )
       setFormulas((prev) => ({ ...prev, [currentProduct._id]: formulaInput }))
       setAlert({ color: 'success', message: 'Formula saved successfully.' })
@@ -139,14 +142,17 @@ const FormulaManage = () => {
       minInput.some(isNaN) ||
       maxInput.some(isNaN)
     ) {
-      setAlert({ color: 'warning', message: 'Min and Max must be arrays of exactly two numbers.' })
+      setAlert({
+        color: 'warning',
+        message: 'Min and Max must be arrays of exactly two numbers.',
+      })
       return
     }
     try {
       await axios.post(
-        `${API_BASE}/dimension-limit`,
+        `http://localhost:7878/api/formula-config/dimension-limit`,
         { productId: currentProduct._id, min: minInput, max: maxInput },
-        { withCredentials: true },
+        // { withCredentials: true }
       )
       setDimensions((prev) => ({
         ...prev,
