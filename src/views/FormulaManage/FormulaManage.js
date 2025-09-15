@@ -43,7 +43,7 @@ const FormulaManage = () => {
       try {
         setLoading(true)
         const productRes = await axios.get(
-          `http://localhost:7878/api/formula-config/products`,
+          `https://www.discountdoorandwindow.com/api/formula-config/products`,
           // { withCredentials: true }
         )
         const products = productRes.data
@@ -52,7 +52,7 @@ const FormulaManage = () => {
 
         const formulaPromises = products.map((p) =>
           axios
-            .get(`http://localhost:7878/api/formula-config/formula/${p._id}`, {
+            .get(`https://www.discountdoorandwindow.com/api/formula-config/formula/${p._id}`, {
               // withCredentials: true,
             })
             .then((res) => ({ id: p._id, formula: res.data.formula }))
@@ -61,7 +61,7 @@ const FormulaManage = () => {
 
         const dimensionPromises = products.map((p) =>
           axios
-            .get(`http://localhost:7878/api/formula-config/dimension-limit/${p._id}`, {
+            .get(`https://www.discountdoorandwindow.com/api/formula-config/dimension-limit/${p._id}`, {
               // withCredentials: true,
             })
             .then((res) => ({ id: p._id, dims: res.data }))
@@ -121,7 +121,7 @@ const FormulaManage = () => {
     }
     try {
       await axios.post(
-        `http://localhost:7878/api/formula-config/formula`,
+        `https://www.discountdoorandwindow.com/api/formula-config/formula`,
         { productId: currentProduct._id, formula: formulaInput },
         // { withCredentials: true }
       )
@@ -150,7 +150,7 @@ const FormulaManage = () => {
     }
     try {
       await axios.post(
-        `http://localhost:7878/api/formula-config/dimension-limit`,
+        `https://www.discountdoorandwindow.com/api/formula-config/dimension-limit`,
         { productId: currentProduct._id, min: minInput, max: maxInput },
         // { withCredentials: true }
       )
