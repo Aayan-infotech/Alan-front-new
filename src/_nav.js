@@ -16,7 +16,7 @@ import {
   cilWindow,
   cilRoom,
   cilGift,
-  cilContact,
+  cilList,
   cibReverbnation,
   cilPhone,
   cibOpenstreetmap,
