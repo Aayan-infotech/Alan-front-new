@@ -17,9 +17,9 @@ import {
   cilRoom,
   cilGift,
   cilContact,
-  cilNoteAdd,
+  cibReverbnation,
   cilPhone,
-  cilList,
+  cibOpenstreetmap,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -30,7 +30,7 @@ const _nav = [
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon icon={cilChartLine} customClassName="nav-icon" style={{ color: 'blue' }} />,
+    icon: <CIcon icon={cilChartLine} customClassName="nav-icon" style={{ color: 'White' }} />,
     badge: {
       color: 'info',
     },
@@ -40,7 +40,7 @@ const _nav = [
     component: CNavItem,
     name: 'Contacts us',
     to: '/contact',
-    icon: <CIcon icon={cilPhone} customClassName="nav-icon" style={{ color: 'blue' }} />,
+    icon: <CIcon icon={cilPhone} customClassName="nav-icon" style={{ color: 'Gold' }} />,
     badge: {
       color: 'info',
     },
@@ -61,7 +61,7 @@ const _nav = [
     component: CNavItem,
     name: 'Customer Management',
     to: '/CustomerManagement',
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" style={{ color: 'Magenta' }} />,
     badge: {
       color: 'info',
     },
@@ -73,7 +73,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Categories Management',
     to: '/categoriesManagement',
-    icon: <CIcon icon={cilRoom} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilRoom} customClassName="nav-icon" style={{ color: 'Pink' }} />,
     items: [
       {
         component: CNavItem,
@@ -110,7 +110,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Product Management',
     to: '/ProductManagement',
-    icon: <CIcon icon={cilWindow} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilWindow} customClassName="nav-icon" style={{ color: 'Yellow' }} />,
     items: [
       {
         component: CNavItem,
@@ -136,7 +136,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Order Management',
     to: '/OrderManagement',
-    icon: <CIcon icon={cilGift} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilGift} customClassName="nav-icon" style={{ color: 'Aqua' }} />,
     items: [
       {
         component: CNavItem,
@@ -156,7 +156,7 @@ const _nav = [
     component: CNavItem,
     name: 'Managing fixed content',
     to: '/StaticContentManagement',
-    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilDescription} customClassName="nav-icon" style={{ color: 'Green' }} />,
     badge: {
       color: 'info',
     },
@@ -166,7 +166,7 @@ const _nav = [
     component: CNavItem,
     name: 'Mass Price Adjustment',
     to: '/PriceAdjustment',
-    icon: <CIcon icon={cilStorage} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilStorage} customClassName="nav-icon" style={{ color: 'red' }} />,
     badge: {
       color: 'info',
     },
@@ -176,7 +176,7 @@ const _nav = [
     component: CNavItem,
     name: 'Review Management',
     to: '/rating',
-    icon: <CIcon icon={cilNoteAdd} customClassName="nav-icon" style={{ color: 'blue' }} />,
+    icon: <CIcon icon={cibReverbnation} customClassName="nav-icon" style={{ color: 'Magenta' }} />,
     badge: {
       color: 'info',
     },
@@ -185,7 +185,7 @@ const _nav = [
     component: CNavItem,
     name: 'Address Management',
     to: '/address',
-    icon: <CIcon icon={cilNoteAdd} customClassName="nav-icon" style={{ color: 'blue' }} />,
+    icon: <CIcon icon={cibOpenstreetmap} customClassName="nav-icon" style={{ color: 'White' }} />,
     badge: {
       color: 'info',
     },
