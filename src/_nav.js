@@ -190,19 +190,19 @@ const _nav = [
       color: 'info',
     },
   },
-  {
-    component: CNavItem,
-    name: 'Formula Management',
-    to: '/FormulaManage',
-    icon: (
-      <div style={{ display: 'flex', gap: '0.25rem' }}>
-        <CIcon icon={cilList} customClassName="nav-icon" style={{ color: 'green' }} />
-      </div>
-    ),
-    badge: {
-      color: 'info',
-    },
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Formula Management',
+  //   to: '/FormulaManage',
+  //   icon: (
+  //     <div style={{ display: 'flex', gap: '0.25rem' }}>
+  //       <CIcon icon={cilList} customClassName="nav-icon" style={{ color: 'green' }} />
+  //     </div>
+  //   ),
+  //   badge: {
+  //     color: 'info',
+  //   },
+  // },
 ]
 
 export default _nav
