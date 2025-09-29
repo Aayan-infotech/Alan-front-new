@@ -790,5 +790,5 @@ const ManageProduct = () => {
     </CRow>
   )
 }
-
+      
 export default ManageProduct
