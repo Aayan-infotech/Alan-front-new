@@ -165,6 +165,9 @@ const DimensionFormSection = ({
     return value;
   };
 
+  // Use dropdown for Grid and TemperingOption only
+  const isDropdown = sectionName === 'Grid' || sectionName === 'TemperingOption';
+
   return (
     <CCard className="mb-4 shadow-sm custom-card">
       <CCardHeader className="custom-card-header">
@@ -173,13 +176,26 @@ const DimensionFormSection = ({
       <CCardBody>
         <CForm>
           <CFormLabel className="custom-label">{formatSectionName(sectionName)}</CFormLabel>
-          <CFormInput
-            type="text"
-            onChange={(e) => handleInputChange(e, sectionName)}
-            value={formData[sectionName] || ''}
-            placeholder={`Enter ${formatSectionName(sectionName)}`}
-            className="custom-input"
-          />
+          {isDropdown ? (
+            <CFormSelect
+              onChange={(e) => handleInputChange(e, sectionName)}
+              value={formData[sectionName] || ''}
+              className="custom-input"
+            >
+              <option value="">Select {formatSectionName(sectionName)}</option>
+              {options.map(option => (
+                <option value={option} key={option}>{option}</option>
+              ))}
+            </CFormSelect>
+          ) : (
+            <CFormInput
+              type="text"
+              onChange={(e) => handleInputChange(e, sectionName)}
+              value={formData[sectionName] || ''}
+              placeholder={`Enter ${formatSectionName(sectionName)}`}
+              className="custom-input"
+            />
+          )}
 
           {/* Show Amount for widthHeight only */}
           {sectionName === 'widthHeight' && (
@@ -197,7 +213,7 @@ const DimensionFormSection = ({
           {/* Show Entry % for other sections */}
           {sectionName !== 'widthHeight' && (
             <>
-              <CFormLabel className="custom-label">Entry %</CFormLabel>
+              <CFormLabel className="custom-label">Entry</CFormLabel>
               <CFormInput
                 type="number"
                 onChange={(e) => handleInputChange(e, `${sectionName}Percentage`)}
