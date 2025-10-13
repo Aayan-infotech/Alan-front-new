@@ -157,22 +157,22 @@ const ManageProduct = () => {
   }, [filters.subCategory])
 
   // Fetch products for current page from backend
-  useEffect(() => {
-    setLoading(true)
-    axios
-      .get(
-        `https://www.discountdoorandwindow.com/api/products?page=${currentPage}&limit=${pageSize}`,
-      )
-      .then((response) => {
-        setData(response.data.data)
-        setTotalPages(response.data.totalPages)
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error)
-        setLoading(false)
-      })
-  }, [currentPage])
+  // useEffect(() => {
+  //   setLoading(true)
+  //   axios
+  //     .get(
+  //       `https://www.discountdoorandwindow.com/api/products?page=${currentPage}&limit=${pageSize}`,
+  //     )
+  //     .then((response) => {
+  //       setData(response.data.data)
+  //       setTotalPages(response.data.totalPages)
+  //       setLoading(false)
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching products:', error)
+  //       setLoading(false)
+  //     })
+  // }, [currentPage])
 
   // Pagination controls
   const handleNextPage = () => {
